@@ -11,3 +11,139 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.contentContainer {
+    font-size: larger;
+    z-index: 10;
+    display: flex;
+    flex-direction: row;
+    background-color: #FAFBFF;
+    background-color: #444444; /* TEMPORARY ------- */
+}
+
+
+
+/* Login and Signup page ------------------------------------------------------- */
+
+body {
+    background-color: #4672ca;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    background-image: url("image/loginBackground.jpg");
+    background-position: 50% 70%;
+}
+
+.loginContainer {
+    height: 100vh;
+    width: 25vw;
+    background-color: #ffffffb2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;    /* vertically align items */ 
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.loginLabel{
+    align-self: left;
+    margin-left: 2.5vw;
+    color: #030229;
+    margin-bottom: 0.5rem;
+}
+
+.loginHeader {
+    align-self: center;
+    margin: 0;
+    padding: 0;
+    margin-top: -20vh;
+    margin-bottom: 10vh;
+}
+
+.loginForm {
+    width: 80%;
+    margin: 0;
+    padding: 0;
+}
+
+.loginInput {
+    align-self: center;
+    margin: 0;
+    padding: 0;
+    width: 80%;
+    color: #030229;
+    margin-bottom: 1.5rem;
+    border-radius: 5px;
+    border: 0;
+    height: 2rem;
+    text-indent: 4%;
+}
+
+.loginBtn {
+    align-self: center;
+    text-align: center;
+    text-decoration: none;
+    margin: 0;
+    height: 2rem;
+    background-color: #E5355F;
+    border: 0;
+    width: 80%;
+    border-radius: 5px;
+    color:#ffffff;
+    padding-top: 0.25rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.loginBtn:hover {
+    cursor: pointer;
+    color:#ffffff;
+}
+
+.loginBtn:active {
+    background-color: #a42845;
+}
+
+#signup-login {
+    color:#605BFF;
+    text-decoration: none;
+}
+
+#signup-login:active {
+    color:#2e4a83
+}
+
+#loginSpan {
+    margin: 0;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    text-align: center;
+}
+
+/* Login and Signup page ------------------------------------------------------- */
+
+
+
+@media screen and (max-width: 768px){
+    .loginContainer {
+        width: 100vw;
+    }
+    .loginLabel {
+        margin-left: 10vw;
+    }
+    .contentContainer {
+        flex-direction: column;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1200px){
+    .loginContainer {
+        width: 45vw;
+    }
+    .loginLabel {
+        margin-left: 4.5vw;
+    }
+    .loginInput {
+        text-indent: 3%;
+    }
+}
