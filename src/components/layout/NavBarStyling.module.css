@@ -35,16 +35,14 @@
 
 .navHeader {
     text-align: center;
-    margin-left: 8vw;
-    margin-bottom: 3rem;
-    margin-top: 1rem;
+    margin: 1rem auto 3rem auto;
 }
 
 .navContainer {
     margin: 0;
     padding: 0;
     background-color: rgb(255, 255, 255);
-    width: 20vw;
+    width: 25vw;
     height: 100vh;
     /* position: fixed; */
     position: relative;
@@ -164,9 +162,8 @@ ul {
 }
 
 .dropdownText {
-    background-color: #E5355F !important;
     background-color: #FFF !important;
-    color: #000 !important;
+    color: rgb(110, 110, 110) !important;
     width: 100%;
     border: none !important;
     padding-bottom: 1rem !important;
@@ -174,15 +171,25 @@ ul {
     display: flex !important;
     justify-content: space-between !important;
     padding-right: 2rem !important;
+    align-items: center !important;
+    border:#E5355F 5px solid;
+    padding-top: 1rem !important;
+}
+
+.dropdownIcon {
+    /* background-color: #E5355F; */
+    border-radius: 50%;
+    padding: 0.5rem;
+    height: 3vh;
+    width: 3vh;
+    margin-left: 1rem;
 }
 
 .dropdownUserName {
     padding-top: 0rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
-
-/* .dropdownText::after {
-    display:none !important;
-} */
 
 
 .dropdownText:focus {
@@ -194,18 +201,19 @@ ul {
 
 .dropdownMenu {
     width: 100% !important;
+    margin: 0 !important;
 }
 
 .dropdownMenuItem {
     color:#9197B3 !important;
-    background-color: #FAFBFF !important;
+    background-color: #eff1f6 !important;
     border-radius: 5px !important;
     padding: 0 !important;
     width: 85% !important;
     height: 5vh !important;
     text-align: center !important;
     padding: 0rem 1rem 0.5rem 1rem !important;
-    margin: 0 auto 0 auto !important;
+    margin: 0 auto 0.25rem auto !important;
 }
 
 .dropdownMenuItem:hover {
@@ -233,8 +241,15 @@ ul {
     /* Hamburger menu */
     .navContainer {
         width: 100vw;
-        height: 60vh;
-        /* height: 8vh; */
+        height: 9vh;
+        transition: height 0.5s;
+    }
+    .navContainerActive {
+        width: 100vw;
+        height: 45vh;
+        background-color: #FFF;
+        border-bottom: #E5355F 2px solid;
+        transition: height 0.5s;
     }
     .navHamburgerBtn {
         display:block;
@@ -246,18 +261,34 @@ ul {
     .navHeader {
         margin-left: 45vw;
     }
+    .navUl {
+        visibility: hidden;
+        transition: visibility 0s;
+    }
+    .navUlActive {
+        visibility: visible;
+        transition: visibility 1s;
+    }
+    .dropdownBtn {
+        border-top: #E5355F 2px solid;
+    }
 }
 
 @media screen and (min-width: 769px) and (max-width: 1200px){
     .navContainer {
-        width: 30vw;
+        width: 35vw;
     }
-    .icons {
-        margin-right: 5%;
-        padding-left: 0.25rem;
+    .navLink > * {
+        color:#E5355F;
+        margin-right: 10%;
+        font-size: 1.25rem; 
+        padding-left: 0.5rem;
     }
-    .navHeader {
-        margin-left: 40%;
+    .active > * {
+        color:#ffffff;
+        margin-right: 10%;
+        font-size: 1.25rem; 
+        padding-left: 0.5rem;
     }
     .navHamburger {
         visibility:hidden;

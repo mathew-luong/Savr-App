@@ -1,17 +1,19 @@
 import NavBar from '../components/layout/NavBar.js';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 
 function SupportPage(){
     return (
         <div className='contentContainer'>
-        <NavBar/>
-        <div>
-            SUPPORT text 1
-            SUPPORT text 2
-            SUPPORT text 3
-            SUPPORT text 4
+            <NavBar/>
+            <Container fluid>
+                <Row></Row>
+                Support Page
+                <Col></Col>
+            </Container>
         </div>
-    </div>
     );
 }
 export default SupportPage;
