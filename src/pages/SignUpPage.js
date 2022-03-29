@@ -1,16 +1,37 @@
 import { Link } from 'react-router-dom';
+import { useRef } from 'react';
 
 function SignUpPage(){
+    const usernameInput = useRef();
+    const passwordInput = useRef();
+    const passwordConfirm = useRef();
+
+    // Handles a user signing up
+    function signupHandler(event) {
+        event.preventDefault();
+
+        const username = usernameInput.current.value;
+        const password = passwordInput.current.value;
+        const pwdConfirm = passwordConfirm.current.value;
+
+        // Check if password = pwdConfirm
+        console.log("This is username: " + username + " Password: " + password + " Confirm: " + pwdConfirm);
+        // Fetch data from db??
+    }
+
     return (
-        <div className='loginContainer'>
-        <h1 className="loginHeader">Sign Up</h1>
-        <label className="loginLabel">Username</label>
-        <input className="loginInput" placeholder='Username'></input>
-        <label className="loginLabel">Password</label>
-        <input className="loginInput" placeholder='Password' type='password'></input>
-        <label className="loginLabel">Confirm Password</label>
-        <input className="loginInput" placeholder='Password' type='password'></input>
-        <Link className="loginBtn" to="/start-up" >Sign Up</Link>
+    <div>
+        <form className='loginContainer' onSubmit={signupHandler}>
+            <h1 className="loginHeader">Sign Up</h1>
+            <label htmlFor="signUpUser" className="loginLabel">Username</label>
+            <input required className="loginInput" placeholder='Username' id="signUpUser" ref={usernameInput}></input>
+            <label htmlFor="signUpPw" className="loginLabel">Password</label>
+            <input required className="loginInput" placeholder='Password' type='password' id="signUpPw" ref={passwordInput}></input>
+            <label htmlFor="signUpPw2" className="loginLabel">Confirm Password</label>
+            <input required className="loginInput" placeholder='Password' type='password' id="signUpPw2" ref={passwordConfirm}></input>
+            {/* Maybe have to replace this with <button> */}
+            <Link className="loginBtn" to="/start-up" >Sign Up</Link>
+        </form>
     </div>
     );
 }
