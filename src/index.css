@@ -11,3 +11,224 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Dashboard page -------------------------------------------------------------- */
+
+
+.contentContainer {
+    display: flex;
+    flex-direction: row;
+    background-color: #f0f2f8;
+}
+
+.pageContainer {
+    padding: 0rem 2rem 2rem 2rem !important;
+    margin: 0 !important;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+
+.dashboardHeader {
+    margin: 0 !important;
+    padding: 0 !important;
+    margin-top: 1rem !important;
+    margin-left: 1rem !important;
+}
+
+
+/* Dashboard page -------------------------------------------------------------- */
+
+
+
+
+/* Expenses page -------------------------------------------------------------- */
+
+.expHeader {
+    margin: 0 !important;
+    padding: 0 !important;
+    margin-top: 1rem !important;
+    margin-left: 0rem !important;
+}
+
+.expHeaderToggle {
+    display: flex;
+
+}
+
+.expSubHeading {
+    margin-top: 1rem !important;
+}
+
+.expToggleBtn {
+    margin-top: 1rem;
+    border-radius: 15px !important;    
+    background-color: rgb(255, 255, 255) !important;
+    margin: 0 !important;
+    margin-top: 1rem !important;
+    float:right !important;
+}
+
+.expToggle {
+    color: #E5355F !important;
+    border-top-left-radius: 15px !important;
+    border-bottom-left-radius: 15px !important;
+    padding: 0.25rem 0.5rem 0.25rem 0.5rem !important;
+    text-transform: none !important;
+}
+
+.expToggle2 {
+    color: #E5355F !important;
+    border-top-right-radius: 15px !important;
+    border-bottom-right-radius: 15px !important;
+    padding: 0.25rem 0.5rem 0.25rem 0.5rem !important;
+    text-transform: none !important;
+
+}
+
+.Mui-selected {
+    color:#ffffff !important;
+    background-color: #E5355F !important;
+}
+
+
+
+
+/* Expenses page -------------------------------------------------------------- */
+
+
+
+
+
+
+
+/* Login and Signup page ------------------------------------------------------- */
+
+body {
+    background-color: #4672ca;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    background-image: url("image/loginBackground.jpg");
+    background-position: 50% 70%;
+}
+
+.loginContainer {
+    height: 100vh;
+    width: 25vw;
+    background-color: #ffffffb2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;    /* vertically align items */ 
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.loginLabel{
+    align-self: left;
+    margin-left: 2.5vw;
+    color: #030229;
+    margin-bottom: 0.5rem;
+}
+
+.loginHeader {
+    align-self: center;
+    margin: 0;
+    padding: 0;
+    margin-top: -20vh;
+    margin-bottom: 10vh;
+}
+
+.loginForm {
+    width: 80%;
+    margin: 0;
+    padding: 0;
+}
+
+.loginInput {
+    align-self: center;
+    margin: 0;
+    padding: 0;
+    width: 80%;
+    color: #030229;
+    margin-bottom: 1.5rem;
+    border-radius: 5px;
+    border: 0;
+    height: 2rem;
+    text-indent: 4%;
+}
+
+.loginBtn {
+    align-self: center;
+    text-align: center;
+    text-decoration: none;
+    margin: 0;
+    height: 2rem;
+    background-color: #E5355F;
+    border: 0;
+    width: 80%;
+    border-radius: 5px;
+    color:#ffffff;
+    padding-top: 0.25rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.loginBtn:hover {
+    cursor: pointer;
+    color:#ffffff;
+}
+
+.loginBtn:active {
+    background-color: #a42845;
+}
+
+#signup-login {
+    color:#605BFF;
+    text-decoration: none;
+}
+
+#signup-login:active {
+    color:#2e4a83
+}
+
+#loginSpan {
+    margin: 0;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    text-align: center;
+}
+
+/* Login and Signup page ------------------------------------------------------- */
+
+
+
+@media screen and (max-width: 768px){
+    .loginContainer {
+        width: 100vw;
+    }
+    .loginLabel {
+        margin-left: 10vw;
+    }
+    .contentContainer {
+        flex-direction: column;
+        height: 100vh;
+    }
+    .pageContainer {
+        /* width: 100vw !important; */
+        padding: 0 1rem 0 1rem !important;
+        overflow-y:auto;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1200px){
+    .loginContainer {
+        width: 45vw;
+    }
+    .loginLabel {
+        margin-left: 4.5vw;
+    }
+    .loginInput {
+        text-indent: 3%;
+    }
+}

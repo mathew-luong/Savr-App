@@ -1,0 +1,297 @@
+/* Styling for navigation bar */
+* {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.navMenu {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* justify-content: flex-end; */
+}
+
+.navHamburgerBtn {
+    /* visibility: hidden; */
+    display:none;
+    /* background-color: aqua; */
+    height: 60%;
+    text-align: right;
+}
+
+.hamburgerIcon {
+    font-size: 4rem;
+}
+
+.navHamburger:hover {
+    cursor: pointer;
+}
+
+
+.navHeader {
+    text-align: center;
+    margin: 1rem auto 3rem auto;
+}
+
+.navContainer {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(255, 255, 255);
+    width: 25vw;
+    height: 100vh;
+    /* position: fixed; */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+
+.navItem {
+    border-radius: 5px;
+    list-style: none;
+    padding-top: 1rem;
+    margin: 0 auto 0 auto;
+    width: 85%;
+    margin-bottom: 1rem;
+    padding: 0;
+    height: 2.5rem;
+    vertical-align: middle;
+    display: flex;
+    line-height: 2.25rem;
+}
+
+.navItem:hover {
+    background-color:#E5355F;
+}
+
+.navItem:active {
+    background-color:#af2747;
+}
+
+.navItem:hover .icons {
+    color: #FFF;
+}
+
+.navLink:hover {
+    color: #FFF;
+}
+
+.navLink {
+    text-decoration: none;
+    color: #c5c5c5; 
+    margin:0;
+    padding:0;
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.navLink > * {
+    color:#E5355F;
+    margin-right: 15%;
+    font-size: 1.25rem; 
+    padding-left: 0.5rem;
+}
+.navLink:hover > * {
+    color: #FFF;
+}
+
+/* Styling for navbar link when active */
+.active {
+    background-color: #E5355F;
+    text-decoration: none;
+    color:#FFF;
+    margin:0;
+    padding:0;
+    display: block;
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+    padding-bottom: 0.25rem;
+}
+
+.active:hover {
+    color:#FFF;
+    cursor:default;
+}
+
+.active > * {
+    color:#ffffff;
+    margin-right: 15%;
+    font-size: 1.25rem; 
+    padding-left: 0.5rem;
+}
+
+.iconActive {
+    background-color: antiquewhite;
+}
+
+.dropdownLi {
+    list-style: none;
+    padding-top: 1rem;
+    margin: 0 auto 0 auto;
+    width: 80%;
+    margin-bottom: 1rem;
+    padding: 0;
+    height: 2.5rem;
+    vertical-align: middle;
+    display: flex;
+    line-height: 2.25rem;
+}
+
+.dropdownBtn {
+    width:100%;
+    color:#E5355F;
+    position: absolute !important;
+    bottom: 0 !important;
+    right:0 !important;
+}
+
+.dropdown-toggle:after {
+    color:#af2747 !important;
+}
+
+.dropdownText {
+    background-color: #FFF !important;
+    color: rgb(110, 110, 110) !important;
+    width: 100%;
+    border: none !important;
+    padding-bottom: 1rem !important;
+    font-size: 1.25rem !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    padding-right: 2rem !important;
+    align-items: center !important;
+    border:#E5355F 5px solid;
+    padding-top: 1rem !important;
+}
+
+.dropdownIcon {
+    /* background-color: #E5355F; */
+    border-radius: 50%;
+    padding: 0.5rem;
+    height: 3vh;
+    width: 3vh;
+    margin-left: 1rem;
+}
+
+.dropdownUserName {
+    padding-top: 0rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+
+.dropdownText:focus {
+    box-shadow: none !important;
+    outline: none !important;
+    outline-offset: none !important;
+    color: #E5355F !important;
+}
+
+.dropdownMenu {
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+.dropdownMenuItem {
+    color:#9197B3 !important;
+    background-color: #eff1f6 !important;
+    border-radius: 5px !important;
+    padding: 0 !important;
+    width: 85% !important;
+    height: 5vh !important;
+    text-align: center !important;
+    padding: 0rem 1rem 0.5rem 1rem !important;
+    margin: 0 auto 0.25rem auto !important;
+}
+
+.dropdownMenuItem:hover {
+    color:#E5355F !important;
+    background-color: #ededf1 !important;
+}
+
+.dropdownMenuItem:active {
+    color:#b42748 !important;
+    background-color: #e0e0e3 !important;
+}
+
+/* ul > :last-child {
+    position: absolute;
+    bottom: 0;
+    right:0;
+    left:0;
+    background-color: #E5355F; 
+} */
+
+
+
+
+@media screen and (max-width: 768px){
+    /* Hamburger menu */
+    .navContainer {
+        width: 100vw;
+        height: 9vh;
+        transition: height 0.5s;
+    }
+    .navContainerActive {
+        width: 100vw;
+        height: 45vh;
+        background-color: #FFF;
+        border-bottom: #E5355F 2px solid;
+        transition: height 0.5s;
+    }
+    .navHamburgerBtn {
+        display:block;
+        background-color: #FFF;
+        color: #E5355F;
+        margin-right: 4vw;
+        border: none;
+    }
+    .navHeader {
+        margin-left: 45vw;
+    }
+    .navUl {
+        visibility: hidden;
+        transition: visibility 0s;
+    }
+    .navUlActive {
+        visibility: visible;
+        transition: visibility 1s;
+    }
+    .dropdownBtn {
+        border-top: #E5355F 2px solid;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1200px){
+    .navContainer {
+        width: 35vw;
+    }
+    .navLink > * {
+        color:#E5355F;
+        margin-right: 10%;
+        font-size: 1.25rem; 
+        padding-left: 0.5rem;
+    }
+    .active > * {
+        color:#ffffff;
+        margin-right: 10%;
+        font-size: 1.25rem; 
+        padding-left: 0.5rem;
+    }
+    .navHamburger {
+        visibility:hidden;
+        display: none;
+    }
+}
