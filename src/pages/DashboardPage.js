@@ -1,6 +1,6 @@
 import NavBar from '../components/layout/NavBar.js';
 import DBCardSm from '../components/layout/DashboardCardSm.js';
-import DBCardLg from '../components/layout/DashboardCardLg.js';
+import Card from '../components/layout/Card.js';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -40,6 +40,7 @@ function DashboardPage(){
             <NavBar/>
             <Container fluid className="pageContainer">
                 <Row>
+                    {/* Replace with name later */}
                     <h3 className='dashboardHeader'>Hello User,</h3>
                 </Row>
                 <Row>
@@ -55,12 +56,16 @@ function DashboardPage(){
                 </Row>
                 <Row>
                     <Col>
-                        <DBCardLg/>
+                        <Card>
+                            Chart 1
+                        </Card>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <DBCardLg/>
+                        <Card>
+                            Chart 2
+                        </Card>
                     </Col>
                 </Row>
             </Container>

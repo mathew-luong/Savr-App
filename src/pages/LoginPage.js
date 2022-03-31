@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 
 
 function LoginPage(){
     const usernameInput = useRef();
     const passwordInput = useRef();
+    let navigate = useNavigate();
 
     function loginHandler(event) {
         event.preventDefault();
@@ -14,6 +15,9 @@ function LoginPage(){
 
         // Check if username in db and if pwd matches??
         console.log("This is username: " + username + " Password: " + password);
+
+        // Login successful, navigate to dashboard page
+        navigate("/dashboard");
     }
 
     return (        
@@ -24,9 +28,7 @@ function LoginPage(){
             <input required className="loginInput" placeholder='Username' id="loginUser" ref={usernameInput}></input>
             <label htmlFor="loginPw" className="loginLabel">Password</label>
             <input required className="loginInput" placeholder='Password' type='password' id="loginPw" ref={passwordInput}></input>
-            {/* Maybe have to replace this with <button> */}
-            {/* <button className="loginBtn">Log In</button> */}
-            <Link className="loginBtn" to="/dashboard" >Log In</Link>
+            <button className="loginBtn">Log In</button>
             <span id="loginSpan">Don't have an account? <Link to="/sign-up" id="signup-login">Sign Up</Link></span>
         </form>
     </div>
