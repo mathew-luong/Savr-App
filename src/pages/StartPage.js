@@ -1,4 +1,8 @@
  function StartPage(){
-    return <div>STARTUP</div>
+    return (
+        <div className="startContainer">
+            STARTUP
+        </div>
+    );
  }
  export default StartPage;

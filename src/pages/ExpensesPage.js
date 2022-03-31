@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 // TEMPORARY
-import DBCardLg from '../components/layout/DashboardCardLg.js';
+import Card from '../components/layout/Card.js';
 
 
 import React, { useState } from "react";
@@ -53,23 +53,31 @@ function ExpensesPage(props){
                 <Row>
                     {/* TEMPORARY */}
                     <Col>
-                        <DBCardLg/> 
+                        <Card>
+                            Info here
+                        </Card>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
                     {/* TEMPORARY */}
-                        <DBCardLg/> 
+                        <Card>
+                            Chart 1
+                        </Card>
                     </Col>
                     <Col>
                     {/* TEMPORARY */}
-                        <DBCardLg/>
+                        <Card>
+                            Chart 2
+                        </Card>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
                     {/* TEMPORARY */}
-                        <DBCardLg/>
+                        <Card>
+                            Chart 3
+                        </Card>
                     </Col>
                 </Row>
             </Container>

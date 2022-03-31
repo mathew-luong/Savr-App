@@ -14,7 +14,6 @@ code {
 
 /* Dashboard page -------------------------------------------------------------- */
 
-
 .contentContainer {
     display: flex;
     flex-direction: row;
@@ -83,7 +82,14 @@ code {
     border-bottom-right-radius: 15px !important;
     padding: 0.25rem 0.5rem 0.25rem 0.5rem !important;
     text-transform: none !important;
+}
 
+.expToggle:hover {
+    border: #E5355F 1px solid !important;
+}
+
+.expToggle2:hover {
+    border: #E5355F 1px solid !important;
 }
 
 .Mui-selected {
@@ -169,7 +175,6 @@ body {
     width: 80%;
     border-radius: 5px;
     color:#ffffff;
-    padding-top: 0.25rem;
     margin-top: 0.5rem;
     margin-bottom: 1rem;
 }
@@ -201,6 +206,21 @@ body {
 
 /* Login and Signup page ------------------------------------------------------- */
 
+
+
+/* Startup page ---------------------------------------------------------------- */
+
+.startContainer {
+    display: flex;
+    background-color: #f0f2f8;
+    height: 100vh;
+}
+
+
+
+
+
+/* Startup page ---------------------------------------------------------------- */
 
 
 @media screen and (max-width: 768px){

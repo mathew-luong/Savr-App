@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 
 function SignUpPage(){
     const usernameInput = useRef();
     const passwordInput = useRef();
     const passwordConfirm = useRef();
+    let navigate = useNavigate();
 
     // Handles a user signing up
     function signupHandler(event) {
@@ -17,6 +18,9 @@ function SignUpPage(){
         // Check if password = pwdConfirm
         console.log("This is username: " + username + " Password: " + password + " Confirm: " + pwdConfirm);
         // Fetch data from db??
+
+        // Login successful, navigate to startup page
+        navigate("/start-up");
     }
 
     return (
@@ -29,8 +33,7 @@ function SignUpPage(){
             <input required className="loginInput" placeholder='Password' type='password' id="signUpPw" ref={passwordInput}></input>
             <label htmlFor="signUpPw2" className="loginLabel">Confirm Password</label>
             <input required className="loginInput" placeholder='Password' type='password' id="signUpPw2" ref={passwordConfirm}></input>
-            {/* Maybe have to replace this with <button> */}
-            <Link className="loginBtn" to="/start-up" >Sign Up</Link>
+            <button className="loginBtn">Sign Up</button>
         </form>
     </div>
     );
