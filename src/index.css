@@ -35,6 +35,38 @@ code {
     margin-left: 1rem !important;
 }
 
+.cardSubHeader {
+    color:#9197B3;
+}
+
+.dbBarChartContainer {
+    height: 90%;
+    margin: 0;
+    padding-top: 1.5rem;
+    /* padding: 1.5rem 0rem; */
+}
+
+.dbBarChart {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    padding-bottom: 1rem;
+}
+
+
+.dbGoalTrack {
+    float:right;
+    text-align: center;
+    background-color: #E5355F;
+    padding: 0.25rem 1rem;
+    border-radius: 10px;
+    color: #FFF;
+}
+
+.dbGoalPercent {
+    font-weight: bold;
+}
+
 
 /* Dashboard page -------------------------------------------------------------- */
 
