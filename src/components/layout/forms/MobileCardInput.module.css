@@ -1,0 +1,17 @@
+.formContainer{
+    color: #B5B7C0 ;
+    margin-left: 1rem;
+}
+
+.label{
+    margin-bottom: 8px;
+}
+
+.input{
+    border-radius: 10px;
+    border: none;
+    background-color: #F7F7F8;
+    height: 2.5rem;
+    width: 75%;
+    margin-bottom: 8px;
+}

@@ -1,0 +1,23 @@
+.baseCardContainer{
+    height: 15rem;
+    border-radius: 25px;
+    background-color: #FFFF;
+    margin-top: 1rem;
+    position: relative;
+}
+
+.flexWrapper{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    height: 100%;
+}
+
+.savingsFlex{
+    width: 50%;
+}
+
+.investmentsFlex{
+    width:50%;
+}
