@@ -4,11 +4,25 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-// TEMPORARY
 import Card from '../components/layout/Card.js';
+import { options, barData } from "./DashboardPage";
 
+
+import { Bar } from 'react-chartjs-2';
+// Charts 
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Tooltip,
+    Legend,
+}   from 'chart.js';
 
 import React, { useState } from "react";
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
+
 
 
 function ExpensesPage(props){
@@ -51,10 +65,13 @@ function ExpensesPage(props){
                     <h5>You have overspent in entertainment the past 2 months</h5>
                 </Row>
                 <Row>
-                    {/* TEMPORARY */}
                     <Col>
                         <Card>
-                            Info here
+                            <h3>Expense Breakdown</h3>
+                            <h6 className="cardSubHeader">Monthly Expenses</h6>
+                            <div className="dbBarChartContainer">
+                                <Bar className="dbBarChart" options={options} data={barData} />
+                            </div>
                         </Card>
                     </Col>
                 </Row>
