@@ -6,6 +6,8 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Card from '../components/layout/Card.js';
 import ExpensesModal from '../components/layout/ExpensesModal.js';
+import RecentExpensesModal from '../components/layout/RecentExpensesModal.js';
+import FormCard from "../components/layout/forms/FormCard";
 
 // Import configuration options and functions for barchart/linechart
 import { options, labels, pieOptions } from '../components/Charts.js';
@@ -86,6 +88,11 @@ const expTargetData = {
 }
 
 function ExpensesPage(props){
+
+    let expenseFormSubtitles = ['Expense Name', 'Category', 'Amount'];
+    let expenseFormSubtitlesEstimation = ['Category','Expenses as a % of total income'];
+    let expenseFormTitle = 'Expense Entries';
+
     // Handles precision and estimation mode states
     const [mode, setMode] = useState('precision');
 
@@ -184,7 +191,12 @@ function ExpensesPage(props){
                 <Row>
                     <Col>
                         <Card>
-                            Chart 3
+                            {/* Switches expense entries form depending on the mode */}
+                            <FormCard titles={mode==='precision' ? expenseFormSubtitles : expenseFormSubtitlesEstimation} title={expenseFormTitle}/>
+                            <div className="expensesFormBtnContainer">
+                                <RecentExpensesModal/>
+                                <button className="expManageBtn">Submit</button>
+                            </div>
                         </Card>
                     </Col>
                 </Row>

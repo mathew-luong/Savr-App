@@ -96,18 +96,110 @@
     padding: 0.5rem 0rem 0rem 1rem !important;
 }
 
+
+/* Styling for RecentExpensesModal.js----------------------------------- */
+
+
+.recentExpModal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50vw;
+    height: 60vh;
+    background-color: #fff;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 24;
+    padding: 1rem 2rem;
+    overflow-y: auto;
+}
+
+
+.recentExpModalContainer {
+    display: flex;
+}
+
+.expModalTableCategoryName {
+    border-right: 1px solid #E5355F;
+    padding: 0.5rem 0rem 0rem 1rem !important;
+    width: 30%;
+}
+
+.expModalTableCategoryCat {
+    border-right: 1px solid #E5355F;
+    padding: 0.5rem 0rem 0rem 1rem !important;
+}
+
+.expModalTableCategoryAmt {
+    padding: 0.5rem 0rem 0rem 1rem !important;
+    max-width: 10%;
+}
+
+.recentExpBtn {
+    border: none;
+    border-radius: 10px;
+    padding: 0.25rem 0.5rem;
+    color:#FFF;
+    background-color: #E5355F;
+    margin-right: 1rem;
+}
+
+.recentExpBtn:active {
+    background-color: #9b233f;
+}
+
+.recentExpCloseBtn:active {
+    background-color: #9b233f;
+}
+
+
+.recentExpCloseBtn:hover {
+    cursor: pointer;
+}
+
+.recentExpCloseBtn {
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+    border: none;
+    border-radius: 10px;
+    padding: 0.25rem 0.5rem;
+    color:#FFF;
+    background-color: #E5355F;
+}
+
+.recentExpModalTable {
+    width: 90%;
+    margin: 1rem auto 1rem auto;
+    border: none;
+    padding: 0.1rem;
+}
+
+
+
+
+
+
 @media screen and (max-width: 768px){
     .expModal {
         overflow-y: auto;
-        width: 80vw;
+        width: 90vw;
         height: 80vh;
+        padding: 1rem;
+    }
+    .recentExpModal {
+        overflow-y: auto;
+        width: 90vw;
+        height: 60vh;
+        padding: 1rem;
     }
     .expModalContainer {
         display: flex;
         flex-direction: column;
     }
     .expModalTable {
-        width: 95%;
+        width: 100%;
         margin-left: auto;
         margin-right: auto;
     }
@@ -117,11 +209,22 @@
     .expModalDropdown {
         width: 40vw;
     }
+
+    .recentExpModalTable {
+        width: 100%;
+    }
+    .recentExpCloseBtn {
+        right: 1rem;
+    }
 }
 
 @media screen and (min-width: 769px) and (max-width: 1200px){
     .expModal {
-        width: 70vw;
+        width: 80vw;
+    }
+    .recentExpModal {
+        width: 80vw;
+
     }
     .expModalTable {
         width: 55%;

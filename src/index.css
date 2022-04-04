@@ -158,6 +158,14 @@ code {
 }
 
 
+.expensesFormBtnContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-right: 1.25rem;
+}
+
+
 /* Expenses page -------------------------------------------------------------- */
 
 

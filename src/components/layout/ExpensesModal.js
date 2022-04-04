@@ -44,11 +44,12 @@ export default function ExpensesModal(props) {
                 <div className={classes.expModal}>
                     <h3>Manage your expenses</h3>
                     <h6 className="cardSubHeader">Choose a category and change the target expense</h6>
+                    <button onClick={handleClose} className={classes.recentExpCloseBtn}>Close</button>
                     <div className={classes.expModalContainer}>
                         <table className={classes.expModalTable}>
                             <tbody>
                             <tr className={classes.expModalTableRow}>
-                                <td className={classes.expModalTableHeader1}>Expense Category</td>
+                                <td className={classes.expModalTableHeader1}>Expense Name</td>
                                 <td className={classes.expModalTableHeader}>Amount</td>
                             </tr>
                             {
