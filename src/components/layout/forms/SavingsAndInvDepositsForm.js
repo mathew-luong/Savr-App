@@ -5,9 +5,9 @@ export default function SavingsAndInvDepositsForm(props) {
   return (
     <div className={classes.baseContainer}>
       <h4>{props.title}</h4>
-      {props.labels.map((formLabel) => {
+      {props.labels.map((formLabel,i) => {
         return (
-          <div className={classes.lineContainer}>
+          <div className={classes.lineContainer} key={i}>
             <InlineInputs label={formLabel} />
           </div>
         );

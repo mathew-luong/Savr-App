@@ -14,7 +14,7 @@ function SavingsPage() {
       <Container fluid className="pageContainerSavings">
         <Row>
           <Col xl={8}>
-            <h2>Your Savigns and Investments</h2>
+            <h3>Your Savings and Investments</h3>
             <br></br>
             <h4>
               Last month, you spent 10% less in entertainment than expected.
