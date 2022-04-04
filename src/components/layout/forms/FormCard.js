@@ -20,9 +20,9 @@ function FormCard(props) {
     <div className={classes.baseCardContainer}>
       <h4 style={{ margin: "1rem" }}>{props.title}</h4>
       <div className={classes.titlesDiv}>
-        {props.titles.map((title) => {
+        {props.titles.map((title,i) => {
           return (
-            <div style={{ width: widthString }} className={classes.flexTemp}>
+            <div style={{ width: widthString }} className={classes.flexTemp} key={i}>
               <div className={classes.indvTitles}>{title}</div>
             </div>
           );

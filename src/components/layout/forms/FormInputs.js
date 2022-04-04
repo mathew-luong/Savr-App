@@ -8,12 +8,12 @@ function FormInputs(props){
     let textAreaWidthString = textAreaWidth + '%'
 
     for (let i = 0; i< props.areas;i++){
-        areaDiv = <textarea style={{width:textAreaWidthString}} className={classes.textAreas}></textarea>
+        areaDiv = <textarea style={{width:textAreaWidthString}} className={classes.textAreas} key={i}></textarea>
         textAreas.push(areaDiv);
     }  
     return(
-        <div>
-            <form className={classes.formFlex}>
+        <div key={Math.random()}>
+            <form className={classes.formFlex} key={Math.random()}>
                 {textAreas}
             </form>
         </div>

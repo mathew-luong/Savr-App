@@ -2,13 +2,13 @@ import FormInputs from "./FormInputs";
 
 function FormInputList(props){
     let inputLines = [];
-    let formInputObject = <FormInputs areas={props.numItems} />
+    // let formInputObject = <FormInputs areas={props.numItems}/>
     for(let i = 0; i<props.lines; i++){
-        inputLines.push(formInputObject);
+        inputLines.push(<FormInputs areas={props.numItems} key={i}/>);
     }
 
     return(
-        <div>
+        <div key={Math.random()}>
             {inputLines.map((formLine)=>{
                 return formLine;
             })}

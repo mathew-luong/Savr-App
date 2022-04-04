@@ -14,7 +14,7 @@ function MobileFormCard(props){
         <div className={classes.baseCardContainer}>
             <h4 style={{margin:"1rem"}}>{props.title}</h4>
             <div>
-                <MobileFormInputsList titles ={titles} formsNum = {numForms} />
+                <MobileFormInputsList titles ={titles} formsNum = {numForms}/>
             </div>
             <button onClick={formAdder} className={classes.newFormButton}>+</button>
         </div>
