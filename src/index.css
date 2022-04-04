@@ -57,10 +57,10 @@ code {
 .dbGoalTrack {
     float:right;
     text-align: center;
-    background-color: #E5355F;
+    background-color: #D3FFE7;
     padding: 0.25rem 1rem;
     border-radius: 10px;
-    color: #FFF;
+    color: #000;
 }
 
 .dbGoalPercent {
@@ -129,7 +129,33 @@ code {
     background-color: #E5355F !important;
 }
 
+.expPieChartContainer {
+    height: 90%;
+    /* width: 90%; */
+    margin: 0;
+    padding-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* padding: 1.5rem 0rem; */
+}
 
+.expPieChart {
+    padding-bottom: 1rem;
+}
+
+.expManageBtn {
+    float: right;
+    border: none;
+    border-radius: 10px;
+    padding: 0.25rem 0.5rem;
+    color:#FFF;
+    background-color: #E5355F;
+}
+
+.expManageBtn:active {
+    background-color: #ab2645;
+}
 
 
 /* Expenses page -------------------------------------------------------------- */

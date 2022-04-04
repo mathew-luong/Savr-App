@@ -10,6 +10,9 @@ import { Bar } from 'react-chartjs-2';
 // https://react-chartjs-2.netlify.app/examples/line-chart
 import { Line } from 'react-chartjs-2';
 
+// Import configuration options and functions for barchart/linechart
+import { updateBarChart, labels, options } from '../components/Charts.js';
+
 // Charts 
 import {
     Chart as ChartJS,
@@ -33,81 +36,10 @@ barChartData = [10,200,30,40,50,60,700,80,900,100,110,120];
 var lineChartData = new Array(12);
 lineChartData = [10000,140000,30000,40000,50000,60000,160000,80000,100000,100000,110000,100020];
 
-// Updates the corresponding month (index of array is month) with the value
-// In future, just take current month index (rather than hardcode)
-// Used as onClick handler for expenses page??
-export function updateBarChart(monthInd, value) {
-    // Adds value to month
-    // e.g. If month is june and you made $200 -> updateBarChart(6,200)
-    if(monthInd-1 >= 0 && monthInd-1 <= 12) {
-        barChartData[monthInd-1] += value;
-    }
-}
+// Updates the data for the month June(6) by $200
+updateBarChart(barChartData,6,200);
 
-updateBarChart(6,200);
 
-// Tooltip - Calculates the % change from previous month and current month 
-export function barGraphTooltip(data,monthInd) {
-    if(monthInd > 0) {
-        let prevMonth = barChartData[monthInd-1];
-        let currMonth = barChartData[monthInd];
-        let change;
-        // Check if balance increased or decreased from last month
-        (prevMonth > currMonth) ? change = "Down" : change = "Up"
-        // Calculate percent change from previous month
-        let percent = ((currMonth - prevMonth) / (prevMonth)) * 100;
-        return "$" + data + " - " + change + " " + Math.abs(Math.round(percent)) + "%";
-    }
-    else {
-        // Month is January so no previous month data
-        return "$" + data;
-    }
-}
-
-export const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    // remove grid lines
-    scales: {
-        x: {
-            grid: {
-                display: false
-            },
-        },
-        y: {
-            grid: {
-                display: false  
-            },
-            display: true        // REMOVES Y-AXIS
-        }
-    },
-    plugins: {
-        // remove legend label
-        legend: {
-            display: false
-        },
-        // remove title
-        title: {
-            display: false,
-        },
-        tooltip: {
-            callbacks: {
-                label: function(context) {
-                    return barGraphTooltip(context.formattedValue,context.dataIndex);
-                }
-            },
-            displayColors: false
-        }
-    },
-    elements: {
-        line: {
-            tension: 0.25
-        }
-    }
-};
-
-// Barchart/linechart x axis
-export const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 
 // Data for barchart
@@ -120,7 +52,7 @@ export const barData = {
         borderRadius: 10,
         hoverBackgroundColor: "#E5355F",
       },
-    ],
+    ]
 };
 
 // Data for linechart

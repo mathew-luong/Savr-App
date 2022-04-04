@@ -1,0 +1,149 @@
+
+.expModal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50vw;
+    height: 80vh;
+    background-color: #fff;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 24;
+    padding: 1rem 2rem;
+    overflow-y: auto;
+}
+
+.expModalContainer {
+    display: flex;
+}
+
+.expModalFormSection {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0rem auto;
+    justify-content: center;
+}
+
+.expModalDropdown {
+    width: 15vw;
+    margin: 0rem auto 0rem auto !important;
+}
+
+.expModalInput {
+    height: 3.5rem !important;
+    width: 15vw;
+    margin: 1rem auto 1rem auto;
+    border: 1px #bebebe solid;
+    padding: 1rem;
+    border-radius: 3px;    
+}
+
+.expModalInput:hover {
+    border: 1px #000000 solid;
+}
+
+.expModalSubmitBtn {
+    border: none;
+    border-radius: 10px;
+    padding: 0.25rem 0.5rem;
+    margin-top: 1rem;
+    color:#FFF;
+    background-color: #E5355F;
+}
+
+.expModalSubmitBtn:hover {
+    cursor: pointer;
+}
+
+.expModalSubmitBtn:active {
+    background-color: #a82543;
+}
+
+
+.expModalTable {
+    width: 55%;
+    margin: 1rem 1rem 1rem 0rem;
+    border: none;
+    padding: 0.1rem;
+}
+
+.expModalTableRow > td {
+    padding: 0.1rem 1rem;
+}
+
+.expModalTableHeader1 {
+    font-weight: bold;
+    border-bottom: #E5355F 1px solid;
+    padding-bottom: 1rem !important;
+    border-right: 1px solid #E5355F;
+}
+
+.expModalTableHeader {
+    font-weight: bold;
+    border-bottom: #E5355F 1px solid;
+    padding-bottom: 1rem !important;
+}
+
+.expModalTableRow {
+    color: rgb(0, 0, 0);
+    padding: 0.5rem;
+}
+
+.expModalTableCategory {
+    border-right: 1px solid #E5355F;
+    padding: 0.5rem 0rem 0rem 1rem !important;
+}
+
+@media screen and (max-width: 768px){
+    .expModal {
+        overflow-y: auto;
+        width: 80vw;
+        height: 80vh;
+    }
+    .expModalContainer {
+        display: flex;
+        flex-direction: column;
+    }
+    .expModalTable {
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .expModalInput {
+        width: 40vw;
+    }
+    .expModalDropdown {
+        width: 40vw;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1200px){
+    .expModal {
+        width: 70vw;
+    }
+    .expModalTable {
+        width: 55%;
+    }
+    .expModalInput {
+        width: 90%;
+        text-align: left;
+        margin: 1rem auto;
+    }
+    .expModalFormSection {
+        justify-content: center;
+        text-align: center;
+    }
+    .expModalDropdown {
+        width: 90%;
+        text-align: left;
+        margin: 0rem auto 1rem auto !important;
+    }
+    .expModalSubmitBtn {
+        width: 90%;
+        margin: 0 auto;
+        
+    }
+
+}

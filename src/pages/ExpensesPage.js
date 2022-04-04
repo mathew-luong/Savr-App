@@ -5,10 +5,15 @@ import Col from 'react-bootstrap/Col';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Card from '../components/layout/Card.js';
-import { options, barData } from "./DashboardPage";
+import ExpensesModal from '../components/layout/ExpensesModal.js';
+
+// Import configuration options and functions for barchart/linechart
+import { options, labels, pieOptions } from '../components/Charts.js';
 
 
 import { Bar } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
+
 // Charts 
 import {
     Chart as ChartJS,
@@ -17,15 +22,71 @@ import {
     BarElement,
     Tooltip,
     Legend,
+    ArcElement,
 }   from 'chart.js';
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend, ArcElement);
 
+// Array containing data for the expenses barchart
+export var expbarChartData = new Array(12);
+// Populate barchartdata (get data from db?)
+expbarChartData = [10,200,30,40,50,60,700,80,900,100,110,120];
 
+// Data for barchart
+const barData = {
+    labels,
+    datasets: [
+      {
+        data: expbarChartData,
+        backgroundColor: '#FEE4FF',
+        borderRadius: 10,
+        hoverBackgroundColor: "#E5355F",
+      },
+    ]
+};
+
+// Array containing data for last months expenses
+export var expPieChartData = new Array(12);
+// Populate barchartdata (get data from db?)
+expPieChartData = [10,8,20,30,15,21,10,12,15,10,25,11,25,10];
+
+// Array containing the data for the target expenses
+export const expPieTargetData = [5,5,5,5,5,5,5,5,5,5,5,5,5,5];
+
+// Labels for expense charts
+export const expPieChartLabels = ['Transportation','Entertainment','Food','Rent','Gas',
+'Travel','Groceries','Household','Utilities','Education','Family','Bills','Personal','Other'];
+
+const lastMthData = {
+    labels: expPieChartLabels,
+    datasets: [
+        {
+            data: expPieChartData,
+            backgroundColor: [
+                '#E5355F', '#1FFC91', '#7ef4ff', '#363537', '#f988db', '#E635DD','#8135E6', 
+                '#3544E6', '#3590E6', '#6AE635', '#E0E635', '#E69035', '#E65B35', '#7a7a7a',
+            ]
+        }
+    ]
+}
+
+const expTargetData = {
+    labels: expPieChartLabels,
+    datasets: [
+        {
+            data: expPieTargetData,
+            backgroundColor: [
+                '#E5355F', '#1FFC91', '#7ef4ff', '#363537', '#f988db', '#E635DD','#8135E6', 
+                '#3544E6', '#3590E6', '#6AE635', '#E0E635', '#E69035', '#E65B35', '#7a7a7a',
+            ]
+        }
+    ]
+}
 
 function ExpensesPage(props){
+    // Handles precision and estimation mode states
     const [mode, setMode] = useState('precision');
 
     // Handle when the user toggles between precision and estimation mode
@@ -33,6 +94,24 @@ function ExpensesPage(props){
     const handleModeChange = (event, newMode) => {
       setMode(newMode);
     };
+
+    const [targetData, updateTargetData] = useState(expTargetData);
+
+    useEffect(() => {
+        console.log("STATE CHANGED");
+        updateTargetData({
+            labels: expPieChartLabels,
+            datasets: [
+                {
+                    data: expPieTargetData,
+                    backgroundColor: [
+                        '#E5355F', '#1FFC91', '#7ef4ff', '#363537', '#f988db', '#E635DD','#8135E6', 
+                        '#3544E6', '#3590E6', '#6AE635', '#E0E635', '#E69035', '#E65B35', '#7a7a7a',
+                    ]
+                }
+            ]
+        })
+    },[]);
 
     return (
         <div className='contentContainer'>
@@ -77,21 +156,33 @@ function ExpensesPage(props){
                 </Row>
                 <Row>
                     <Col>
-                    {/* TEMPORARY */}
                         <Card>
-                            Chart 1
+                            <h4>Last Months Expenses</h4>
+                            <h6 className="cardSubHeader">What you bought last month</h6>
+                            <div className="expPieChartContainer">
+                                <Doughnut className="expPieChart" data={lastMthData} options={pieOptions} redraw={true}/>
+                            </div>
                         </Card>
                     </Col>
                     <Col>
-                    {/* TEMPORARY */}
-                        <Card>
-                            Chart 2
+                        <Card>                            
+                            <Row>
+                                <Col>
+                                    <h4>Target Expenses</h4>
+                                </Col>
+                                <Col>
+                                    <ExpensesModal/>
+                                </Col>
+                            </Row>
+                            <h6 className="cardSubHeader">How much you want to spend, and in what</h6>
+                            <div className="expPieChartContainer">
+                                <Doughnut className="expPieChart" data={targetData} options={pieOptions} redraw={true}/>
+                            </div>
                         </Card>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                    {/* TEMPORARY */}
                         <Card>
                             Chart 3
                         </Card>
