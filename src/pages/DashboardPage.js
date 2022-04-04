@@ -108,13 +108,13 @@ function DashboardPage(props){
                     <h3 className='dashboardHeader'>Hello User,</h3>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col md={4}>
                         <DBCardSm {...bal}/>
                     </Col>
-                    <Col>
+                    <Col md={4}>
                         <DBCardSm {...inc}/>
                     </Col>
-                    <Col>
+                    <Col md ={4}>
                         <DBCardSm {...exp}/>
                     </Col>
                 </Row>
