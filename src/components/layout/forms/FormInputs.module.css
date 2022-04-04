@@ -1,0 +1,14 @@
+.textAreas{
+    background-color: #F7F7F8;
+    border-radius: 10px;
+    resize: none;
+    border: none;
+    margin-top: 10px;
+    padding: 0.5rem 0.5rem;
+}
+
+.formFlex{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

@@ -1,0 +1,20 @@
+
+.containerDiv{    
+    display: flex;
+    justify-content: space-between;
+    margin-left: 1rem;
+    margin-top: 1rem;
+}
+
+.label{
+    color: #91939D;
+}
+
+.input{
+    background-color: #F7F7F8;
+    border-radius: 10px;
+    border:none;
+    height: 2rem;
+    width: 40%;
+}
+

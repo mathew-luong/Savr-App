@@ -27,12 +27,51 @@ code {
     overflow-y: auto;
 }
 
+.pageContainerSavings {
+    padding: 2rem 2rem 2rem 2rem !important;
+    margin: 0 !important;
+    height: 100vh;
+    overflow-y: auto;
+}
+
 
 .dashboardHeader {
     margin: 0 !important;
     padding: 0 !important;
     margin-top: 1rem !important;
     margin-left: 1rem !important;
+}
+
+.cardSubHeader {
+    color:#9197B3;
+}
+
+.dbBarChartContainer {
+    height: 90%;
+    margin: 0;
+    padding-top: 1.5rem;
+    /* padding: 1.5rem 0rem; */
+}
+
+.dbBarChart {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    padding-bottom: 1rem;
+}
+
+
+.dbGoalTrack {
+    float:right;
+    text-align: center;
+    background-color: #D3FFE7;
+    padding: 0.25rem 1rem;
+    border-radius: 10px;
+    color: #000;
+}
+
+.dbGoalPercent {
+    font-weight: bold;
 }
 
 
@@ -97,7 +136,41 @@ code {
     background-color: #E5355F !important;
 }
 
+.expPieChartContainer {
+    height: 90%;
+    /* width: 90%; */
+    margin: 0;
+    padding-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* padding: 1.5rem 0rem; */
+}
 
+.expPieChart {
+    padding-bottom: 1rem;
+}
+
+.expManageBtn {
+    float: right;
+    border: none;
+    border-radius: 10px;
+    padding: 0.25rem 0.5rem;
+    color:#FFF;
+    background-color: #E5355F;
+}
+
+.expManageBtn:active {
+    background-color: #ab2645;
+}
+
+
+.expensesFormBtnContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-right: 1.25rem;
+}
 
 
 /* Expenses page -------------------------------------------------------------- */
@@ -214,8 +287,14 @@ body {
     display: flex;
     background-color: #f0f2f8;
     height: 100vh;
+    overflow-y: scroll;
 }
 
+@media screen and (max-width: 1200px){
+    .destroyed{
+        display: none !important;
+    }
+}
 
 
 
@@ -238,6 +317,10 @@ body {
         /* width: 100vw !important; */
         padding: 0 1rem 0 1rem !important;
         overflow-y:auto;
+    }
+
+    .SavrHeader{
+        display: none;
     }
 }
 

@@ -1,0 +1,24 @@
+.baseCardContainer{
+    height:20rem;
+    border-radius: 25px;
+    background-color: #FFFF;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    width: 40%;
+    position: relative;
+}
+
+.newFormButton{
+    width: 2.3rem;
+    height: 2rem;
+    color: #FFFF;
+    font-size: larger;
+    font-weight: bolder;
+    border: none;
+    border-radius: 8px;
+    background-color: #E5355F;
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+}
+
