@@ -8,7 +8,7 @@ function FormInputs(props){
     let textAreaWidthString = textAreaWidth + '%'
 
     for (let i = 0; i< props.areas;i++){
-        areaDiv = <textarea style={{width:textAreaWidthString}} className={classes.textAreas}></textarea>
+        areaDiv = <input style={{width:textAreaWidthString}} className={classes.textAreas}></input>
         textAreas.push(areaDiv);
     }  
     return(

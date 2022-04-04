@@ -1,4 +1,4 @@
-import { Container, Row } from "react-bootstrap";
+import { Container, Row, Col} from "react-bootstrap";
 import FormCard from "../components/layout/forms/FormCard";
 import MobileFormCard from "../components/layout/forms/MobileFormCard";
 import SavingsAndInvestmentsForm from "../components/layout/forms/SavingsAndInvestmentsForm";
@@ -16,10 +16,11 @@ function StartPage() {
 
   return (
     <div className="startContainer">
-      <h2 style={{ marginLeft: "2rem", marginTop: "1rem" }}>Savr</h2>
-      <Container style={{ marginTop: "5rem" }}>
+      
+      <Container style ={{marginTop:"2rem"}}>
         <Row>
-          <h2>
+        <h2 className = "SavrHeader" >Savr</h2>
+          <h2 style={{marginTop:"2rem"}}>
             Let's get started! Please enter the following information to set up
             your dashboard...
           </h2>
@@ -37,7 +38,9 @@ function StartPage() {
             <SavingsAndInvestmentsForm />
         </Row>
         <Row>
-          <SavingsGoalCard />
+          <Col md = {5}>
+            <SavingsGoalCard />
+          </Col>
         </Row>
       </Container>
     </div>

@@ -27,6 +27,13 @@ code {
     overflow-y: auto;
 }
 
+.pageContainerSavings {
+    padding: 2rem 2rem 2rem 2rem !important;
+    margin: 0 !important;
+    height: 100vh;
+    overflow-y: auto;
+}
+
 
 .dashboardHeader {
     margin: 0 !important;
@@ -249,6 +256,12 @@ body {
     overflow-y: scroll;
 }
 
+@media screen and (max-width: 1200px){
+    .destroyed{
+        display: none !important;
+    }
+}
+
 
 
 
@@ -270,6 +283,10 @@ body {
         /* width: 100vw !important; */
         padding: 0 1rem 0 1rem !important;
         overflow-y:auto;
+    }
+
+    .SavrHeader{
+        display: none;
     }
 }
 

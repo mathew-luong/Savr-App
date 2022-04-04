@@ -7,7 +7,7 @@ function MobileFormInputsList(props) {
     let fullForm = (
     <>
       {props.titles.map((entryTitle) => {
-        return <MobileCardInput entryTitle={entryTitle} />;
+        return <MobileCardInput entryTitle={entryTitle} horizontal = "true"/>;
       })}
     </>
     );

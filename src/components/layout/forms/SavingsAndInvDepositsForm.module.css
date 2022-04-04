@@ -1,0 +1,22 @@
+.baseContainer{
+    border-radius: 25px;
+    background-color: #FFFF;
+    margin-top: 1.5rem;
+    width: 100%;
+    padding: 1.5rem;
+}
+
+.lineContainer {
+    margin: 1rem;
+}
+
+.formButton{
+    color: #FFFF;
+    width: 8rem;
+    height: 2rem;
+    font-size:medium;
+    border: none;
+    border-radius: 8px;
+    background-color: #E5355F;
+    margin: 1rem;
+}

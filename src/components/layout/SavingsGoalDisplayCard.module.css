@@ -1,26 +1,19 @@
 .baseCardContainer{
-    height: 15rem;
+    height: 11rem;
     border-radius: 25px;
     background-color: #FFFF;
-    margin-bottom: 1rem;
     display: flex;
     flex-direction: row;
-    margin-top: 1rem;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 
 .cardIcon {
     border-radius: 50%;
-    padding: 2rem;
+    padding: 1.5rem;
     width: 5rem;
     height: 5rem;
-    margin-top: 20%;
-    margin-left: 15%;
     color: #FFD706 ;
     background-color: #FFFBA3;
 }
-
-.formDiv{
-    display:flex;
-    align-items: center;
-}
-
