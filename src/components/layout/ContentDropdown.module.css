@@ -1,0 +1,17 @@
+.button{
+    border-radius: 10px !important;
+    background-color: #F7F7F8;
+    border: none;
+    color: black;
+    font-size: medium;
+    padding: 0.5rem 0.5rem;
+    width: 100%;
+    position: relative;
+    color: gray;
+}
+
+.ddmenu{
+    position: absolute;
+    max-height: 8rem;
+    overflow-y: auto !important;
+}

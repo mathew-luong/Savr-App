@@ -11,10 +11,10 @@ function SavingsAndInvestmentsForm(){
             <h4 style={{margin:"1rem"}}>Savings and Investments</h4>
             <div className={classes.flexWrapper}>
                 <div className = {classes.savingsFlex}>
-                    <MobileFormInputsList titles = {titleSavings} formsNum = {1}  />
+                    <MobileFormInputsList titles = {titleSavings} formsNum = {1} entryTypes = {["number"]} />
                 </div>
                 <div className = {classes.investmentsFlex}>
-                    <MobileFormInputsList titles = {titleInvestments} formsNum = {1} />
+                    <MobileFormInputsList titles = {titleInvestments} formsNum = {1} entryTypes = {["number"]}/>
                 </div>
             </div>
         </div>

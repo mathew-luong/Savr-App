@@ -2,10 +2,9 @@ import { useState } from "react";
 import classes from "./FormCard.module.css";
 import FormInputList from "./FormInputList";
 
-function FormCard(props) {
 
+function FormCard(props) {
   let [numLines, setLines] = useState(1);
-  
 
   let itemWidth;
   let numItems = props.titles.length;
@@ -13,8 +12,8 @@ function FormCard(props) {
   let widthString = itemWidth + "%";
 
   const formAdder = () => {
-    setLines(numLines+=1);
-  }
+    setLines((numLines += 1));
+  };
 
   return (
     <div className={classes.baseCardContainer}>
@@ -22,16 +21,22 @@ function FormCard(props) {
       <div className={classes.titlesDiv}>
         {props.titles.map((title,i) => {
           return (
-            <div style={{ width: widthString }} className={classes.flexTemp} key={i}>
+            <div style={{ width: widthString }} className={classes.flexTemp} key = {i}>
               <div className={classes.indvTitles}>{title}</div>
             </div>
           );
         })}
       </div>
       <div className={classes.formHolder}>
-        <FormInputList lines = {numLines} numItems ={numItems}/>
+        <FormInputList
+          lines={numLines}
+          numItems={numItems}
+          inputTypes={props.inputTypes}
+        />
       </div>
-      <button onClick={formAdder} className={classes.newFormButton}>+</button>
+      <button onClick={formAdder} className={classes.newFormButton}>
+        +
+      </button>
     </div>
   );
 }

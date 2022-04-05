@@ -3,6 +3,7 @@
     border-radius: 25px;
     background-color: #FFFF;
     margin-top: 1rem;
+    padding: 0.5rem;
     position: relative;
 }
 
@@ -39,5 +40,6 @@
 
 .formHolder{
     overflow-y: auto;
-    max-height: 11rem;
+    height: 10rem;
 }
+
