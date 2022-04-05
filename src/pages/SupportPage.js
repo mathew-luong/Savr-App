@@ -35,7 +35,7 @@ function SupportPage(){
                                 {
                                     inboxMsgs.map((msg,i) => {
                                         return (
-                                        <li className="supportInboxLi">
+                                        <li className="supportInboxLi" key={i}>
                                             <h4>
                                                 {msg.subject}
                                             </h4>
