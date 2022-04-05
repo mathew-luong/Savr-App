@@ -9,8 +9,8 @@ function ScenarioAnalysisCard() {
         <Col lg={7} style={{ position: "relative", height: "15rem" }}>
           <div className={classes.formWrapper}>
             <h4>Scenario Analysis</h4>
-            <InlineInputs label="Amounts to deposit on savings per month" />
-            <InlineInputs label="Amounts to add on investments per month" />
+            <InlineInputs label="Amounts to deposit on savings per month" inputType = "number" />
+            <InlineInputs label="Amounts to add on investments per month" inputType = "number"/>
             <div className={classes.buttonHolder}>
               <button className={classes.formButton}>Use Averages</button>
               <button className={classes.formButton}>Calculate Rate</button>

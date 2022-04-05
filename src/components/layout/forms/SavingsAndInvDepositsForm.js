@@ -8,7 +8,7 @@ export default function SavingsAndInvDepositsForm(props) {
       {props.labels.map((formLabel,i) => {
         return (
           <div className={classes.lineContainer} key={i}>
-            <InlineInputs label={formLabel} />
+            <InlineInputs label={formLabel} inputType = {props.inputTypes[i]}/>
           </div>
         );
       })}

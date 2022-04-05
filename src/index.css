@@ -28,7 +28,7 @@ code {
 }
 
 .pageContainerSavings {
-    padding: 2rem 2rem 2rem 2rem !important;
+    padding: 1rem 2rem 2rem 2rem !important;
     margin: 0 !important;
     height: 100vh;
     overflow-y: auto;
@@ -172,12 +172,98 @@ code {
     margin-right: 1.25rem;
 }
 
+.viewDropdown{
+    float: right;
+}
+
+.viewDropdownToggle{
+    background-color: #E7E7E7!important;
+    border-radius: 10px !important;
+    color: black !important;
+    border: none !important;
+    margin-right: 1rem;
+}
 
 /* Expenses page -------------------------------------------------------------- */
 
 
 
+/* Support page -------------------------------------------------------------- */
 
+.supportInboxContainer {
+    /* background-color: #4672ca; */
+    width: 100%;
+    height: 100%;
+    list-style: none;
+    overflow-y: auto;
+}
+
+.supportInboxLi {
+    background-color: #FFEFFF;
+    border-radius: 10px;
+    padding: 0.8rem;
+    margin-bottom: 0.5rem;
+    color: black;
+}
+
+.supportFormHeader {
+    margin-bottom: 1rem;
+}
+
+.supportFormSubHeader {
+    /* font-weight: bold; */
+    font-size: larger;
+    margin-bottom: 0.5rem;
+    margin-left: 0.5rem;
+}
+
+.supportInput {
+    border: none;
+    background-color: #F7F7F8;
+    border-radius: 10px;
+    height: 2rem;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+}
+
+.supportTxtArea {
+    border: none;
+    background-color: #F7F7F8;
+    border-radius: 10px;
+    height: 40%;
+    padding: 0.5rem 1rem;
+    width: 100%;
+    resize: none;
+}
+
+.supportSendBtn {
+    float: right;
+    border: none;
+    border-radius: 10px;
+    padding: 0.25rem 0.5rem;
+    color:#FFF;
+    background-color: #E5355F;
+    width: 15%;
+    margin-top: 1rem;
+}
+
+.supportSendBtn:active {
+    background-color: #ac2645;
+}
+
+.supportForm{
+    height: 90%;
+    overflow-y: auto;
+}
+
+
+
+
+
+
+
+/* Support page -------------------------------------------------------------- */
 
 
 
@@ -321,6 +407,9 @@ body {
 
     .SavrHeader{
         display: none;
+    }
+    .supportTxtArea {
+        height: 7rem;
     }
 }
 
