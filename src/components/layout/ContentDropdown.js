@@ -16,7 +16,7 @@ export default function ContentDropdown(props) {
 
   return (
       <Dropdown style={{width: props.width}}>
-        <Dropdown.Toggle variant="secondary"  drop= "end" className={classes.button} style = {formCard ? {marginTop:"10px"}: {marginTop:"0px"}}>
+        <Dropdown.Toggle variant="secondary" className={classes.button} style = {formCard ? {marginTop:"10px"}: {marginTop:"0px"}}>
             {cat}
         </Dropdown.Toggle>
         <Dropdown.Menu variant="dark" className = {classes.ddmenu}>

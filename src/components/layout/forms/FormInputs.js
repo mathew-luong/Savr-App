@@ -19,6 +19,7 @@ function FormInputs(props) {
             style={{ width: textAreaWidthString }}
             type={props.inputTypes[i]}
             className={classes.textAreas}
+            required
             key={i}
           ></input>
         </>

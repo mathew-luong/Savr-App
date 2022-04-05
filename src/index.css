@@ -172,6 +172,17 @@ code {
     margin-right: 1.25rem;
 }
 
+.viewDropdown{
+    float: right;
+}
+
+.viewDropdownToggle{
+    background-color: #E7E7E7!important;
+    border-radius: 10px !important;
+    color: black !important;
+    border: none !important;
+    margin-right: 1rem;
+}
 
 /* Expenses page -------------------------------------------------------------- */
 
@@ -188,11 +199,11 @@ code {
 }
 
 .supportInboxLi {
-    background-color: #E5355F;
+    background-color: #FFEFFF;
     border-radius: 10px;
-    padding: 0.5rem;
+    padding: 0.8rem;
     margin-bottom: 0.5rem;
-    color: #fff;
+    color: black;
 }
 
 .supportFormHeader {
@@ -202,7 +213,8 @@ code {
 .supportFormSubHeader {
     /* font-weight: bold; */
     font-size: larger;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
+    margin-left: 0.5rem;
 }
 
 .supportInput {
@@ -219,7 +231,7 @@ code {
     border: none;
     background-color: #F7F7F8;
     border-radius: 10px;
-    height: 8rem;
+    height: 40%;
     padding: 0.5rem 1rem;
     width: 100%;
     resize: none;
@@ -240,8 +252,10 @@ code {
     background-color: #ac2645;
 }
 
-
-
+.supportForm{
+    height: 90%;
+    overflow-y: auto;
+}
 
 
 

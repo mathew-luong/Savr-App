@@ -27,6 +27,7 @@ import {
 } from "chart.js";
 
 import React, { useState, useEffect } from "react";
+import { Dropdown } from "react-bootstrap";
 
 ChartJS.register(
   CategoryScale,
@@ -137,16 +138,49 @@ function ExpensesPage(props) {
     "Category",
     "Expenses as a % of total income",
   ];
-  let expenseFormTitle = "Expense Entries";
+
+  let incomeSubtitles = ["Income Amount", "Income Stream Name", "Date"]
 
   // Handles precision and estimation mode states
   const [mode, setMode] = useState("precision");
+  const [entryView, setEntryView] = useState("Expenses");
+
+
+  let expenseForms = (
+    <>
+    <FormCard
+      titles={
+        entryView === "Expenses" ?
+        (mode === "precision" 
+        ? expenseFormSubtitles
+        : expenseFormSubtitlesEstimation)
+        : incomeSubtitles
+      }
+      inputTypes={
+          entryView === "Expenses" ?
+          (mode === "precision"
+          ? ["text", "category", "number"]
+          : ["category", "number"])
+          :["number", "text", "date"]
+      }
+    />
+    <div className="expensesFormBtnContainer">
+      <button className="expManageBtn">Submit</button>
+    </div>
+    </>
+  );
+
 
   // Handle when the user toggles between precision and estimation mode
   // Default mode is precision
   const handleModeChange = (event, newMode) => {
     setMode(newMode);
   };
+
+  const handleViewChange = (event, newView) => {
+    event.preventDefault();
+    setEntryView(newView);
+  }
 
   const [targetData, updateTargetData] = useState(expTargetData);
 
@@ -268,25 +302,24 @@ function ExpensesPage(props) {
         </Row>
         <Row>
           <Col>
-            <Card>
-              {/* Switches expense entries form depending on the mode */}
-              <FormCard
-                titles={
-                  mode === "precision"
-                    ? expenseFormSubtitles
-                    : expenseFormSubtitlesEstimation
-                }
-                inputTypes={
-                    mode === "precision"
-                    ? ["text", "category", "number"]
-                    : ["category", "number"]
-                }
-                title={expenseFormTitle}
-              />
-              <div className="expensesFormBtnContainer">
-                <RecentExpensesModal />
-                <button className="expManageBtn">Submit</button>
-              </div>
+            <Card height = "80%">
+              <Row>
+                <Col>
+                 <h4>{entryView === "Expenses" ? "Expense Entry" : "Income Entry"}</h4>
+                </Col>
+                <Col>
+                    <Dropdown className="viewDropdown">
+                      <Dropdown.Toggle className="viewDropdownToggle">
+                        {entryView}
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu variant = "dark">
+                        <Dropdown.Item onClick={(e) => handleViewChange(e, "Expenses")}>Expenses</Dropdown.Item>
+                        <Dropdown.Item onClick={(e) => handleViewChange(e, "Income")}>Income</Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                </Col>
+              </Row>
+              {expenseForms}
             </Card>
           </Col>
         </Row>

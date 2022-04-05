@@ -29,16 +29,16 @@ function SupportPage(){
                 </Row>
                 <Row>
                     <Col>
-                        <Card height="55vh">
+                        <Card height="40vh">
                             <h4 className='supportFormHeader'>Inbox</h4>
                             <ul className="supportInboxContainer">
                                 {
                                     inboxMsgs.map((msg,i) => {
                                         return (
                                         <li className="supportInboxLi" key={i}>
-                                            <h4>
+                                            <h5>
                                                 {msg.subject}
-                                            </h4>
+                                            </h5>
                                             <span>
                                                 {msg.text}
                                             </span>
@@ -52,7 +52,7 @@ function SupportPage(){
                 </Row>
                 <Row>
                     <Col>
-                        <Card height="50vh">
+                        <Card height="45vh">
                             <Row>
                                 <h4 className='supportFormHeader'>Send an Inquiry</h4>
                             </Row>

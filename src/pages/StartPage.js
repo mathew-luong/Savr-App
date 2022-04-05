@@ -1,4 +1,5 @@
 import { Container, Row, Col } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 import FormCard from "../components/layout/forms/FormCard";
 import MobileFormCard from "../components/layout/forms/MobileFormCard";
 import SavingsAndInvestmentsForm from "../components/layout/forms/SavingsAndInvestmentsForm";
@@ -49,6 +50,13 @@ function StartPage() {
         <Row>
           <Col>
           <SavingsAndInvestmentsForm />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+              <Link to = "/dashboard">
+                <button style = {{marginTop:"1rem"}} className="expManageBtn">Submit</button>
+              </Link>
           </Col>
         </Row>
       </Container>
