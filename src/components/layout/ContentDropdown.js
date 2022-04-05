@@ -6,7 +6,22 @@ export default function ContentDropdown(props) {
 
     let formCard = props.formCard === "true" ? true : false;
 
-    let categories = ["Entertainment", "Rent", "Education", "Retirement", "Transportation", "Leisure", "Subscriptions"]
+    let categories = [
+        "Transportation",
+        "Entertainment",
+        "Food",
+        "Rent",
+        "Gas",
+        "Travel",
+        "Groceries",
+        "Household",
+        "Utilities",
+        "Education",
+        "Family",
+        "Bills",
+        "Personal",
+        "Other",
+      ];
     const [cat, setCat] = useState("Enter a Category");
     
     function clickHandler(e, category){
