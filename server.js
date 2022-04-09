@@ -22,6 +22,22 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to Savr application backend." });
 });
 
+require("./app/routes/dashboard.routes.js")(app);
+require("./app/routes/expenses.routes.js")(app);
+require("./app/routes/expensesBreakdown.routes.js")(app);
+require("./app/routes/expenseTargets.routes.js")(app);
+require("./app/routes/incomes.routes.js")(app);
+require("./app/routes/investments.routes.js")(app);
+require("./app/routes/login.routes.js")(app);
+require("./app/routes/savings.routes.js")(app);
+require("./app/routes/savingsGoals.routes.js")(app);
+require("./app/routes/savingsStats.routes.js")(app);
+require("./app/routes/savingStringStats.routes.js")(app);
+require("./app/routes/signup.routes.js")(app);
+require("./app/routes/supportInbox.routes.js")(app);
+require("./app/routes/totalExpenses.routes.js")(app);
+
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
