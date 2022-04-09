@@ -14,7 +14,7 @@ function MobileFormInputsList(props) {
     for(let i=0;i<props.formsNum;i++){
         // inputForms.push(fullForm)
         inputForms.push(
-            <div key={i}>
+            <div key={i} className = {classes.inputsLines}>
             {props.titles.map((entryTitle,j) => {
                 return <MobileCardInput entryTitle={entryTitle} key={j} entryType = {props.entryTypes[j]}/>;
             })}

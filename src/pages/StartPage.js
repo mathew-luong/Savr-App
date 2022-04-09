@@ -31,12 +31,22 @@ function StartPage() {
         </Row>
         <Row>
           <Col>
-            <FormCard titles={titlesIncome} title={title} inputTypes = {incomeTypes}/>
+            <div  className = "inputDesktopCard">
+              <FormCard titles={titlesIncome} title={title} inputTypes = {incomeTypes}/>
+            </div>
+            <div className="inputMobileCard">
+              <MobileFormCard title = {title} formTitles = {titlesIncome} entryTypes = {incomeTypes}/>
+            </div>
           </Col>
         </Row>
         <Row>
           <Col>
+          <div className="inputDesktopCard">
             <FormCard titles={titlesExpenses} title={expenseFormTitle} inputTypes ={expenseTypes} />
+          </div>
+          <div className="inputMobileCard">
+            <MobileFormCard title = {expenseFormTitle} formTitles = {titlesExpenses} entryTypes = {expenseTypes}/> 
+          </div>
           </Col>
         </Row>
         <Row>

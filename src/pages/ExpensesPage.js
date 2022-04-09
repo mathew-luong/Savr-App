@@ -28,6 +28,7 @@ import {
 
 import React, { useState, useEffect } from "react";
 import { Dropdown } from "react-bootstrap";
+import MobileFormCard from "../components/layout/forms/MobileFormCard.js";
 
 ChartJS.register(
   CategoryScale,
@@ -133,43 +134,59 @@ const expTargetData = {
 };
 
 function ExpensesPage(props) {
-  let expenseFormSubtitles = ["Expense Name", "Category", "Amount"];
+  let expenseFormSubtitles = ["Date", "Expense Name", "Category", "Amount"];
   let expenseFormSubtitlesEstimation = [
+    "Date",
     "Category",
     "Expenses as a % of total income",
   ];
 
-  let incomeSubtitles = ["Income Amount", "Income Stream Name", "Date"]
+  let incomeSubtitles = ["Income Amount", "Income Stream Name", "Date"];
 
   // Handles precision and estimation mode states
   const [mode, setMode] = useState("precision");
   const [entryView, setEntryView] = useState("Expenses");
 
-
   let expenseForms = (
     <>
-    <FormCard
-      titles={
-        entryView === "Expenses" ?
-        (mode === "precision" 
-        ? expenseFormSubtitles
-        : expenseFormSubtitlesEstimation)
-        : incomeSubtitles
-      }
-      inputTypes={
-          entryView === "Expenses" ?
-          (mode === "precision"
-          ? ["text", "category", "number"]
-          : ["category", "number"])
-          :["number", "text", "date"]
-      }
-    />
-    <div className="expensesFormBtnContainer">
-      <button className="expManageBtn">Submit</button>
-    </div>
+      <div className="desktopExpensesInput">
+        <FormCard
+          titles={
+            entryView === "Expenses"
+              ? mode === "precision"
+                ? expenseFormSubtitles
+                : expenseFormSubtitlesEstimation
+              : incomeSubtitles
+          }
+          inputTypes={
+            entryView === "Expenses"
+              ? mode === "precision"
+                ? ["date", "text", "category", "number"]
+                : ["date", "category", "number"]
+              : ["number", "text", "date"]
+          }
+        />
+      </div>
+      <div className="mobileExpensesInput">
+      <MobileFormCard
+          formTitles={
+            entryView === "Expenses"
+              ? mode === "precision"
+                ? expenseFormSubtitles
+                : expenseFormSubtitlesEstimation
+              : incomeSubtitles
+          }
+          entryTypes={
+            entryView === "Expenses"
+              ? mode === "precision"
+                ? ["date", "text", "category", "number"]
+                : ["date", "category", "number"]
+              : ["number", "text", "date"]
+          }
+        />
+      </div>
     </>
   );
-
 
   // Handle when the user toggles between precision and estimation mode
   // Default mode is precision
@@ -180,7 +197,7 @@ function ExpensesPage(props) {
   const handleViewChange = (event, newView) => {
     event.preventDefault();
     setEntryView(newView);
-  }
+  };
 
   const [targetData, updateTargetData] = useState(expTargetData);
 
@@ -302,24 +319,45 @@ function ExpensesPage(props) {
         </Row>
         <Row>
           <Col>
-            <Card height = "80%">
+            <Card height="90%">
               <Row>
                 <Col>
-                 <h4>{entryView === "Expenses" ? "Expense Entry" : "Income Entry"}</h4>
+                  <h4>
+                    {entryView === "Expenses"
+                      ? "Expense Entry"
+                      : "Income Entry"}
+                  </h4>
                 </Col>
                 <Col>
-                    <Dropdown className="viewDropdown">
-                      <Dropdown.Toggle className="viewDropdownToggle">
-                        {entryView}
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu variant = "dark">
-                        <Dropdown.Item onClick={(e) => handleViewChange(e, "Expenses")}>Expenses</Dropdown.Item>
-                        <Dropdown.Item onClick={(e) => handleViewChange(e, "Income")}>Income</Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
+                  <Dropdown className="viewDropdown">
+                    <Dropdown.Toggle className="viewDropdownToggle">
+                      {entryView}
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu variant="dark">
+                      <Dropdown.Item
+                        onClick={(e) => handleViewChange(e, "Expenses")}
+                      >
+                        Expenses
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={(e) => handleViewChange(e, "Income")}
+                      >
+                        Income
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </Col>
               </Row>
-              {expenseForms}
+              <Row className="formHolderCol">
+                <Col>{expenseForms}</Col>
+              </Row>
+              <Row>
+                <Col>
+                  <div className="expensesFormBtnContainer">
+                    <button className="expManageBtn">Submit</button>
+                  </div>
+                </Col>
+              </Row>
             </Card>
           </Col>
         </Row>

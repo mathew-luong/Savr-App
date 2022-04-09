@@ -11,7 +11,6 @@
     flex-direction: row;
     width: 100%;
     align-items: center;
-    height: 100%;
 }
 
 .savingsFlex{
@@ -20,4 +19,25 @@
 
 .investmentsFlex{
     width:50%;
+}
+
+@media screen and (max-width: 768px){
+    .flexWrapper{
+        flex-direction: column;
+        overflow: auto;
+    }
+
+    .savingsFlex{
+        width: 100%;
+    }
+    
+    .investmentsFlex{
+        width:100%;
+        margin-top: -5rem;
+    }
+
+    .baseCardContainer{
+        height: 19rem;
+    }
+    
 }

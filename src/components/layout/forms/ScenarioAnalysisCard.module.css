@@ -57,8 +57,26 @@
     text-align: center;
 }
 
+
 @media screen and (max-width: 992px){
     .flexWrapper{
         margin-top: 1rem;
+    }
+}
+
+@media screen and (max-width: 576px){
+    .desktopInput{
+        display: none;
+    }
+
+    .buttonHolder{
+        bottom: -1.3rem;
+    }
+}
+
+@media screen and (min-width: 576px){
+    .mobileInput{
+        display: none;
+        overflow-y: auto;
     }
 }
