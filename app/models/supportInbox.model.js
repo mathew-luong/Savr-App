@@ -1,8 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
     const SupportInbox = sequelize.define("supportInbox", {
-      toUserId: {
-        type: Sequelize.INTEGER
-      },
       fromUserId: {
         type: Sequelize.INTEGER
       },

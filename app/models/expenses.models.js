@@ -1,8 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
     const Expenses = sequelize.define("expenses", {
-      userId: {
-        type: Sequelize.INTEGER
-      },
       name: {
         type: Sequelize.STRING
       },
