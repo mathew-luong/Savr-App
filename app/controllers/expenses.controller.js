@@ -1,16 +1,133 @@
 // Controller reference: https://www.bezkoder.com/node-js-express-sequelize-mysql/#Create_the_Controller
 
 const db = require("../models");
-const expenses = db.expenses;
+const Expenses = db.expenses;
+const Incomes = db.incomes;
 const Op = db.Sequelize.Op;
 
 exports.createPrecision = (req, res) => {
+    // Validate request    
+    req.body.forEach(function(entry, index) {
+        if (!entry.userID || !entry.name || !entry.date || !entry.category || !entry.amount) {
+            res.status(400).send({
+                message: "Did not receive all required expenses information: userID, name, date , category and amount!"
+            });
+            return;
+        }
+        
+    });
+    req.body.forEach(function(entry, index) { 
+    // Create expenses
+      const expense = {
+        userId: entry.userID,
+        name: entry.name,
+        category: entry.category,
+        date: entry.date,
+        amount: entry.amount
+      };
+      Expenses.create(expense)
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while creating the user."
+    });
+    });
+});
 };
 
 exports.createEstimation = (req, res) => {
+        // Validate request    
+        req.body.forEach(function(entry, index) {
+            if (!entry.userID || !entry.category || !entry.date || !entry.percentageOfTotalIncome) {
+                res.status(400).send({
+                    message: "Did not receive all required expenses information: userID, category, date and percentage of income!"
+                });
+                return;
+            }
+        });
+
+        const userId = req.body[0].userId
+        var income;
+        var date = new Date();
+        var firstDay = new Date(date.getFullYear(), date.getMonth()-1, 1);
+        var lastDay = new Date(date.getFullYear(), date.getMonth() , 0);
+        Incomes.sum('amount',{
+            where:{
+                [Op.and]: {
+                userID:userId,
+                date: {
+                    [Op.gte]:firstDay,
+                    [Op.lte]:lastDay,
+                }
+                }
+            }
+        }).then(sum => {
+            income = sum
+        })
+
+        req.body.forEach(function(entry, index) { 
+        // Create expenses
+          const expense = {
+            userId: entry.userID,
+            category: entry.category,
+            date: entry.date,
+            amount: entry.percentageOfTotalIncome * income
+          };
+          Expenses.create(expense)
+          .then(data => {
+            res.send(data);
+          })
+          .catch(err => {
+            res.status(500).send({
+              message:
+                err.message || "Some error occurred while creating the user."
+        });
+        });
+    });
 };
 
 exports.expensesInsightsChange = (req, res) => {  
+    const userId = req.param('userID')
+    var expensePrev;
+    var expenseCurr;
+    var date = new Date();
+    var firstDayPrev = new Date(date.getFullYear(), date.getMonth()-2, 1);
+    var lastDayPrev = new Date(date.getFullYear(), date.getMonth()-1 , 0);
+    var firstDayCurr = new Date(date.getFullYear(), date.getMonth()-1, 1);
+    var lastDayCurr = new Date(date.getFullYear(), date.getMonth() , 0);
+    Expenses.sum('amount',{
+        where:{
+            [Op.and]: {
+            userID:userId,
+            date: {
+                [Op.gte]:firstDayPrev,
+                [Op.lte]:lastDayPrev,
+            }
+            }
+        }
+    }).then(sum => {
+        expensePrev = sum
+    })
+    Expenses.sum('amount',{
+        where:{
+            [Op.and]: {
+            userID:userId,
+            date: {
+                [Op.gte]:firstDayCurr,
+                [Op.lte]:lastDayCurr,
+            }
+            }
+        }
+    }).then(sum => {
+        expenseCurr = sum
+    })
+    const percentChange = (expenseCurr-expensePrev)/expensePrev
+    res.send({
+        percentChange: percentChange
+    })
 };
 
 exports.expenseInsightsOverspent = (req, res) => {
