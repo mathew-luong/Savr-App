@@ -2,7 +2,6 @@
 
 const db = require("../models");
 const SavingsGoals = db.savingsGoals;
-const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
     // Validate request
