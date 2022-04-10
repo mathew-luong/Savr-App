@@ -3,6 +3,9 @@
 const db = require("../models");
 const Savings = db.savings;
 const Investments = db.investments;
+const Incomes = db.incomes;
+const Expenses = db.expenses;
+const ExpenseTargets = db.expenseTargets;
 const SavingsGoals = db.savingsGoals;
 const Op = db.Sequelize.Op;
 
@@ -29,7 +32,7 @@ exports.create = (req, res) => {
             message:
               err.message || "Some error occurred while creating the savings entry."
       });
-});        
+});
 };
 
 exports.scenarioAnalysis = (req, res) => {
@@ -203,5 +206,76 @@ exports.savingsStringStats = (req, res) => {
         return;
     }
     const userId = req.param('userID');
-    
+    const category = None;
+    const underspending = 0
+    //get expenses
+    var expenses;
+    const incomes = 0;
+    var targets;
+    const date = new Date();
+    const firstDay = new Date(date.getFullYear(), date.getMonth()-1, 1);
+    const lastDay = new Date(date.getFullYear(), date.getMonth() , 0);
+    Expenses.sum('amount',{
+        where:{
+            [Op.and]: {
+            userID:userId,
+            date: {
+                [Op.gte]:firstDay,
+                [Op.lte]:lastDay,
+            }
+            }
+        },
+        
+    },{group: 'category'}).then(data => {
+        expenses = data
+    })
+    //get income
+    Incomes.sum('amount',{
+        where:{
+            [Op.and]: {
+            userID:userId,
+            date: {
+                [Op.gte]:firstDay,
+                [Op.lte]:lastDay,
+            }
+            }
+        }
+    }).then(sum => {
+        incomes +=sum
+    })
+    //get expense target
+    ExpenseTargets.findAll({
+        where: {
+          userId: userId
+        }
+      }).then(data => {
+          if(data){
+            targets = data
+        }else{
+            res.status(400).send({
+                message: "Did not find any expense targets!"
+            });
+            return;
+        }
+      })
+      
+      expenses.forEach(function(expense,index){
+          expense.sum = expense.sum/incomes;
+          targets.forEach(function(target,index){
+            if (target.category == expense.category){
+                if(target.percentage>expense.sum){
+                    underspent = (target.percentage - expense.percentage)/target.percentage
+                    if (underspending<underpent){
+                        underspending = underspent;
+                        category = target.category;
+                    }
+                }
+            }
+          })
+      })
+
+    res.send({
+        category: category,
+        underspending: underspending
+    })
 };
