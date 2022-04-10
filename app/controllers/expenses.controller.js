@@ -51,9 +51,9 @@ exports.createEstimation = (req, res) => {
 
         const userId = req.body[0].userId
         var income;
-        var date = new Date();
-        var firstDay = new Date(date.getFullYear(), date.getMonth()-1, 1);
-        var lastDay = new Date(date.getFullYear(), date.getMonth() , 0);
+        const date = new Date();
+        const firstDay = new Date(date.getFullYear(), date.getMonth()-1, 1);
+        const lastDay = new Date(date.getFullYear(), date.getMonth() , 0);
         Incomes.sum('amount',{
             where:{
                 [Op.and]: {
@@ -100,11 +100,11 @@ exports.expensesInsightsChange = (req, res) => {
     const userId = req.param('userID');
     var expensePrev;
     var expenseCurr;
-    var date = new Date();
-    var firstDayPrev = new Date(date.getFullYear(), date.getMonth()-2, 1);
-    var lastDayPrev = new Date(date.getFullYear(), date.getMonth()-1 , 0);
-    var firstDayCurr = new Date(date.getFullYear(), date.getMonth()-1, 1);
-    var lastDayCurr = new Date(date.getFullYear(), date.getMonth() , 0);
+    const date = new Date();
+    const firstDayPrev = new Date(date.getFullYear(), date.getMonth()-2, 1);
+    const lastDayPrev = new Date(date.getFullYear(), date.getMonth()-1 , 0);
+    const firstDayCurr = new Date(date.getFullYear(), date.getMonth()-1, 1);
+    const lastDayCurr = new Date(date.getFullYear(), date.getMonth() , 0);
     Expenses.sum('amount',{
         where:{
             [Op.and]: {
