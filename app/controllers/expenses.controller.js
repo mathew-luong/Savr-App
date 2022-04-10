@@ -90,7 +90,14 @@ exports.createEstimation = (req, res) => {
 };
 
 exports.expensesInsightsChange = (req, res) => {  
-    const userId = req.param('userID')
+    if (!req.param('userID')) {
+        res.status(400).send({
+            message: "Did not receive all required information: userID!"
+        });
+        return;
+    }
+    
+    const userId = req.param('userID');
     var expensePrev;
     var expenseCurr;
     var date = new Date();

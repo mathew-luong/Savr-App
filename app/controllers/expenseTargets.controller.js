@@ -7,16 +7,16 @@ const Op = db.Sequelize.Op;
 exports.create = (req, res) => {
     // Validate request    
     req.body.forEach(function(entry, index) {
-        if (!entry.userID || !entry.Category || !entry.percentageOfTotalIncome) {
+        if (!entry.userID || !entry.category || !entry.percentageOfTotalIncome) {
             res.status(400).send({
-                message: "Did not receive all required expenses information: userID, category and percentageOfTotalIncome!"
+                message: "Did not receive all required expense targets information: userID, category and percentageOfTotalIncome!"
             });
             return;
         }
         
     });
     req.body.forEach(function(entry, index) { 
-    // Create expenses
+    // Create expense targets
       const expenseTarget = {
         userId: entry.userID,
         category: entry.category,
