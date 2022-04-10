@@ -30,7 +30,7 @@ exports.create = (req, res) => {
           .catch(err => {
             res.status(500).send({
               message:
-                err.message || "Some error occurred while creating the user."
+                err.message || "Some error occurred while creating the income entry."
         });
         });
     });

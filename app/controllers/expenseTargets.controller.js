@@ -44,13 +44,13 @@ exports.getTargets = (req, res) => {
         return;
     }
     const userId = req.param('userID');
-    expenseTargets.findOne({
+    expenseTargets.findAll({
         where: {
           userId: userId
         }
       }).then(data => {
           if(data){
-          res.send(data)
+            res.send(data);
         }else{
             res.status(400).send({
                 message: "Did not find any expense targets!"
