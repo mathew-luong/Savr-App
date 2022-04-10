@@ -147,6 +147,26 @@ function ExpensesPage(props) {
   const [mode, setMode] = useState("precision");
   const [entryView, setEntryView] = useState("Expenses");
 
+  let [expensesPrecisionState, setExpensesPrecision] = useState([{
+    date:"",
+    expenseName: "",
+    category: "Enter a category",
+    amount:""
+  }])
+
+  let [expensesEstimationState, setExpensesEstimation] = useState([{
+    date:"",
+    category: "Enter a new category",
+    percentExpense:""
+  }])
+
+  let [incomeState, setIncomeState] = useState([{
+    amount:"",
+    streamName:"",
+    date:""
+  }])
+
+
   let expenseForms = (
     <>
       <div className="desktopExpensesInput">
@@ -165,6 +185,42 @@ function ExpensesPage(props) {
                 : ["date", "category", "number"]
               : ["number", "text", "date"]
           }
+          currentValues ={
+            entryView === "Expenses"
+            ? mode === "precision"
+              ? expensesPrecisionState
+              : expensesEstimationState
+            : incomeState
+          }
+          updateCurrentValues ={
+            entryView === "Expenses"
+            ? mode === "precision"
+              ? setExpensesPrecision
+              : setExpensesEstimation
+            : setIncomeState
+          }
+          
+          baseNewObject = {
+            entryView === "Expenses"
+            ? mode === "precision"
+              ? {
+                date:"",
+                expenseName: "",
+                category: "Enter a category",
+                amount:""
+              }
+              : {
+                date:"",
+                category: "Enter a new category",
+                percentExpense:""
+              }
+            : {
+              amount:"",
+              streamName:"",
+              date:""
+            }
+          }
+
         />
       </div>
       <div className="mobileExpensesInput">
@@ -182,6 +238,41 @@ function ExpensesPage(props) {
                 ? ["date", "text", "category", "number"]
                 : ["date", "category", "number"]
               : ["number", "text", "date"]
+          }
+          currentValues ={
+            entryView === "Expenses"
+            ? mode === "precision"
+              ? expensesPrecisionState
+              : expensesEstimationState
+            : incomeState
+          }
+          updateCurrentValues ={
+            entryView === "Expenses"
+            ? mode === "precision"
+              ? setExpensesPrecision
+              : setExpensesEstimation
+            : setIncomeState
+          }
+          
+          baseNewObject = {
+            entryView === "Expenses"
+            ? mode === "precision"
+              ? {
+                date:"",
+                expenseName: "",
+                category: "Enter a category",
+                amount:""
+              }
+              : {
+                date:"",
+                category: "Enter a new category",
+                percentExpense:""
+              }
+            : {
+              amount:"",
+              streamName:"",
+              date:""
+            }
           }
         />
       </div>

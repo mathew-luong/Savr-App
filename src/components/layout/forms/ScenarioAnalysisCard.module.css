@@ -1,82 +1,85 @@
-.baseContainer{
-    background-color: #FFFF;
-    border-radius: 25px;
-    width: 100%;
-    margin-top: 1.5rem;
-    padding: 0.3rem;
+.baseContainer {
+  background-color: #ffff;
+  border-radius: 25px;
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 0.3rem;
 }
 
-.buttonHolder{  
-    position: absolute;
-    right:1.5rem;
-    bottom: 1rem;
+.buttonHolder {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 1rem;
 }
 
-.formButton{
-    color: #FFFF;
-    width: 8rem;
-    height: 2rem;
-    font-size:medium;
-    border: none;
-    border-radius: 8px;
-    background-color: #E5355F;
-    margin: 5px;
+.formButton {
+  color: #ffff;
+  width: 8rem;
+  height: 2rem;
+  font-size: medium;
+  border: none;
+  border-radius: 8px;
+  background-color: #e5355f;
+  margin: 5px;
 }
 
 .formButton:active {
-    background-color: #a02240;
+  background-color: #a02240;
 }
 
-.formWrapper{
-    margin: 1rem;
+.formWrapper {
+  margin: 1rem;
 }
 
-.flexWrapper{
-    display: flex;
-    align-items: center;
-    height: 100%;
-    justify-items: center;
-    padding: 1rem;
-    background-color: #FFFF;
-    border-radius: 25px;
-    width: 100%;
+.flexWrapper {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  justify-items: center;
+  padding: 1rem;
+  background-color: #ffff;
+  border-radius: 25px;
+  width: 100%;
 }
 
-.infoHolder{
-    background-color: #F6F8FF;
-    width: 100%;
-    height: 100%;
-    border-radius: 30px;
-    display: flex;
-    align-items: center;
-    padding: 1rem;
+.infoHolder {
+  background-color: #f6f8ff;
+  width: 100%;
+  height: 100%;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
 }
 
-.textHolder{
-    font-size: larger;
-    text-align: center;
+.textHolder {
+  font-size: larger;
+  text-align: center;
 }
 
-
-@media screen and (max-width: 992px){
-    .flexWrapper{
-        margin-top: 1rem;
-    }
+.mobileInput {
+  overflow-y: auto;
+  max-height: 10rem;
 }
 
-@media screen and (max-width: 576px){
-    .desktopInput{
-        display: none;
-    }
-
-    .buttonHolder{
-        bottom: -1.3rem;
-    }
+@media screen and (max-width: 992px) {
+  .flexWrapper {
+    margin-top: 1rem;
+  }
 }
 
-@media screen and (min-width: 576px){
-    .mobileInput{
-        display: none;
-        overflow-y: auto;
-    }
+@media screen and (max-width: 576px) {
+  .desktopInput {
+    display: none;
+  }
+
+  .buttonHolder {
+    bottom: -1.3rem;
+  }
+}
+
+@media screen and (min-width: 576px) {
+  .mobileInput {
+    display: none;
+  }
 }

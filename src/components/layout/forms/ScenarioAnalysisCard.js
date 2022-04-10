@@ -1,9 +1,19 @@
+import { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import InlineInputs from "./InlineInputs";
-import MobileCardInput from "./MobileCardInput.js"
+import MobileCardInput from "./MobileCardInput.js";
 import classes from "./ScenarioAnalysisCard.module.css";
 
 function ScenarioAnalysisCard() {
+  let [analysisState, setAnalysisState] = useState([
+    {
+      savingsDeposits: "",
+      investmentsDeposits: "",
+    },
+  ]);
+
+  console.log(analysisState)
+
   return (
     <div className={classes.baseContainer}>
       <Row>
@@ -11,19 +21,47 @@ function ScenarioAnalysisCard() {
           <div className={classes.formWrapper}>
             <h4>Scenario Analysis</h4>
             <div className={classes.desktopInput}>
-              <InlineInputs label="Amounts to deposit on savings per month" inputType = "number" />
-              <InlineInputs label="Amounts to add on investments per month" inputType = "number"/>
+              <InlineInputs
+                label="Amounts to deposit on savings per month"
+                inputType="number"
+                currentValues = {analysisState}
+                updateCurrentValues = {setAnalysisState}
+                objectIndex = {0}
+                inputIndex = {0}
+              />
+              <InlineInputs
+                label="Amounts to add on investments per month"
+                inputType="number"
+                currentValues = {analysisState}
+                updateCurrentValues = {setAnalysisState}
+                objectIndex = {0}
+                inputIndex ={1}
+              />
             </div>
             <div className={classes.mobileInput}>
-              <MobileCardInput entryTitle = "Amounts to deposit on savings per month" entryType = "number"/>
-              <MobileCardInput entryTitle = "Amounts to deposit on investments per month" entryType = "number"/>
+              <MobileCardInput
+                entryTitle="Amounts to deposit on savings per month"
+                entryType="number"
+                currentValues = {analysisState}
+                updateCurrentValues = {setAnalysisState}
+                objectIndex = {0}
+                inputIndex ={0}
+              />
+              <MobileCardInput
+                entryTitle="Amounts to deposit on investments per month"
+                entryType="number"
+                currentValues = {analysisState}
+                updateCurrentValues = {setAnalysisState}
+                objectIndex = {0}
+                inputIndex ={1}
+              />
             </div>
             <div className={classes.buttonHolder}>
               <button className={classes.formButton}>Use Averages</button>
               <button className={classes.formButton}>Calculate Rate</button>
             </div>
           </div>
-        </Col>  
+        </Col>
         <Col lg={5}>
           <div className={classes.flexWrapper}>
             <div className={classes.infoHolder}>

@@ -7,7 +7,8 @@ import SavingsInsightCard from "../components/layout/SavingsInsightCard.js";
 import ScenarioAnalysisCard from "../components/layout/forms/ScenarioAnalysisCard.js";
 import SavingsAndInvDepositsForm from "../components/layout/forms/SavingsAndInvDepositsForm.js";
 import Card from "../components/layout/Card.js";
-import { Line } from 'react-chartjs-2';
+import { Line } from "react-chartjs-2";
+import { useState } from "react";
 
 import { labels, options } from "../components/Charts.js";
 
@@ -67,9 +68,14 @@ export const lineDataSavings = {
   ],
 };
 
-
-
 function SavingsPage() {
+  let [savingsState, setSavingsState] = useState([{ savingsDepost: "" }]);
+  let [investmentsState, setInvestmentsState] = useState([
+    {
+      prevValue: "",
+      investmentsDeposit: "",
+    },
+  ]);
   return (
     <div className="contentContainer">
       <NavBar />
@@ -180,7 +186,9 @@ function SavingsPage() {
             <SavingsAndInvDepositsForm
               title="Savings Deposit"
               labels={["Amount to deposit on savings this month"]}
-              inputTypes = {["number"]}
+              inputTypes={["number"]}
+              currentValues={savingsState}
+              updateCurrentValues={setSavingsState}
             />
           </Col>
         </Row>
@@ -193,6 +201,8 @@ function SavingsPage() {
                 "Amount to deposit to your investments account right now",
               ]}
               inputTypes = {["number", "number"]}
+              currentValues={investmentsState}
+              updateCurrentValues={setInvestmentsState}
             />
           </Col>
         </Row>
