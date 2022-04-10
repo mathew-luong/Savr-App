@@ -1,4 +1,26 @@
 const dbConfig = require("../config/db.config.js");
+
+const mysql = require("mysql2");
+
+// Open the connection to MySQL server
+const connection = mysql.createConnection({
+  host: dbConfig.HOST,
+  user: dbConfig.USER, 
+  password: dbConfig.PASSWORD,
+});
+
+// Run create database statement
+connection.query(
+  `CREATE DATABASE IF NOT EXISTS savrDB`,
+  function (err, results) {
+    console.log(results);
+    console.log(err);
+  }
+);
+
+// Close the connection
+connection.end();
+
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
