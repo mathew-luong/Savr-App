@@ -7,7 +7,7 @@ const Op = db.Sequelize.Op;
 // Create new user for sign up
 exports.create = (req, res) => {
     // Validate request
-    if (!req.body.username || !req.body.password || !req.body.type) {
+    if (!req.body.username || !req.body.password) {
         res.status(400).send({
           message: "Did not receive all required sign up information: username, password and type!"
         });
@@ -28,7 +28,9 @@ exports.create = (req, res) => {
             // Save User in the database
             Users.create(user)
             .then(data => {
-              res.send(data.id);
+              res.send({
+                userId: data.id}
+                );
             })
             .catch(err => {
               res.status(500).send({
@@ -64,6 +66,15 @@ exports.findUsername = (req, res) => {
       ]
     }
   }).then(data => {
-      res.send(data.id)
+      if (data){
+      res.send({
+        userId:data.id
+      })
+    }else{
+      res.status(400).send({
+        message: "Invalid Login!"
+      });
+      return;
+    }
   })
 };
