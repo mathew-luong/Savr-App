@@ -6,7 +6,6 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Card from "../components/layout/Card.js";
 import ExpensesModal from "../components/layout/ExpensesModal.js";
-import RecentExpensesModal from "../components/layout/RecentExpensesModal.js";
 import FormCard from "../components/layout/forms/FormCard";
 
 // Import configuration options and functions for barchart/linechart

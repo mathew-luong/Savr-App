@@ -15,6 +15,7 @@ function LoginPage(){
 
         // Check if username in db and if pwd matches??
         console.log("This is username: " + username + " Password: " + password);
+        
 
         // Login successful, navigate to dashboard page
         navigate("/dashboard");

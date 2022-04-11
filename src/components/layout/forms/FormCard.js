@@ -4,8 +4,6 @@ import FormInputList from "./FormInputList";
 
 function FormCard(props) {
 
-  //State will be in the form card
-
   let itemWidth;
   let numItems = props.titles.length;
   itemWidth = (1 / numItems) * 100;
