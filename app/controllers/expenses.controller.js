@@ -42,7 +42,8 @@ exports.createPrecision = (req, res) => {
 };
 
 exports.createEstimation = (req, res) => {
-        // Validate request    
+        const userId = None;
+        // Validate request
         req.body.forEach(function(entry, index) {
             if (!entry.userID || !entry.category || !entry.date || !entry.percentageOfTotalIncome) {
                 res.status(400).send({
@@ -50,9 +51,10 @@ exports.createEstimation = (req, res) => {
                 });
                 return;
             }
+            userId = entry.userID
         });
 
-        const userId = req.body[0].userId
+        
         var income;
         const date = new Date();
         const firstDay = new Date(date.getFullYear(), date.getMonth()-1, 1);
