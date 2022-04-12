@@ -9,7 +9,7 @@ import SavingsAndInvDepositsForm from "../components/layout/forms/SavingsAndInvD
 import Card from "../components/layout/Card.js";
 import { Line } from "react-chartjs-2";
 import { useContext, useEffect, useState } from "react";
-import { getSavingsTimeSeries } from "../services/savingsPage.js";
+import { aggregateSameMonthData, getSavingsTimeSeries } from "../services/savingsPage.js";
 import { labels, options } from "../components/Charts.js";
 import GeneralContext from "../services/userContext.js";
 
@@ -82,6 +82,10 @@ function SavingsPage() {
     },
   ]);
 
+  let [savingsButtonSubmit, setSavingsButtonSubmit] = useState(true);
+  let [investmentsButtonSubmit, setInvestmentsButtonSubmit] = useState(true);
+
+
   useEffect(()=> {
     async function callSavingsTimeSeries(){
       let res = await getSavingsTimeSeries(userID, 6)
@@ -89,8 +93,14 @@ function SavingsPage() {
       return res
     }
     let response = callSavingsTimeSeries();
-    console.log(response)
-  })
+    response.then(res =>{
+      let months = aggregateSameMonthData(res.data)
+      console.log(months)
+    })
+
+
+
+  }, [savingsButtonSubmit])
 
   return (
     <div className="contentContainer">
@@ -205,6 +215,8 @@ function SavingsPage() {
               inputTypes={["number"]}
               currentValues={savingsState}
               updateCurrentValues={setSavingsState}
+              buttonSubmit = {savingsButtonSubmit}
+              buttonChange = {setSavingsButtonSubmit}
             />
           </Col>
         </Row>
@@ -219,6 +231,8 @@ function SavingsPage() {
               inputTypes = {["number", "number"]}
               currentValues={investmentsState}
               updateCurrentValues={setInvestmentsState}
+              buttonSubmit = {investmentsButtonSubmit}
+              buttonChange = {setInvestmentsButtonSubmit}
             />
           </Col>
         </Row>

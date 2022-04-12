@@ -66,3 +66,28 @@ export async function getSavingsTimeSeries(userID, numMonths){
         return "error"
     }
 }
+
+export function aggregateSameMonthData(amountsObjectArray){
+
+    let aggregatedObject = {}
+    let arrayLength = amountsObjectArray.length;
+
+    for (let i =0; i < arrayLength; i++){
+        
+        let existingMonths = Object.keys(aggregatedObject)
+        console.log(existingMonths)
+        let entryMonth = amountsObjectArray[i]['month']
+        let entryAmount = amountsObjectArray[i]['amount']
+
+        if(existingMonths.indexOf(entryMonth) !== -1){
+            let currentValue = aggregatedObject[entryMonth]
+            aggregatedObject[entryMonth] =  entryAmount + currentValue
+        }
+        else{
+            aggregatedObject[entryMonth] = entryAmount
+        }
+        
+    }
+
+    return aggregatedObject;
+}   
