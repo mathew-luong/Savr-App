@@ -3,7 +3,7 @@ module.exports = app => {
     var router = require("express").Router();
     
     router.post("/", expenseTargets.create);
-    router.get("/:userID?", expenseTargets.getTargets);
+    router.get("/:userID", expenseTargets.getTargets);
 
     app.use('/api/expenseTargets', router);
   };
