@@ -13,7 +13,7 @@ exports.create = (req, res) => {
         });
         return;
       }
-    // Create a message
+    // Create a message object
     const message = {
         fromUserId: req.body.fromUserID,
         toUserId: req.body.toUserID,
@@ -21,6 +21,8 @@ exports.create = (req, res) => {
         subject: req.body.subject,
         content: req.body.body
         };
+
+    // Create message in DB
     SupportInbox.create(message)
     .then(data => {
         res.send(data);
@@ -42,6 +44,8 @@ exports.get = (req, res) => {
         return;
     }
     const userId = req.params.userID;
+
+    // Find user type (normal/support) and return appropriate messages
     Users.findOne({
       where: {
         id: userId
