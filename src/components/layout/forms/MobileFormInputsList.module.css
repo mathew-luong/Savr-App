@@ -2,3 +2,8 @@
     overflow-y: auto;
     height: 12rem;
 }
+
+.inputsLines {
+    /* border-bottom: 1px dotted lightgray;
+    margin-bottom: 10px; */
+}

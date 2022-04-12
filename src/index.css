@@ -158,6 +158,7 @@ code {
     padding: 0.25rem 0.5rem;
     color:#FFF;
     background-color: #E5355F;
+    margin-right: 1.2rem;
 }
 
 .expManageBtn:active {
@@ -169,7 +170,7 @@ code {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    margin-right: 1.25rem;
+    margin-bottom: 1rem;
 }
 
 .viewDropdown{
@@ -183,6 +184,23 @@ code {
     border: none !important;
     margin-right: 1rem;
 }
+
+@media screen and (max-width: 992px){
+    .desktopExpensesInput{
+        display: none;
+    }
+}
+
+@media screen and (min-width: 992px){
+    .mobileExpensesInput{
+        display: none;
+    }
+}
+
+
+/* .desktopExpensesInput{
+    height: 100%;
+} */
 
 /* Expenses page -------------------------------------------------------------- */
 
@@ -381,6 +399,20 @@ body {
         display: none !important;
     }
 }
+
+@media screen and (min-width: 768px){
+    .inputMobileCard{
+        display: none !important;
+    }
+}
+
+
+@media screen and (max-width: 768px){
+    .inputDesktopCard{
+        display: none !important;
+    }
+}
+
 
 
 

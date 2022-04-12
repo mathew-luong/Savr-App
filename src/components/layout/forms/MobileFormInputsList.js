@@ -1,27 +1,27 @@
-import classes from "./MobileFormInputsList.module.css"
+import classes from "./MobileFormInputsList.module.css";
 import MobileCardInput from "./MobileCardInput";
 
 function MobileFormInputsList(props) {
-    
-    let inputForms = [];
-    // let fullForm = (
-    //     <div>
-    //     {props.titles.map((entryTitle,i) => {
-    //         return <MobileCardInput entryTitle={entryTitle} key={i}/>;
-    //     })}
-    //     </div>
-    // );
-    for(let i=0;i<props.formsNum;i++){
-        // inputForms.push(fullForm)
-        inputForms.push(
-            <div key={i}>
-            {props.titles.map((entryTitle,j) => {
-                return <MobileCardInput entryTitle={entryTitle} key={j} entryType = {props.entryTypes[j]}/>;
-            })}
-            </div>
-        );
-    }
-
+  let inputForms = [];
+  for (let i = 0; i < props.formsNum; i++) {
+    inputForms.push(
+      <div key={i} className={classes.inputsLines}>
+        {props.titles.map((entryTitle, j) => {
+          return (
+            <MobileCardInput
+              entryTitle={entryTitle}
+              key={j}
+              entryType={props.entryTypes[j]}
+              currentValues = {props.currentValues}
+              updateCurrentValues = {props.updateCurrentValues}
+              objectIndex = {i}
+              inputIndex = {j}
+            />
+          );
+        })}
+      </div>
+    );
+  }
 
   return (
     <div className={classes.formHolder}>

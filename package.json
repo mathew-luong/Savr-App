@@ -14,22 +14,29 @@
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^0.26.1",
     "bootstrap": "^5.1.3",
     "chart.js": "^3.7.1",
+    "cors": "^2.8.5",
     "express": "^4.17.3",
+    "mysql2": "^2.3.3",
     "react": "^17.0.2",
     "react-bootstrap": "^2.2.1",
     "react-chartjs-2": "^4.0.1",
     "react-dom": "^17.0.2",
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
+    "sequelize": "^6.18.0",
+    "socket.io": "^4.4.1",
+    "socket.io-client": "^4.4.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "startserver": "nodemon node chatserver.js"
   },
   "eslintConfig": {
     "extends": [

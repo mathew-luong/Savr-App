@@ -5,24 +5,23 @@ import Col from 'react-bootstrap/Col';
 import Card from '../components/layout/Card.js';
 import SupportChatBox from '../components/layout/SupportChatBox.js';
 
-function SupportPage(){
+function SupportPage() {
 
     let inboxMsgs = [
-        {subject: "RE: Personal Info Update", text: "This is a message regarding your personal info..."},
-        {subject: "RE: Bugs", text: "This is a message regarding some bugs you've encountered"},
-        {subject: "New features", text: "Look at these newly included features in update 1.0!!"},
-        {subject: "RE: Personal Info Update", text: "This is a message regarding your personal info..."},
-        {subject: "RE: Bugs", text: "This is a message regarding some bugs you've encountered"},
-        {subject: "New features", text: "Look at these newly included features in update 1.0!!"},
-        {subject: "RE: Personal Info Update", text: "This is a message regarding your personal info..."},
-        {subject: "RE: Bugs", text: "This is a message regarding some bugs you've encountered"},
-        {subject: "New features", text: "Look at these newly included features in update 1.0!!"}
+        { subject: "RE: Personal Info Update", text: "This is a message regarding your personal info..." },
+        { subject: "RE: Bugs", text: "This is a message regarding some bugs you've encountered" },
+        { subject: "New features", text: "Look at these newly included features in update 1.0!!" },
+        { subject: "RE: Personal Info Update", text: "This is a message regarding your personal info..." },
+        { subject: "RE: Bugs", text: "This is a message regarding some bugs you've encountered" },
+        { subject: "New features", text: "Look at these newly included features in update 1.0!!" },
+        { subject: "RE: Personal Info Update", text: "This is a message regarding your personal info..." },
+        { subject: "RE: Bugs", text: "This is a message regarding some bugs you've encountered" },
+        { subject: "New features", text: "Look at these newly included features in update 1.0!!" }
     ]
-
 
     return (
         <div className='contentContainer'>
-            <NavBar/>
+            <NavBar />
             <Container fluid className="pageContainer">
                 <Row>
                     <h3 className='dashboardHeader'>How can we help you?</h3>
@@ -33,16 +32,16 @@ function SupportPage(){
                             <h4 className='supportFormHeader'>Inbox</h4>
                             <ul className="supportInboxContainer">
                                 {
-                                    inboxMsgs.map((msg,i) => {
+                                    inboxMsgs.map((msg, i) => {
                                         return (
-                                        <li className="supportInboxLi" key={i}>
-                                            <h5>
-                                                {msg.subject}
-                                            </h5>
-                                            <span>
-                                                {msg.text}
-                                            </span>
-                                        </li>
+                                            <li className="supportInboxLi" key={i}>
+                                                <h5>
+                                                    {msg.subject}
+                                                </h5>
+                                                <span>
+                                                    {msg.text}
+                                                </span>
+                                            </li>
                                         );
                                     })
                                 }
@@ -66,7 +65,7 @@ function SupportPage(){
                         </Card>
                     </Col>
                 </Row>
-                <SupportChatBox/>
+                <SupportChatBox />
             </Container>
         </div>
     );

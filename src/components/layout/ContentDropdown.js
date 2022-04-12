@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import classes from "./ContentDropdown.module.css"
 
@@ -22,17 +21,25 @@ export default function ContentDropdown(props) {
         "Personal",
         "Other",
       ];
-    const [cat, setCat] = useState("Enter a Category");
     
     function clickHandler(e, category){
         e.preventDefault();
-        setCat(category); 
+        props.updateCurrentValues(previousValues => {
+          let newState = []
+          for(let i=0; i<previousValues.length; i++){
+            if(i === props.index){
+              previousValues[i]["category"] = category
+            }
+            newState.push(previousValues[i]);
+          }
+          return newState;
+        })
     }
 
   return (
       <Dropdown style={{width: props.width}}>
         <Dropdown.Toggle variant="secondary" className={classes.button} style = {formCard ? {marginTop:"10px"}: {marginTop:"0px"}}>
-            {cat}
+            {props.toggleValue}
         </Dropdown.Toggle>
         <Dropdown.Menu variant="dark" className = {classes.ddmenu}>
             {categories.map((cat, i) => {
