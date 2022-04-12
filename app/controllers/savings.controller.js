@@ -8,6 +8,7 @@ const Expenses = db.expenses;
 const ExpenseTargets = db.expenseTargets;
 const SavingsGoals = db.savingsGoals;
 const Op = db.Sequelize.Op;
+const sequelize = db.Sequelize
 
 exports.create = (req, res) => {
     // Validate request
@@ -95,101 +96,144 @@ exports.savingsStats = (req, res) => {
         });
         return;
     }
+
+    // Required constants and variables for querying
     const userId = req.params.userID;
-    const totalFunds = 0;
+    const monthsNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+    var totalFunds = 0;
     const date = new Date();
-    const savingsGoalAmount = 0;
-    const savingsGoalDate = None;
-    const averageDepositSavings = 0;
-    const averageDepositInvestments = 0;
+    var savingsGoalAmount = 0;
+    var savingsGoalDate;
+    var averageDepositSavings = 0;
+    var averageDepositInvestments = 0;
+    var resultsArray = []
+
+    // Query required tables and calculate values
     Savings.sum('amount',{
         where:{
             userId:userId,
         }
     }).then(sum => {
         totalFunds+=sum;
-    })
-    Investments.sum('amount',{
-        where:{
-            userId:userId,
-        }
-    }).then(sum => {
-        totalFunds+=sum;
-    })
-    SavingsGoals.findOne({
-        attributes: [
-            sequelize.fn('MIN', sequelize.col('date'))
-         ],
-         where: {
-             [Op.and]:
-           { 
-            userId:userId,
-            date: {
-                [Op.gte]:date
-            }
-            }
-         }
-    }).then(data => {
-        if(data){
-            savingsGoalAmount = data.amount;
-            savingsGoalDate = data.date
-        }
-    })
-    const results = 0
-    const monthCount = 0
-    for (let i = 0; i < 12; i++) {
-        var firstDay = new Date(date.getFullYear(), date.getMonth()-i, 1);
-        var lastDay = new Date(date.getFullYear(), date.getMonth()+1-i , 0);
-        Savings.sum('amount',{
-            where:{
-                [Op.and]: {
-                userId:userId,
-                date: {
-                    [Op.gte]:firstDay,
-                    [Op.lte]:lastDay,
-                }
-                }
-            }
-        }).then(sum => {
-            results+=sum;
-            monthCount+=1;
-        }).catch(err => {
-        });
-    };
-    averageDepositSavings = results/monthCount;
-    results = 0
-    monthCount = 0
-    for (let i = 0; i < 12; i++) {
-        var firstDay = new Date(date.getFullYear(), date.getMonth()-i, 1);
-        var lastDay = new Date(date.getFullYear(), date.getMonth()+1-i , 0);
         Investments.sum('amount',{
             where:{
-                [Op.and]: {
                 userId:userId,
-                date: {
-                    [Op.gte]:firstDay,
-                    [Op.lte]:lastDay,
-                }
-                }
             }
         }).then(sum => {
-            results+=sum;
-            monthCount+=1;
-        }).catch(err => {
-        });
-    };
-    averageDepositInvestments = results/monthCount;
-    res.send(
-        {
-            latestTotalFunds: totalFunds,
-            savingGoals: {
-                savingsGoalsAmount: savingsGoalAmount,
-                savingsGoalDate: savingsGoalDate
-            },
-            averageDepositSavings: averageDepositSavings,
-            averageDepositInvestments: averageDepositInvestments
-        }
-    )
+            totalFunds+=sum;
+            SavingsGoals.findOne({
+                attributes: [
+                    sequelize.fn('MIN', sequelize.col('date')),
+                    'date',
+                    'amount'
+                 ],
+                 where: {
+                     [Op.and]:
+                   { 
+                    userId:userId,
+                    date: {
+                        [Op.gte]:date
+                    }
+                    }
+                 }
+            }).then(data => {
+                if(data){
+                    savingsGoalAmount = data.amount;
+                    savingsGoalDate = data.date
+                }
+                var results = 0
+                var monthCount = 0
+                
+                const firstDay = new Date(date.getFullYear(), date.getMonth()-12, 1);
+                const lastDay = new Date(date.getFullYear(), date.getMonth()+1 , 0);
+
+                // Get all savings and aggregare results
+                Savings.findAll({
+                    where:{
+                        [Op.and]: {
+                        userId:userId,
+                        date: {
+                            [Op.gte]:firstDay,
+                            [Op.lte]:lastDay,
+                        }
+                        }
+                    }
+                }).then(data => {
+                    data.forEach(function(entry,index){
+                        var month = entry.date.getMonth()
+                        if (!resultsArray[month]){
+                            resultsArray[month] = ({
+                                month: monthsNames[month],
+                                amount: entry.amount
+                            })
+                        }
+                        else{
+                            resultsArray[month].amount+=entry.amount
+                        }
+                    })
+                    var cleanResults = resultsArray.filter(element => {
+                        return element !== null;
+                    });
+                    cleanResults.forEach(function(entry,index){
+                        results+=entry.amount;
+                        monthCount+=1;
+                    })
+
+                    averageDepositSavings = results/monthCount;
+                    resultsArray = []
+                    results = 0
+                    monthCount = 0
+                    // Get all savings and aggregare results
+                    Investments.findAll({
+                        where:{
+                            [Op.and]: {
+                            userId:userId,
+                            date: {
+                                [Op.gte]:firstDay,
+                                [Op.lte]:lastDay,
+                            }
+                            }
+                        }
+                    }).then(data => {
+                        data.forEach(function(entry,index){
+                            var month = entry.date.getMonth()
+                            if (!resultsArray[month]){
+                                resultsArray[month] = ({
+                                    month: monthsNames[month],
+                                    amount: entry.amount
+                                })
+                            }
+                            else{
+                                resultsArray[month].amount+=entry.amount
+                            }
+                        })
+                        var cleanResults = resultsArray.filter(element => {
+                            return element !== null;
+                        });
+                        cleanResults.forEach(function(entry,index){
+                            results+=entry.amount;
+                            monthCount+=1;
+                        })
+                    averageDepositInvestments = results/monthCount;
+                    res.send(
+                        {
+                            latestTotalFunds: totalFunds,
+                            savingGoals: {
+                                savingsGoalsAmount: savingsGoalAmount,
+                                savingsGoalDate: savingsGoalDate
+                            },
+                            averageDepositSavings: averageDepositSavings,
+                            averageDepositInvestments: averageDepositInvestments
+                        }
+                    )
+                })
+            })
+        })
+
+        })
+        
+    })
+    
 };
 
 exports.savingsStringStats = (req, res) => {
@@ -200,16 +244,19 @@ exports.savingsStringStats = (req, res) => {
         });
         return;
     }
+
+    // Required constants and variables for querying and aggregating results
     const userId = req.params.userID;
     const category = None;
     const underspending = 0
-    //get expenses
     var expenses;
     const incomes = 0;
     var targets;
     const date = new Date();
     const firstDay = new Date(date.getFullYear(), date.getMonth()-1, 1);
     const lastDay = new Date(date.getFullYear(), date.getMonth() , 0);
+
+    // Query required tables and calculate required values
     Expenses.sum('amount',{
         where:{
             [Op.and]: {
