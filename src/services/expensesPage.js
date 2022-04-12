@@ -54,6 +54,7 @@ export function mapEstimationExpenses(estimationExpensesObject, userID){
 
 export function mapIncomeEntries(incomeEntriesObject, userID){
     let decisionBool = true
+    console.log(incomeEntriesObject)
     let mappedExpenses = incomeEntriesObject.map((incomeObject) => {
 
         decisionBool  = checkEmpties(incomeObject);

@@ -11,6 +11,7 @@ import {submitMessageAsNormalUser} from "../services/supportPage"
 function SupportPage() {
   let generalContext = useContext(GeneralContext);
   let userID = generalContext.userID;
+  let userType = generalContext.userType;
   console.log(userID);
 
   let subjectRef = useRef();
@@ -31,6 +32,21 @@ function SupportPage() {
     },
   ]);
 
+  const renderNav = (userKind) => {
+    if(userKind === true) {
+      return <NavBar />
+    }
+  }
+
+  const renderHeader = (userKind) => {
+    if (userKind === true){
+      return "Hey there! How can we help you?"
+    }
+    else{
+      return "Hello! Lets help some people out today"
+    }
+  }
+
   async function handleMessageSubmit(){
       let requestObject = {
           fromUserID: userID, 
@@ -42,10 +58,11 @@ function SupportPage() {
       let res = await submitMessageAsNormalUser(requestObject)
       console.log(res)
 
-      addInboxMessages((previousMessages)=>{
+      if(res !== "error"){
+        addInboxMessages((previousMessages)=>{
           return [...previousMessages, {subject:subjectRef.current.value, text: messageRef.current.value}]
-      })
-
+        })
+      }
       subjectRef.current.value = ""
       messageRef.current.value = ""
   }
@@ -53,10 +70,10 @@ function SupportPage() {
   console.log(inboxMessages)
   return (
     <div className="contentContainer">
-      <NavBar />
+      {renderNav(userType)}
       <Container fluid className="pageContainer">
         <Row>
-          <h3 className="dashboardHeader">How can we help you?</h3>
+          <h3 className="dashboardHeader">{renderHeader(userType)}</h3>
         </Row>
         <Row>
           <Col>

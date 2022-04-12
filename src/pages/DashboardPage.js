@@ -5,6 +5,8 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import GeneralContext from '../services/userContext.js';
+import {getTopDashboardInsights, getIncomes } from "../services/dashboardPage";
+
 
 // https://react-chartjs-2.netlify.app/components/bar
 import { Bar } from 'react-chartjs-2';
@@ -25,7 +27,7 @@ import {
     Tooltip,
     Legend,
 }   from 'chart.js';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend,  PointElement, LineElement);
 
@@ -40,6 +42,7 @@ lineChartData = [10000,140000,30000,40000,50000,60000,160000,80000,100000,100000
 
 // Updates the data for the month June(6) by $200
 updateBarChart(barChartData,6,200);
+
 
 
 
@@ -75,11 +78,29 @@ function DashboardPage(props){
     // Objects for props used for the small cards on the top of the dashboard page
     // Can be changed to props object later 
 
-    let context = useContext(GeneralContext)
-    console.log(context.userID)
+    let generalContext = useContext(GeneralContext)
+    let currentUserId = generalContext.userID
+    console.log(generalContext.userID)
+
+
+    useEffect(() => {
+        async () => {
+            let res = await getTopDashboardInsights(currentUserId)
+            console.log(res)
+        }
+    },)
+
+    // useEffect(async() => {
+        
+    //     let res = await getIncomes(currentUserId, "6")
+    //     console.log(res)
+
+    // },)
+
+
 
     let bal = {
-        header: "Balance",
+        header: "Total Funds",
         value: "2.4k",
         stat: "Up 24% ",
         time: "this month",
@@ -111,16 +132,16 @@ function DashboardPage(props){
             <Container fluid className="pageContainer">
                 <Row>
                     {/* Replace with name later */}
-                    <h3 className='dashboardHeader'>Hello User,</h3>
+                    <h3 className='dashboardHeader'>Hello {generalContext.username}!</h3>
                 </Row>
                 <Row>
-                    <Col md={4}>
+                    <Col lg={4}>
                         <DBCardSm {...bal}/>
                     </Col>
-                    <Col md={4}>
+                    <Col lg={4}>
                         <DBCardSm {...inc}/>
                     </Col>
-                    <Col md ={4}>
+                    <Col lg ={4}>
                         <DBCardSm {...exp}/>
                     </Col>
                 </Row>

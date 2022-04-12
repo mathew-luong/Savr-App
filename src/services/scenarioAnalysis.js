@@ -10,7 +10,7 @@ function determineLikeliness(rate){
         likeliness = "likely"
     }
     else{
-        likeliness = "highly likley "
+        likeliness = "highly likely "
     }
     return likeliness;
 

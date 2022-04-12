@@ -27,7 +27,9 @@ function SignUpPage() {
 
       let response = await addNewUser(userData);
       if (response !== "error") {
-          generalContext.setUserIdentification(response.data.userId)
+        generalContext.setUserIdentification(response.data.userId)
+        generalContext.setUsername(response.data.username)
+        generalContext.setType(response.data.type)
         console.log(response)
         navigate("/start-up");
       }

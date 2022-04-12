@@ -134,13 +134,13 @@ function SavingsPage() {
                 <Col>
                   <h4>Investment Fund</h4>
                 </Col>
-                <Col>
+                {/* <Col>
                   <div className="dbGoalTrack">
                     <span>YTD Return:</span>
                     <br />
                     <span className="dbGoalPercent">80%</span>
                   </div>
-                </Col>
+                </Col> */}
               </Row>
               {/* <Row> */}
               <div className="dbBarChartContainer">

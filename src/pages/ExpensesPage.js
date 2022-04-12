@@ -7,6 +7,7 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Card from "../components/layout/Card.js";
 import FormCard from "../components/layout/forms/FormCard";
 import GeneralContext from "../services/userContext.js";
+// import {Modal} from "react-bootstrap";
 import {mapPrecisionExpenses, 
   mapEstimationExpenses, 
   mapIncomeEntries, 
@@ -366,7 +367,7 @@ function ExpensesPage(props) {
       let responseIncomes = await submitIncomeEntries(incomeSubmission)
       console.log(responseIncomes)
     }
-
+    
     alert(`${precisionAlertString}\n${estimationAlertString}\n${incomeAlertString}`)
 
     navigate("/dashboard")

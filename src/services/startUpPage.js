@@ -43,7 +43,7 @@ export function mapExpenseTargets(expenseTargetObject, userID){
 export async function submitExpenseTargets(expensesObjArray){
     let res;
     try{
-        res = await axios.post(`${dbServerUrl}/api/expensesTargets/`, expensesObjArray)
+        res = await axios.post(`${dbServerUrl}/api/expenseTargets/`, expensesObjArray)
         return res
     }
     catch(err){
@@ -53,24 +53,49 @@ export async function submitExpenseTargets(expensesObjArray){
     }
 }
 
-// export async function submitSavings(savingsAmount){
-//     let savingsSubmissionObject = {
+export async function submitSavings(savingsAmount, userId){
 
-//     }
+    let savingsSubmissionObject = {
+        userID: userId,
+        date: getTodaysDate(),
+        amount: savingsAmount
+    }
 
-//     let res;
-//     try{
-//         res = await axios.post(`${dbServerUrl}/api/expensesTargets/`, expensesObjArray)
-//         return res
-//     }
-//     catch(err){
-//         let errString = err.response.data.message
-//         alert(errString)
-//         return "error"
-//     }
-// }
+    let res;
+    try{
+        res = await axios.post(`${dbServerUrl}/api/savings/deposit`, savingsSubmissionObject)
+        return res
+    }
+    catch(err){
+        let errString = err.response.data.message
+        alert(errString)
+        return "error"
+    }
+}
 
-export async function savingsGoals(goalObject, userId){
+
+export async function submitInvestments(investmentsAmount, userId){
+
+    let investmentsObject = {
+        userID: userId,
+        portfolioValueAtEndOfMonth: "0",
+        amount: investmentsAmount
+    }
+
+    console.log(investmentsObject)
+    let res;
+    try{
+        res = await axios.post(`${dbServerUrl}/api/investments/`, investmentsObject)
+        return res
+    }
+    catch(err){
+        let errString = err.response.data.message
+        alert(errString)
+        return "error"
+    }
+}
+
+export async function savingsGoalsSubmission(goalObject, userId){
 
     let dateArray = goalObject["goalDate"].split("-")
     let newDate = `${dateArray[1]}/${dateArray[2]}/${dateArray[0]}`   
@@ -80,6 +105,8 @@ export async function savingsGoals(goalObject, userId){
         date: newDate,  
         amount: goalObject["goal"]
     }
+
+    console.log(submissionGoalObject)
     let res;
     try{
         res = await axios.post(`${dbServerUrl}/api/savingsGoals/`, submissionGoalObject)
