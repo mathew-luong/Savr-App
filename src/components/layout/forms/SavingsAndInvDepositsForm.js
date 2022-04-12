@@ -29,6 +29,9 @@ export default function SavingsAndInvDepositsForm(props) {
         },
       ])
     }
+    props.buttonChange(previosVal => {
+      return !previosVal
+    })
   }
 
   console.log(props.currentValues);

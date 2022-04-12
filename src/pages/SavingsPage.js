@@ -43,25 +43,14 @@ lineChartData = [
   110000, 100020,
 ];
 
-export const lineDataInvestments = {
-  labels,
-  datasets: [
-    {
-      data: lineChartData,
-      backgroundColor: "#E5355F",
-      borderColor: "#E5355F", //#AD35E5
-      borderRadius: 10,
-      hoverBackgroundColor: "#E5355F",
-    },
-  ],
-};
+
 
 export const lineDataSavings = {
   labels,
   datasets: [
     {
       data: lineChartData,
-      backgroundColor: "#AD35E5",
+      backgroundColor: "#AD35E5", //"#E5355F"
       borderColor: "#AD35E5",
       borderRadius: 10,
       hoverBackgroundColor: "#AD35E5",
@@ -70,6 +59,22 @@ export const lineDataSavings = {
 };
 
 function SavingsPage() {
+
+  const lineData = (labels, data, color) => {
+    return {
+      labels,
+      datasets: [
+        {
+          data: data ,
+          backgroundColor: color,
+          borderColor: color, 
+          borderRadius: 10,
+          hoverBackgroundColor: color,
+        },
+      ],
+    };
+    
+  }
 
   let generalContext = useContext(GeneralContext);
   let userID = generalContext.userID;
@@ -84,6 +89,8 @@ function SavingsPage() {
 
   let [savingsButtonSubmit, setSavingsButtonSubmit] = useState(true);
   let [investmentsButtonSubmit, setInvestmentsButtonSubmit] = useState(true);
+  let [savingsMonths, setSavingsMonths] = useState();
+  let [savingsTimeSeries, setSavingsSeries] = useState();
 
 
   useEffect(()=> {
@@ -94,11 +101,20 @@ function SavingsPage() {
     }
     let response = callSavingsTimeSeries();
     response.then(res =>{
-      let months = aggregateSameMonthData(res.data)
-      console.log(months)
+
+      let months = []
+      let dataPoints = []
+
+      res.data.map((obj)=>{
+        months.push(obj['month'])
+        dataPoints.push(obj['amount'])
+      })
+
+      setSavingsMonths(months);
+      setSavingsSeries(dataPoints)
+
+      console.log(res.data)
     })
-
-
 
   }, [savingsButtonSubmit])
 
@@ -173,7 +189,7 @@ function SavingsPage() {
                 <Line
                   className="dbBarChart"
                   options={options}
-                  data={lineDataInvestments}
+                  data={lineDataSavings}
                 />
               </div>
               {/* </Row> */}
@@ -200,7 +216,7 @@ function SavingsPage() {
                 <Line
                   className="dbBarChart"
                   options={options}
-                  data={lineDataSavings}
+                  data={lineData(savingsMonths, savingsTimeSeries, "#AD35E5")}
                 />
               </div>
               {/* </Row> */}
