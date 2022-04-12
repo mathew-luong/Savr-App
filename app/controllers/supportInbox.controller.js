@@ -50,7 +50,10 @@ exports.get = (req, res) => {
       if (data.type = 1){
         SupportInbox.findAll({
           where: {
-              toUserId: userId  
+            [Op.or]:{
+              toUserId: userId,
+              fromUserId: userId
+            }
           }
         }).then(data => {
             if(data){
