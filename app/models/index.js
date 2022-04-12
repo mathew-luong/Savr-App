@@ -82,12 +82,5 @@ db.savingsGoals.belongsTo(db.users, {
   as: "user",
 });
 
-db.users.hasMany(db.supportInbox, { as: "supportInbox" });
-db.supportInbox.belongsTo(db.users, {
-  foreignKey: "userId",
-  as: "toUserId",
-});
-
-
 
 module.exports = db;
