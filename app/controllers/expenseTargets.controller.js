@@ -39,13 +39,13 @@ exports.create = (req, res) => {
 
 exports.getTargets = (req, res) => {
     // Validate request
-    if (!req.param('userID')) {
+    if (!req.params.userID) {
         res.status(400).send({
             message: "Did not receive all required information: userID!"
         });
         return;
     }
-    const userId = req.param('userID');
+    const userId = req.params.userID;
     expenseTargets.findAll({
         where: {
           userId: userId

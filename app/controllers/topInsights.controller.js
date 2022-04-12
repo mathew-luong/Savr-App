@@ -7,8 +7,6 @@ const Op = db.Sequelize.Op;
 
 
 exports.getInsights = (req, res) => {
-    
-    console.log(req.params.userID)
     // Validate request
     if (!req.params.userID) {
         res.status(400).send({
@@ -37,6 +35,9 @@ exports.getInsights = (req, res) => {
             }
         }
     }).then(sum => {
+        if(sum==null){
+            sum = 0;
+        }
         totalFunds.push(sum)
         Investments.sum('amount',{
             where:{
@@ -49,6 +50,9 @@ exports.getInsights = (req, res) => {
                 }
             }
         }).then(sum => {
+            if(sum==null){
+                sum = 0;
+            }
             totalFunds[0]+=sum
             Savings.sum('amount',{
                 where:{
@@ -61,6 +65,9 @@ exports.getInsights = (req, res) => {
                     }
                 }
             }).then(sum => {
+                if(sum==null){
+                    sum = 0;
+                }
                 totalFunds.push(sum)
                 Investments.sum('amount',{
                     where:{
@@ -73,6 +80,9 @@ exports.getInsights = (req, res) => {
                         }
                     }
                 }).then(sum => {
+                    if(sum==null){
+                        sum = 0;
+                    }
                     totalFunds[1]+=sum
                     Incomes.sum('amount',{
                         where:{
@@ -85,6 +95,9 @@ exports.getInsights = (req, res) => {
                             }
                         }
                     }).then(sum => {
+                        if(sum==null){
+                            sum = 0;
+                        }
                         incomes.push(sum)
                         Incomes.sum('amount',{
                             where:{
@@ -97,6 +110,9 @@ exports.getInsights = (req, res) => {
                                 }
                             }
                         }).then(sum => {
+                            if(sum==null){
+                                sum = 0;
+                            }
                             incomes.push(sum)
                             Expenses.sum('amount',{
                                 where:{
@@ -109,6 +125,9 @@ exports.getInsights = (req, res) => {
                                     }
                                 }
                             }).then(sum => {
+                                if(sum==null){
+                                    sum = 0;
+                                }
                                 expenses.push(sum)
                                 Expenses.sum('amount',{
                                     where:{
@@ -121,6 +140,10 @@ exports.getInsights = (req, res) => {
                                         }
                                     }
                                 }).then(sum => {
+                                    console.log(sum)
+                                    if(sum==null){
+                                        sum = 0;
+                                    }
                                     expenses.push(sum)
                                     res.send({
                                         totalFunds: totalFunds,

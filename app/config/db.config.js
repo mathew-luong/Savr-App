@@ -1,3 +1,4 @@
+// MySQL DB Configuration
 module.exports = {
     HOST: "localhost",
     USER: "admin",

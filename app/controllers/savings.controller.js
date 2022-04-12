@@ -35,37 +35,16 @@ exports.create = (req, res) => {
 });
 };
 
-//TODO: Remove?
-exports.scenarioAnalysis = (req, res) => {
-    // Validate request
-    if (!req.param('userID')||!req.param('savings')||!req.param('investments')) {
-        res.status(400).send({
-            message: "Did not receive all required information: userID, savings and investments!"
-        });
-        return;
-    }
-    const userId = req.param('userID');
-    const savings = req.param('savings');
-    const investments = req.param('investments');
-
-    // TODO: Use formula, currently returning placeholders
-    res.send({
-        annual: 5,
-        monthly: 0.4,
-        probability: "likely"
-    })
-};
-
 exports.getSavings = (req, res) => {
     // Validate request
-    if (!req.param('months')||!req.param('userId')) {
+    if (!req.params.months||!req.params.userID) {
         res.status(400).send({
             message: "Did not receive all required information: userID and months!"
         });
         return;
     }
-    const userId = req.param('userID');
-    const months = req.param('months');
+    const userId = req.params.userID;
+    const months = req.params.months;
     const date = new Date();
     var monthsNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
     const results = []
@@ -95,13 +74,13 @@ exports.getSavings = (req, res) => {
 
 exports.savingsStats = (req, res) => {
     // Validate request
-    if (!req.param('userID')) {
+    if (!req.params.userID) {
         res.status(400).send({
             message: "Did not receive all required information: userID!"
         });
         return;
     }
-    const userId = req.param('userID');
+    const userId = req.params.userID;
     const totalFunds = 0;
     const date = new Date();
     const savingsGoalAmount = 0;
@@ -200,13 +179,13 @@ exports.savingsStats = (req, res) => {
 
 exports.savingsStringStats = (req, res) => {
     // Validate request
-    if (!req.param('userID')) {
+    if (!req.params.userID) {
         res.status(400).send({
             message: "Did not receive all required information: userID!"
         });
         return;
     }
-    const userId = req.param('userID');
+    const userId = req.params.userID;
     const category = None;
     const underspending = 0
     //get expenses
