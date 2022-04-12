@@ -15,7 +15,7 @@ exports.create = (req, res) => {
     // Create savings
     const investments = {
         userId: req.body.userID,
-        date: new DATE(),
+        date: new Date(),
         amount: req.body.amount,
         portfolioAmount: req.body.portfolioValueAtEndOfMonth
     };
