@@ -8,17 +8,22 @@ const Op = db.Sequelize.Op;
 
 exports.getInsights = (req, res) => {
     // Validate request
-    if (!req.param('userID')) {
+    if (!req.param.userID) {
         res.status(400).send({
             message: "Did not receive all required information: userID!"
         });
         return;
     }
-    const userId = req.param('userID');
-    const totalFunds = []
-    const incomes = []
-    const expenses = []
-
+    const userId = req.param.userID
+    const totalFunds = [];
+    const incomes = [];
+    const expenses = [];
+    const totalFundsPrev = 0;
+    const totalFundsCurr = 0;
+    const incomesPrev = 0;
+    const incomesCurr = 0;
+    const expensesPrev = 0;
+    const expensesCurr = 0;
     const date = new Date();
     const firstDayPrev = new Date(date.getFullYear(), date.getMonth()-2, 1);
     const lastDayPrev = new Date(date.getFullYear(), date.getMonth()-1 , 0);
