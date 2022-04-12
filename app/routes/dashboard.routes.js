@@ -4,7 +4,7 @@ module.exports = app => {
     var router = require("express").Router();
 
     router.get("/topInsights/:userID", topInsights.getInsights);
-    router.get("/income/:userID/months={integer}", incomes.getMonthly);
+    router.get("/income/:userID/:months", incomes.getMonthly);
   
     app.use('/api/dashboard', router);
   };
