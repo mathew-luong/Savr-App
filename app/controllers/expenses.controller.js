@@ -1,10 +1,14 @@
 // Controller reference: https://www.bezkoder.com/node-js-express-sequelize-mysql/#Create_the_Controller
 
+// Database objects required to query
 const db = require("../models");
 const Expenses = db.expenses;
 const Incomes = db.incomes;
+
+// Operations objects for queries involving logical and mathematical operations
 const Op = db.Sequelize.Op;
 
+// Creates expenses entry with exact data passed for userID
 exports.createPrecision = (req, res) => {
     // Validate request    
     req.body.forEach(function(entry, index) {
@@ -13,89 +17,97 @@ exports.createPrecision = (req, res) => {
                 message: "Did not receive all required expenses information: userID, name, date , category and amount!"
             });
             return;
-        }
-        
+        } 
     });
+
+    // Create array of expense entries to be created in db
     const expenses = []
     req.body.forEach(function(entry, index) { 
-    // Create expenses
-      const expense = {
-        userId: entry.userID,
-        name: entry.name,
-        category: entry.category,
-        date: entry.date,
-        amount: entry.amount
-      };
-      expenses.push(expense)
-
+        const expense = {
+            userId: entry.userID,
+            name: entry.name,
+            category: entry.category,
+            date: entry.date,
+            amount: entry.amount
+        };
+        expenses.push(expense)
     });
+
+    // Bulk create array entries in DB and return entry results
     Expenses.bulkCreate(expenses)
     .then(data => {
         res.send(data);
     })
     .catch(err => {
-    res.status(500).send({
-        message:
-        err.message || "Some error occurred while creating the expense entry."
-    });
+        res.status(500).send({
+            message:
+            err.message || "Some error occurred while creating the expense entry."
+        });
     });
 };
 
+// Creates expenses entry with extimated percentage of income passed for userID
 exports.createEstimation = (req, res) => {
-        const userId = None;
-        // Validate request
-        req.body.forEach(function(entry, index) {
-            if (!entry.userID || !entry.category || !entry.date || !entry.percentageOfTotalIncome) {
-                res.status(400).send({
-                    message: "Did not receive all required expenses information: userID, category, date and percentage of income!"
-                });
-                return;
-            }
-            userId = entry.userID
-        });
+    const userId = None;
 
-        
-        var income;
-        const date = new Date();
-        const firstDay = new Date(date.getFullYear(), date.getMonth()-1, 1);
-        const lastDay = new Date(date.getFullYear(), date.getMonth() , 0);
-        Incomes.sum('amount',{
-            where:{
-                [Op.and]: {
+    // Validate request
+    req.body.forEach(function(entry, index) {
+        if (!entry.userID || !entry.category || !entry.date || !entry.percentageOfTotalIncome) {
+            res.status(400).send({
+                message: "Did not receive all required expenses information: userID, category, date and percentage of income!"
+            });
+            return;
+        }
+        userId = entry.userID
+    });
+
+    // Retrieve latest income for expense amount calculation
+    var income;
+    const date = new Date();
+    const firstDay = new Date(date.getFullYear(), date.getMonth()-1, 1);
+    const lastDay = new Date(date.getFullYear(), date.getMonth() , 0);
+    Incomes.sum('amount',{
+        where:{
+            [Op.and]: {
                 userID:userId,
                 date: {
                     [Op.gte]:firstDay,
                     [Op.lte]:lastDay,
                 }
-                }
             }
-        }).then(sum => {
-            income = sum
-        })
-        const expenses = []
-        req.body.forEach(function(entry, index) { 
-        // Create expenses
-          const expense = {
+        }
+    }).then(sum => {
+        income = sum
+    })
+
+    // Create array of expense entries to be created in db 
+    const expenses = []
+    req.body.forEach(function(entry, index) { 
+        const expense = {
             userId: entry.userID,
             category: entry.category,
             date: entry.date,
             amount: entry.percentageOfTotalIncome * income
-          };
-          expenses.push(expense)
+        };
+        expenses.push(expense)
     });
+
+// Bulk create array entries in DB and return entry results
     Expenses.bulkCreate(expenses)
     .then(data => {
-      res.send(data);
+        res.send(data);
     })
     .catch(err => {
-      res.status(500).send({
+        res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the expense entry."
-  });
-  });
+            err.message || "Some error occurred while creating the expense entry."
+        });
+    });
 };
 
+// Calculates % change in expenses for userId over last two months
 exports.expensesInsightsChange = (req, res) => {  
+    // Validate request    
     if (!req.param('userID')) {
         res.status(400).send({
             message: "Did not receive all required information: userID!"
@@ -103,6 +115,7 @@ exports.expensesInsightsChange = (req, res) => {
         return;
     }
     
+    // Required constants and variables for query parameters and results
     const userId = req.param('userID');
     var expensePrev;
     var expenseCurr;
@@ -111,56 +124,66 @@ exports.expensesInsightsChange = (req, res) => {
     const lastDayPrev = new Date(date.getFullYear(), date.getMonth()-1 , 0);
     const firstDayCurr = new Date(date.getFullYear(), date.getMonth()-1, 1);
     const lastDayCurr = new Date(date.getFullYear(), date.getMonth() , 0);
+
+    // Get previous month's total expenses
     Expenses.sum('amount',{
         where:{
             [Op.and]: {
-            userID:userId,
-            date: {
-                [Op.gte]:firstDayPrev,
-                [Op.lte]:lastDayPrev,
-            }
+                userID:userId,
+                date: {
+                    [Op.gte]:firstDayPrev,
+                    [Op.lte]:lastDayPrev,
+                }
             }
         }
     }).then(sum => {
         expensePrev = sum
     })
+
+    // Get current month's total expenses
     Expenses.sum('amount',{
         where:{
             [Op.and]: {
-            userID:userId,
-            date: {
-                [Op.gte]:firstDayCurr,
-                [Op.lte]:lastDayCurr,
-            }
+                userID:userId,
+                date: {
+                    [Op.gte]:firstDayCurr,
+                    [Op.lte]:lastDayCurr,
+                }
             }
         }
     }).then(sum => {
         expenseCurr = sum
     })
+
+    // Calculate % change and return result
     const percentChange = (expenseCurr-expensePrev)/expensePrev
     res.send({
         percentChange: percentChange
     })
 };
 
+// Find overspent category and return length of overspending period
 exports.expenseInsightsOverspent = (req, res) => {
     // Validate request
-    if (!req.param('userID')) {
+    if (!req.params.userID) {
         res.status(400).send({
             message: "Did not receive all required information: userID!"
         });
         return;
     }
-    const userId = req.param('userID');
+
+    // Required constants and variables for query parameters and results
+    const userId = req.params.userID;
     const category = None;
     const months = 0
-    //get expenses
     var expenses;
     const incomes = 0;
     var targets;
     const date = new Date();
     const firstDay = new Date(date.getFullYear(), date.getMonth()-1, 1);
     const lastDay = new Date(date.getFullYear(), date.getMonth() , 0);
+
+
     Expenses.sum('amount',{
         where:{
             [Op.and]: {
@@ -283,13 +306,13 @@ exports.expenseInsightsOverspent = (req, res) => {
 
 exports.expensesBreakdown = (req, res) => {
     // Validate request
-    if (!req.param('userID')) {
+    if (!req.params.userID) {
         res.status(400).send({
             message: "Did not receive all required information: userID!"
         });
         return;
     }
-    const userId = req.param('userID');
+    const userId = req.params.userID;
     const date = new Date();
     const firstDay = new Date(date.getFullYear(), date.getMonth()-1, 1);
     const lastDay = new Date(date.getFullYear(), date.getMonth() , 0);
@@ -311,14 +334,14 @@ exports.expensesBreakdown = (req, res) => {
 
 exports.totalExpenses = (req, res) => {
     // Validate request
-    if (!req.param('months')||!req.param('userId')) {
+    if (!req.params.months||!req.params.userID) {
         res.status(400).send({
             message: "Did not receive all required information: userID and months!"
         });
         return;
     }
-    const userId = req.param('userID');
-    const months = req.param('months');
+    const userId = req.params.userID;
+    const months = req.params.months;
     var monthsNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
     const results = []
     for (let i = 0; i < months; i++) {
