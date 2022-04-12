@@ -35,6 +35,7 @@ exports.create = (req, res) => {
 });
 };
 
+//TODO: Remove?
 exports.scenarioAnalysis = (req, res) => {
     // Validate request
     if (!req.param('userID')||!req.param('savings')||!req.param('investments')) {
