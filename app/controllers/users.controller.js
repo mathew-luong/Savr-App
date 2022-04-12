@@ -32,8 +32,7 @@ exports.create = (req, res) => {
                 username: data.username,
                 userId: data.id,
                 type: data.type
-              }
-                );
+              });
             })
             .catch(err => {
               res.status(500).send({
@@ -71,7 +70,9 @@ exports.findUsername = (req, res) => {
   }).then(data => {
       if (data){
       res.send({
-        userId:data.id
+          username: data.username,
+          userId: data.id,
+          type: data.type
       })
     }else{
       res.status(400).send({
