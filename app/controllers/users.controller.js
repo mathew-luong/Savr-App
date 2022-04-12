@@ -29,7 +29,10 @@ exports.create = (req, res) => {
             Users.create(user)
             .then(data => {
               res.send({
-                userId: data.id}
+                username: data.username,
+                userId: data.id,
+                type: data.type
+              }
                 );
             })
             .catch(err => {

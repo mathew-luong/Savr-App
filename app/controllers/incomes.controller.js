@@ -15,6 +15,7 @@ exports.create = (req, res) => {
             }
             
         });
+        const incomes = []
         req.body.forEach(function(entry, index) { 
         // Create expense targets
           const income = {
@@ -23,7 +24,10 @@ exports.create = (req, res) => {
             date: entry.date,
             amount: entry.amount
           };
-          Incomes.create(income)
+          incomes.push(income)
+          
+    });
+    Incomes.bulkCreate(incomes)
           .then(data => {
             res.send(data);
           })
@@ -31,7 +35,6 @@ exports.create = (req, res) => {
             res.status(500).send({
               message:
                 err.message || "Some error occurred while creating the income entry."
-        });
         });
     });
 };

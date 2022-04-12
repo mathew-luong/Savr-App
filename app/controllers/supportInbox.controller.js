@@ -41,22 +41,41 @@ exports.get = (req, res) => {
         return;
     }
     const userId = req.param('userID');
-    SupportInbox.findAll({
-        where: {
-            [Op.or]:{
-                fromUserId: userId,
-                toUserId: userId  
-            }
-        }
-      }).then(data => {
-          if(data){
-            res.send(data);
-        }else{
-            res.status(400).send({
-                message: "Did not find any messages!"
-            });
-            return;
-        }
-      })
-
-};
+    Users.findOne({
+      where: {
+        id: req.body.userId
+      }
+    }).then(data => {
+      if (data.type = 1){
+        SupportInbox.findAll({
+          where: {
+              toUserId: userId  
+          }
+        }).then(data => {
+            if(data){
+              res.send(data);
+          }else{
+              res.status(400).send({
+                  message: "Did not find any messages!"
+              });
+              return;
+          }
+        })
+      }else{
+        SupportInbox.findAll({
+          where: {
+              toUserId: 0
+          }
+        }).then(data => {
+            if(data){
+              res.send(data);
+          }else{
+              res.status(400).send({
+                  message: "Did not find any messages!"
+              });
+              return;
+          }
+        })
+      }
+    })
+  };

@@ -15,6 +15,7 @@ exports.create = (req, res) => {
         }
         
     });
+    const targets = []
     req.body.forEach(function(entry, index) { 
     // Create expense targets
       const expenseTarget = {
@@ -22,15 +23,16 @@ exports.create = (req, res) => {
         category: entry.category,
         percentage: entry.percentageOfTotalIncome
       };
-      expenseTargets.create(expenseTarget)
-      .then(data => {
-        res.send(data);
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while creating the user."
-    });
+      targets.push(expenseTarget)
+});
+    expenseTargets.bulkCreate(targets)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the user."
     });
 });
 };
