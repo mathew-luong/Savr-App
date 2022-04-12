@@ -8,13 +8,13 @@ const Op = db.Sequelize.Op;
 
 exports.getInsights = (req, res) => {
     // Validate request
-    if (!req.param.userID) {
+    if (!req.param["userID"]) {
         res.status(400).send({
             message: "Did not receive all required information: userID!"
         });
         return;
     }
-    const userId = req.param.userID
+    const userId = req.param["userID"]
     const totalFundsPrev = 0;
     const totalFundsCurr = 0;
     const incomesPrev = 0;
@@ -135,13 +135,5 @@ exports.getInsights = (req, res) => {
                 })
             })
         })
-    })
-
-
-
-
-
-
-    
-    
+    })    
 };
