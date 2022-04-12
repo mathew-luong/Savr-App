@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import GeneralContext from '../services/userContext.js';
 import {getTopDashboardInsights, getIncomes } from "../services/dashboardPage";
-
+import { useState } from 'react';
 
 // https://react-chartjs-2.netlify.app/components/bar
 import { Bar } from 'react-chartjs-2';
@@ -82,16 +82,31 @@ function DashboardPage(props){
     let currentUserId = generalContext.userID
     console.log(generalContext.userID)
 
+    let [incomeDiff, setIncomeDiff] = useState([])
+    let [expenseDiff, setExpensesDiff] = useState([])
+    let [totalFundDiff, setFundsDiff] = useState([])
+
+    // let incomeDiff = []
+    // let expenseDiff = []
+    // let totalFundDiff = []
 
     useEffect(() => {
         async function callInsights() {
             let res = await getTopDashboardInsights(currentUserId)
             console.log(res)
+            return res;
         }
-
-        callInsights();
-
-    },)
+        let response = callInsights();
+        response.then(res =>{
+            if(res !== "error"){
+                setIncomeDiff(res.data.income)
+                setExpensesDiff(res.data.expenses)
+                setFundsDiff(res.data.totalFunds)
+                }
+            }
+        )
+        
+    },[currentUserId])
 
     // useEffect(async() => {
         
@@ -100,34 +115,67 @@ function DashboardPage(props){
 
     // },)
 
+    let percentDiff = (arrHolder) => {
+        if(arrHolder[0] !== 0){
+            return (((arrHolder[1]/arrHolder[0])-1)*100);
+        }
+        return 0
+    } 
 
+    let incomePercentDiff  = incomeDiff === [] ? 0 : percentDiff(incomeDiff)
+    let expensePercentDiff = expenseDiff === [] ? 0 : percentDiff(expenseDiff)
+    let totalFundPercentDiff = totalFundDiff === [] ? 0 : percentDiff(totalFundDiff)
 
-    let bal = {
-        header: "Total Funds",
-        value: "2.4k",
-        stat: "Up 24% ",
-        time: "this month",
-        color: "#CAF1FF",
-        trendingUp: true
+    let totalFundsObj = {
+        header: "",
+        value: "No data",
+        stat: "",
+        time: "last month",
+        color: "#706f6f",
+        trendingUp: 2
+    };
+    totalFundsObj.header = "Total Funds"
+    let incomeObj = {
+        header: "",
+        value: "No data",
+        stat: "",
+        time: "last month",
+        color: "#706f6f",
+        trendingUp: 2
+    };
+    incomeObj.header ="Income" 
+    let expensesObj = {
+        header: "",
+        value: "No data",
+        stat: "",
+        time: "last month",
+        color: "#706f6f",
+        trendingUp: 2
+    }
+    expensesObj.header = "Expenses"
+
+    if(incomeDiff !== []){
+        incomeObj.value = incomeDiff[1];
+        incomeObj.stat = incomePercentDiff.toFixed(0) + '%';
+        incomeObj.color = incomePercentDiff !== 0 ? (incomePercentDiff > 0 ? "#D3FFE7" : "#FFA3CF") : "#706f6f"
+        incomeObj.trendingUp = incomePercentDiff !== 0 ? (incomePercentDiff > 0 ? 1 : 0) : 2
+    }
+    
+    if(expenseDiff !== []){
+        expensesObj.value = expenseDiff[1];
+        expensesObj.stat = expensePercentDiff.toFixed(0) + '%';
+        expensesObj.color = expensePercentDiff !== 0 ? (expensePercentDiff > 0 ? "#D3FFE7" : "#FFA3CF") : "#706f6f"
+        expensesObj.trendingUp = expensePercentDiff !== 0 ? (expensePercentDiff > 0 ? 1 : 0) : 2
     }
 
-    let inc = {
-        header: "Income",
-        value: "1000",
-        stat: "Up 3% ",
-        time: "this week",
-        color: "#D3FFE7",
-        trendingUp: true
+    
+    if(totalFundDiff !== []){
+        totalFundsObj.value = totalFundDiff[1];
+        totalFundsObj.stat = totalFundPercentDiff.toFixed(0) + '%';
+        totalFundsObj.color = totalFundPercentDiff !== 0 ? (totalFundPercentDiff > 0 ? "#D3FFE7" : "#FFA3CF") : "#706f6f"
+        totalFundsObj.trendingUp = totalFundPercentDiff !== 0 ? (totalFundPercentDiff > 0 ? 1 : 0) : 2
     }
 
-    let exp = {
-        header: "Expenses",
-        value: "850",
-        stat: "Down 56% ",
-        time: "this month",
-        color: "#FFA3CF",
-        trendingUp: false
-    }
 
     return (
         <div className='contentContainer'>
@@ -139,13 +187,13 @@ function DashboardPage(props){
                 </Row>
                 <Row>
                     <Col lg={4}>
-                        <DBCardSm {...bal}/>
+                        <DBCardSm {...totalFundsObj}/>
                     </Col>
                     <Col lg={4}>
-                        <DBCardSm {...inc}/>
+                        <DBCardSm {...incomeObj}/>
                     </Col>
                     <Col lg ={4}>
-                        <DBCardSm {...exp}/>
+                        <DBCardSm {...expensesObj}/>
                     </Col>
                 </Row>
                 <Row>
@@ -166,12 +214,12 @@ function DashboardPage(props){
                                 <Col>
                                     <h4>Total Funds (Investments and Savings)</h4>
                                 </Col>
-                                <Col>
+                                {/* <Col>
                                     <div className="dbGoalTrack">
                                         <span>Goal Track</span><br/>
                                         <span className="dbGoalPercent">60.5%</span>
                                     </div>
-                                </Col>
+                                </Col> */}
                             </Row>
                             {/* <Row> */}
                             <div className="dbBarChartContainer">

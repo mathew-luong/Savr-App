@@ -27,6 +27,8 @@ function LoginPage(){
         let response = await checkUser(userData);
         if(response !== "error"){
             generalContext.setUserIdentification(response.data.userId)
+            generalContext.setUsername(response.data.username)
+            generalContext.setUserIdentification(response.data.userId)
             navigate('/dashboard')
         }
 
