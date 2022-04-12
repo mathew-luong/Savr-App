@@ -16,6 +16,7 @@ exports.createPrecision = (req, res) => {
         }
         
     });
+    const expenses = []
     req.body.forEach(function(entry, index) { 
     // Create expenses
       const expense = {
@@ -25,17 +26,19 @@ exports.createPrecision = (req, res) => {
         date: entry.date,
         amount: entry.amount
       };
-      Expenses.create(expense)
-      .then(data => {
+      expenses.push(expense)
+
+    });
+    Expenses.bulkCreate(expenses)
+    .then(data => {
         res.send(data);
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while creating the expense entry."
+    })
+    .catch(err => {
+    res.status(500).send({
+        message:
+        err.message || "Some error occurred while creating the expense entry."
     });
     });
-});
 };
 
 exports.createEstimation = (req, res) => {
@@ -67,7 +70,7 @@ exports.createEstimation = (req, res) => {
         }).then(sum => {
             income = sum
         })
-
+        const expenses = []
         req.body.forEach(function(entry, index) { 
         // Create expenses
           const expense = {
@@ -76,17 +79,18 @@ exports.createEstimation = (req, res) => {
             date: entry.date,
             amount: entry.percentageOfTotalIncome * income
           };
-          Expenses.create(expense)
-          .then(data => {
-            res.send(data);
-          })
-          .catch(err => {
-            res.status(500).send({
-              message:
-                err.message || "Some error occurred while creating the expense entry."
-        });
-        });
+          expenses.push(expense)
     });
+    Expenses.bulkCreate(expenses)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the expense entry."
+  });
+  });
 };
 
 exports.expensesInsightsChange = (req, res) => {  
