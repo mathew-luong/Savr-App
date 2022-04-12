@@ -5,38 +5,45 @@ import Col from "react-bootstrap/Col";
 import Card from "../components/layout/Card.js";
 import SupportChatBox from "../components/layout/SupportChatBox.js";
 import GeneralContext from "../services/userContext.js";
-import { useContext, useState, useRef} from "react";
-import {submitMessageAsNormalUser} from "../services/supportPage"
+import { useContext, useState, useRef, useEffect} from "react";
+import {submitMessageAsNormalUser, getMessages} from "../services/supportPage"
 
 function SupportPage() {
   let generalContext = useContext(GeneralContext);
   let userID = generalContext.userID;
   let userType = generalContext.userType;
+  console.log(userType)
   console.log(userID);
 
   let subjectRef = useRef();
   let messageRef = useRef();
 
-  let [inboxMessages, addInboxMessages] = useState([
-    {
-      subject: "RE: Personal Info Update",
-      text: "This is a message regarding your personal info...",
-    },
-    {
-      subject: "RE: Bugs",
-      text: "This is a message regarding some bugs you've encountered",
-    },
-    {
-      subject: "New features",
-      text: "Look at these newly included features in update 1.0!!",
-    },
-  ]);
+  let [inboxMessages, addInboxMessages] = useState([]);
+  let [submitted, changeSubmitted] = useState(true)
 
   const renderNav = (userKind) => {
     if(userKind === true) {
       return <NavBar />
     }
   }
+
+  useEffect(()=>{
+
+    async function getMyMessages(){
+      let res = await getMessages(userID)
+      console.log(res) 
+      return res
+    }
+    let messages = getMyMessages();
+    // messages.then(res =>{
+    //   if(res != "error"){
+    //     addInboxMessages((previousMessages)=>{
+    //       return [...previousMessages, {subject:subjectRef.current.value, text: messageRef.current.value}]
+    //     })
+    //   }
+    // })
+
+  },[submitted])
 
   const renderHeader = (userKind) => {
     if (userKind === true){
@@ -57,14 +64,9 @@ function SupportPage() {
 
       let res = await submitMessageAsNormalUser(requestObject)
       console.log(res)
-
-      if(res !== "error"){
-        addInboxMessages((previousMessages)=>{
-          return [...previousMessages, {subject:subjectRef.current.value, text: messageRef.current.value}]
-        })
-      }
       subjectRef.current.value = ""
       messageRef.current.value = ""
+      changeSubmitted(!submitted)
   }
 
   console.log(inboxMessages)
@@ -85,6 +87,7 @@ function SupportPage() {
                     <li className="supportInboxLi" key={i}>
                       <h5>{msg.subject}</h5>
                       <span>{msg.text}</span>
+                      <button className="replyBtn">reply</button>
                     </li>
                   );
                 })}

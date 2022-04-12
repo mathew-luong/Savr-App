@@ -275,7 +275,14 @@ code {
     overflow-y: auto;
 }
 
-
+.replyBtn{
+    float: right;
+    border-radius: 20px;
+    width: 4rem;
+    background-color: #E5355F;
+    color: white;
+    border: none;
+}
 
 
 

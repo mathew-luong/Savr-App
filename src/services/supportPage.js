@@ -14,3 +14,16 @@ export async function submitMessageAsNormalUser(sendObject){
     }
 
 }
+
+export async function getMessages(userID){
+    let res
+    try{
+        res = await axios.get(`${dbServerUrl}/api/support/inbox/${userID}`)
+        return res
+    }
+    catch(err){
+        let errString = err.response.data.message
+        alert(errString)
+        return "error"
+    }
+}

@@ -28,7 +28,7 @@ function LoginPage(){
         if(response !== "error"){
             generalContext.setUserIdentification(response.data.userId)
             generalContext.setUsername(response.data.username)
-            generalContext.setUserIdentification(response.data.userId)
+            generalContext.setType(response.data.type)
             navigate('/dashboard')
         }
 
