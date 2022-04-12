@@ -218,6 +218,7 @@ code {
 
 .supportInboxLi {
     background-color: #FFEFFF;
+    overflow-y: auto;
     border-radius: 10px;
     padding: 0.8rem;
     margin-bottom: 0.5rem;
@@ -285,7 +286,10 @@ code {
 }
 
 
-
+.msgSender{
+    float: right;
+    padding-right: 1rem;
+}
 
 
 /* Support page -------------------------------------------------------------- */

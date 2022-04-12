@@ -20,12 +20,7 @@ function SupportPage() {
 
   let [inboxMessages, addInboxMessages] = useState([]);
   let [submitted, changeSubmitted] = useState(true)
-
-  const renderNav = (userKind) => {
-    if(userKind === true) {
-      return <NavBar />
-    }
-  }
+  let [toSendId, changeSendId] = useState(0);
 
   useEffect(()=>{
 
@@ -35,13 +30,11 @@ function SupportPage() {
       return res
     }
     let messages = getMyMessages();
-    // messages.then(res =>{
-    //   if(res != "error"){
-    //     addInboxMessages((previousMessages)=>{
-    //       return [...previousMessages, {subject:subjectRef.current.value, text: messageRef.current.value}]
-    //     })
-    //   }
-    // })
+    messages.then(res =>{
+      if(res !== "error"){
+        addInboxMessages(res.data)
+      }
+    })
 
   },[submitted])
 
@@ -54,12 +47,42 @@ function SupportPage() {
     }
   }
 
+  const renderNav = (userKind) => {
+    if(userKind === true) {
+      return <NavBar />
+    }
+  }
+
+  const checkIfMine = (msgID) =>{
+    if (msgID === userID){
+      return "Sent by me"
+    }
+    return "Received"
+  }
+
   async function handleMessageSubmit(){
+
+    let sendId
+    let allowance = true
+    if(toSendId === 0 && userType === true){
+      sendId = 0
+    }
+    else if(toSendId !== 0 && userType === true){
+      sendId = toSendId
+    }
+    else if(toSendId !== 0 && userType !== true){
+      sendId = toSendId
+    }else{
+      alert("As a support user, you must reply to a specific message")
+      allowance = false;
+    }
+
+    if(allowance){
       let requestObject = {
-          fromUserID: userID, 
-          toUserID: 0,
-          subject: subjectRef.current.value,
-          body: messageRef.current.value
+        fromUserID: userID, 
+        toUserID: sendId,
+        subject: subjectRef.current.value,
+        body: messageRef.current.value
       }
 
       let res = await submitMessageAsNormalUser(requestObject)
@@ -67,6 +90,16 @@ function SupportPage() {
       subjectRef.current.value = ""
       messageRef.current.value = ""
       changeSubmitted(!submitted)
+      changeSendId(0)
+    }
+
+  }
+
+  function replyHandler(e, i){
+    let handleObject = inboxMessages[i]
+    subjectRef.current.value = handleObject['subject']
+    changeSendId(handleObject['fromUserId'])
+
   }
 
   console.log(inboxMessages)
@@ -86,8 +119,9 @@ function SupportPage() {
                   return (
                     <li className="supportInboxLi" key={i}>
                       <h5>{msg.subject}</h5>
-                      <span>{msg.text}</span>
-                      <button className="replyBtn">reply</button>
+                      <p>{msg.content}</p>
+                      <button className="replyBtn" onClick={(e) => replyHandler(e,i)}>reply</button>
+                      <h7 className="msgSender">{checkIfMine(msg.fromUserId)}</h7>
                     </li>
                   );
                 })}

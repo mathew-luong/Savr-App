@@ -53,3 +53,16 @@ export async function postInvestmentsDeposits(depositObject, userId){
     }
 
 }
+
+export async function getSavingsTimeSeries(userID, numMonths){
+    let res;
+    try{
+        res = await axios.get(`${dbServerUrl}/api/savings/${userID}/${numMonths}`)
+        return res;
+    }
+    catch(err){
+        let errString = err.response.data.message
+        alert(errString)
+        return "error"
+    }
+}

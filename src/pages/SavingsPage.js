@@ -8,9 +8,10 @@ import ScenarioAnalysisCard from "../components/layout/forms/ScenarioAnalysisCar
 import SavingsAndInvDepositsForm from "../components/layout/forms/SavingsAndInvDepositsForm.js";
 import Card from "../components/layout/Card.js";
 import { Line } from "react-chartjs-2";
-import { useState } from "react";
-
+import { useContext, useEffect, useState } from "react";
+import { getSavingsTimeSeries } from "../services/savingsPage.js";
 import { labels, options } from "../components/Charts.js";
+import GeneralContext from "../services/userContext.js";
 
 // Charts
 import {
@@ -69,6 +70,10 @@ export const lineDataSavings = {
 };
 
 function SavingsPage() {
+
+  let generalContext = useContext(GeneralContext);
+  let userID = generalContext.userID;
+
   let [savingsState, setSavingsState] = useState([{ savingsDeposit: "" }]);
   let [investmentsState, setInvestmentsState] = useState([
     {
@@ -76,6 +81,17 @@ function SavingsPage() {
       investmentsDeposit: "",
     },
   ]);
+
+  useEffect(()=> {
+    async function callSavingsTimeSeries(){
+      let res = await getSavingsTimeSeries(userID, 6)
+      console.log(res)
+      return res
+    }
+    let response = callSavingsTimeSeries();
+    console.log(response)
+  })
+
   return (
     <div className="contentContainer">
       <NavBar />
@@ -161,13 +177,13 @@ function SavingsPage() {
                 <Col>
                   <h4>Total Savings</h4>
                 </Col>
-                <Col>
+                {/* <Col>
                   <div className="dbGoalTrack">
                     <span>Savings:</span>
                     <br />
                     <span className="dbGoalPercent">$110K</span>
                   </div>
-                </Col>
+                </Col> */}
               </Row>
               {/* <Row> */}
               <div className="dbBarChartContainer">
