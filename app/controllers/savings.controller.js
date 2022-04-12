@@ -17,12 +17,14 @@ exports.create = (req, res) => {
         });
         return;
         }
-        // Create savings
+        // Create savings object
         const savings = {
             userId: req.body.userID,
             date: req.body.date,
             amount: req.body.amount
         };
+
+        // Create object in db
         Savings.create(savings)
         .then(data => {
           res.send(data);
@@ -35,7 +37,7 @@ exports.create = (req, res) => {
 });
 };
 
-exports.getSavings = (req, res) => {
+exports.getSavings =  (req, res) => {
     // Validate request
     if (!req.params.months||!req.params.userID) {
         res.status(400).send({
@@ -43,32 +45,43 @@ exports.getSavings = (req, res) => {
         });
         return;
     }
+
+    // Required constants for querying and results
     const userId = req.params.userID;
     const months = req.params.months;
     const date = new Date();
-    var monthsNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+    const monthsNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
     const results = []
-    for (let i = 0; i < months; i++) {
-        var firstDay = new Date(date.getFullYear(), date.getMonth()-i, 1);
-        var lastDay = new Date(date.getFullYear(), date.getMonth()+1-i , 0);
-        Savings.sum('amount',{
-            where:{
-                [Op.and]: {
-                userId:userId,
-                date: {
-                    [Op.gte]:firstDay,
-                    [Op.lte]:lastDay,
-                }
-                }
+    
+    const firstDay = new Date(date.getFullYear(), date.getMonth()-months, 1);
+    const lastDay = new Date(date.getFullYear(), date.getMonth()+1 , 0);
+    Savings.findAll({
+        where:{
+            [Op.and]: {
+            userId:userId,
+            date: {
+                [Op.gte]:firstDay,
+                [Op.lte]:lastDay,
             }
-        }).then(sum => {
+            }
+        }
+    }).then(data => {
+        console.log(data)
+        data.forEach(function(entry,index){
+            if (results[entry.date.getMonth()]==null){
             results.push({
-                month: monthsNames[date.getMonth()-i],
-                amount: sum
+                month: monthsNames[entry.date.getMonth()],
+                amount: entry.amount
             })
+            }
+            else{
+                results[entry.date.getMonth()].amount+=entry.amount
+            }
         })
-    }
-    res.send(results) 
+        results.filter(n => n)
+        console.log(results)
+        res.send(results) 
+    })
 
 };
 
