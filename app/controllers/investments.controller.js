@@ -33,14 +33,14 @@ exports.create = (req, res) => {
 
 exports.getInvestments = (req, res) => {
     // Validate request
-    if (!req.param('userId')) {
+    if (!req.params.userID) {
         res.status(400).send({
             message: "Did not receive all required information: userID!"
         });
         return;
     }
-    const userId = req.param('userID');
-    const months = req.param('months')?req.param('months'):1
+    const userId = req.params.userID;
+    const months = req.params.months?req.params.months:1
     var monthsNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
     const results = []
     for (let i = 0; i < months; i++) {

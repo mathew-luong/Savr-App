@@ -2,6 +2,7 @@
 
 const db = require("../models");
 const SupportInbox = db.supportInbox;
+const Users = db.users;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
@@ -18,7 +19,7 @@ exports.create = (req, res) => {
         toUserId: req.body.toUserID,
         date: new Date(),
         subject: req.body.subject,
-        body: req.body.body
+        content: req.body.body
         };
     SupportInbox.create(message)
     .then(data => {
@@ -34,16 +35,16 @@ exports.create = (req, res) => {
 
 exports.get = (req, res) => {
     // Validate request
-    if (!req.param('userID')) {
+    if (!req.params.userID) {
         res.status(400).send({
             message: "Did not receive all required information: userID!"
         });
         return;
     }
-    const userId = req.param('userID');
+    const userId = req.params.userID;
     Users.findOne({
       where: {
-        id: req.body.userId
+        id: userId
       }
     }).then(data => {
       if (data.type = 1){

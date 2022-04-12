@@ -3,8 +3,7 @@ module.exports = app => {
     var router = require("express").Router();
     
     router.post("/deposit",savings.create)
-    router.post("/scenarioAnalysis/savings={int}&investments={int2}",savings.scenarioAnalysis)
-    router.get("/:userID/months={integer}?", savings.getSavings)
+    router.get("/:userID/:months", savings.getSavings)
     
     app.use('/api/savings', router);
   };
