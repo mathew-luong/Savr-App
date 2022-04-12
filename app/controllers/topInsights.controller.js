@@ -1,3 +1,5 @@
+// Controller reference: https://www.bezkoder.com/node-js-express-sequelize-mysql/#Create_the_Controller
+
 const db = require("../models");
 const Savings = db.savings;
 const Investments = db.investments;
@@ -14,6 +16,8 @@ exports.getInsights = (req, res) => {
         });
         return;
     }
+
+    // Required constants for querying
     const userId = req.params.userID
     const totalFunds = []
     const incomes = []
@@ -24,6 +28,7 @@ exports.getInsights = (req, res) => {
     const firstDayCurr = new Date(date.getFullYear(), date.getMonth()-1, 1);
     const lastDayCurr = new Date(date.getFullYear(), date.getMonth() , 0);
     
+    // Querying required tables and saving results 
     Savings.sum('amount',{
         where:{
             [Op.and]: {
