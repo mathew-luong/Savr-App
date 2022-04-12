@@ -7,20 +7,19 @@ const Op = db.Sequelize.Op;
 
 
 exports.getInsights = (req, res) => {
+    
+    console.log(req.params.userID)
     // Validate request
-    if (!req.query['userID']) {
+    if (!req.params.userID) {
         res.status(400).send({
             message: "Did not receive all required information: userID!"
         });
         return;
     }
-    const userId = req.query['userID']
-    const totalFundsPrev = 0;
-    const totalFundsCurr = 0;
-    const incomesPrev = 0;
-    const incomesCurr = 0;
-    const expensesPrev = 0;
-    const expensesCurr = 0;
+    const userId = req.params.userID
+    const totalFunds = []
+    const incomes = []
+    const expenses = []
     const date = new Date();
     const firstDayPrev = new Date(date.getFullYear(), date.getMonth()-2, 1);
     const lastDayPrev = new Date(date.getFullYear(), date.getMonth()-1 , 0);
@@ -38,7 +37,7 @@ exports.getInsights = (req, res) => {
             }
         }
     }).then(sum => {
-        totalFundsPrev = sum;
+        totalFunds.push(sum)
         Investments.sum('amount',{
             where:{
                 [Op.and]: {
@@ -50,7 +49,7 @@ exports.getInsights = (req, res) => {
                 }
             }
         }).then(sum => {
-            totalFundsPrev+=sum
+            totalFunds[0]+=sum
             Savings.sum('amount',{
                 where:{
                     [Op.and]: {
@@ -62,7 +61,7 @@ exports.getInsights = (req, res) => {
                     }
                 }
             }).then(sum => {
-                totalFundsCurr = sum
+                totalFunds.push(sum)
                 Investments.sum('amount',{
                     where:{
                         [Op.and]: {
@@ -74,7 +73,7 @@ exports.getInsights = (req, res) => {
                         }
                     }
                 }).then(sum => {
-                    totalFundsCurr += sum
+                    totalFunds[1]+=sum
                     Incomes.sum('amount',{
                         where:{
                             [Op.and]: {
@@ -86,7 +85,7 @@ exports.getInsights = (req, res) => {
                             }
                         }
                     }).then(sum => {
-                        incomesPrev = sum
+                        incomes.push(sum)
                         Incomes.sum('amount',{
                             where:{
                                 [Op.and]: {
@@ -98,7 +97,7 @@ exports.getInsights = (req, res) => {
                                 }
                             }
                         }).then(sum => {
-                            incomesCurr = sum
+                            incomes.push(sum)
                             Expenses.sum('amount',{
                                 where:{
                                     [Op.and]: {
@@ -110,7 +109,7 @@ exports.getInsights = (req, res) => {
                                     }
                                 }
                             }).then(sum => {
-                                expensesPrev = sum
+                                expenses.push(sum)
                                 Expenses.sum('amount',{
                                     where:{
                                         [Op.and]: {
@@ -122,11 +121,11 @@ exports.getInsights = (req, res) => {
                                         }
                                     }
                                 }).then(sum => {
-                                    expensesCurr = sum
+                                    expenses.push(sum)
                                     res.send({
-                                        totalFunds: [totalFundsPrev,totalFundsCurr],
-                                        income: [incomesPrev,incomesCurr],
-                                        expenses: [expensesPrev,expensesCurr]
+                                        totalFunds: totalFunds,
+                                        income: incomes,
+                                        expenses: expenses
                                     })
                                 })
                             })
