@@ -52,9 +52,10 @@ exports.getSavings =  (req, res) => {
     const date = new Date();
     const monthsNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
     const results = []
-    
     const firstDay = new Date(date.getFullYear(), date.getMonth()-months, 1);
     const lastDay = new Date(date.getFullYear(), date.getMonth()+1 , 0);
+
+    // Get all savings and aggregare results
     Savings.findAll({
         where:{
             [Op.and]: {
@@ -66,21 +67,22 @@ exports.getSavings =  (req, res) => {
             }
         }
     }).then(data => {
-        console.log(data)
         data.forEach(function(entry,index){
-            if (results[entry.date.getMonth()]==null){
-            results.push({
-                month: monthsNames[entry.date.getMonth()],
-                amount: entry.amount
-            })
+            var month = entry.date.getMonth()
+            if (!results[month]){
+                results[month] = ({
+                    month: monthsNames[month],
+                    amount: entry.amount
+                })
             }
             else{
-                results[entry.date.getMonth()].amount+=entry.amount
+                results[month].amount+=entry.amount
             }
         })
-        results.filter(n => n)
-        console.log(results)
-        res.send(results) 
+        const cleanResults = results.filter(element => {
+            return element !== null;
+          });
+        res.send(cleanResults) 
     })
 
 };
