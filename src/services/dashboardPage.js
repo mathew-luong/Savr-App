@@ -4,6 +4,7 @@ import {dbServerUrl} from "./userContext"
 
 export async function getTopDashboardInsights(userID){
     let res;
+    console.log(userID)
     try{
         res = await axios.get(`${dbServerUrl}/api/dashboard/topInsights/${userID}`)
         return res;
@@ -18,7 +19,7 @@ export async function getTopDashboardInsights(userID){
 export async function getIncomes(userID, numMonths){
     let res;
     try{
-        res = await axios.get(`${dbServerUrl}/api/dashboard/income/${userID}/months=${numMonths}`)
+        res = await axios.get(`${dbServerUrl}/api/dashboard/income/${userID}/${numMonths}`)
         return res;
     }
     catch(err){

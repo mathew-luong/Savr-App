@@ -84,10 +84,13 @@ function DashboardPage(props){
 
 
     useEffect(() => {
-        async () => {
+        async function callInsights() {
             let res = await getTopDashboardInsights(currentUserId)
             console.log(res)
         }
+
+        callInsights();
+
     },)
 
     // useEffect(async() => {
