@@ -5,8 +5,14 @@ import Col from "react-bootstrap/Col";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Card from "../components/layout/Card.js";
-import ExpensesModal from "../components/layout/ExpensesModal.js";
 import FormCard from "../components/layout/forms/FormCard";
+import GeneralContext from "../services/userContext.js";
+import {mapPrecisionExpenses, 
+  mapEstimationExpenses, 
+  mapIncomeEntries, 
+  submitPrecisionExpenses,
+  submitEstimationExpenses, 
+  submitIncomeEntries} from "../services/expensesPage.js";
 
 // Import configuration options and functions for barchart/linechart
 import { options, labels, pieOptions } from "../components/Charts.js";
@@ -25,7 +31,8 @@ import {
   ArcElement,
 } from "chart.js";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext} from "react";
+import {useNavigate } from 'react-router-dom';
 import { Dropdown } from "react-bootstrap";
 import MobileFormCard from "../components/layout/forms/MobileFormCard.js";
 
@@ -133,6 +140,12 @@ const expTargetData = {
 };
 
 function ExpensesPage(props) {
+
+  let generalContext = useContext(GeneralContext);
+  let currentUserId = generalContext.userID;
+  console.log(currentUserId);
+  let navigate = useNavigate();
+
   let expenseFormSubtitles = ["Date", "Expense Name", "Category", "Amount"];
   let expenseFormSubtitlesEstimation = [
     "Date",
@@ -149,7 +162,7 @@ function ExpensesPage(props) {
   let [expensesPrecisionState, setExpensesPrecision] = useState([{
     date:"",
     expenseName: "",
-    category: "Enter a category",
+    category: "Enter a new category",
     amount:""
   }])
 
@@ -205,7 +218,7 @@ function ExpensesPage(props) {
               ? {
                 date:"",
                 expenseName: "",
-                category: "Enter a category",
+                category: "Enter a new category",
                 amount:""
               }
               : {
@@ -259,7 +272,7 @@ function ExpensesPage(props) {
               ? {
                 date:"",
                 expenseName: "",
-                category: "Enter a category",
+                category: "Enter a new category",
                 amount:""
               }
               : {
@@ -318,6 +331,46 @@ function ExpensesPage(props) {
       ],
     });
   }, []);
+
+  async function handleSubmit(e){
+    e.preventDefault();
+    let precisionSubmission = mapPrecisionExpenses(expensesPrecisionState,currentUserId)
+    let estimationSubmission = mapEstimationExpenses(expensesEstimationState, currentUserId)
+    let incomeSubmission = mapIncomeEntries(incomeState, currentUserId)
+
+    let precisionAlertString = ""; 
+    let estimationAlertString = ""; 
+    let incomeAlertString = "";
+
+    if(precisionSubmission === false){
+      precisionAlertString = "There was an empty field(s) in precision expenses entries so they were not submitted"
+    }
+    else{
+      console.log(precisionSubmission)
+      let responsePrecision = await submitPrecisionExpenses(precisionSubmission)
+      console.log(responsePrecision)
+    }
+    if(estimationSubmission === false){
+      estimationAlertString = "There was an empty field(s) in estimation expenses entries so they were not submitted"
+    }
+    else{
+      console.log(estimationSubmission)
+      let responseEstimation = await submitEstimationExpenses(estimationSubmission)
+      console.log(responseEstimation)
+    }
+    if(incomeSubmission === false){
+      incomeAlertString = "There was an empty field(s) in estimation expenses entries so they were not submitted"
+    }
+    else{
+      console.log(incomeSubmission)
+      let responseIncomes = await submitIncomeEntries(incomeSubmission)
+      console.log(responseIncomes)
+    }
+
+    alert(`${precisionAlertString}\n${estimationAlertString}\n${incomeAlertString}`)
+
+    navigate("/dashboard")
+  }
 
   return (
     <div className="contentContainer">
@@ -389,9 +442,6 @@ function ExpensesPage(props) {
                 <Col>
                   <h4>Target Expenses</h4>
                 </Col>
-                <Col>
-                  <ExpensesModal />
-                </Col>
               </Row>
               <h6 className="cardSubHeader">
                 How much you want to spend, and in what
@@ -444,7 +494,7 @@ function ExpensesPage(props) {
               <Row>
                 <Col>
                   <div className="expensesFormBtnContainer">
-                    <button className="expManageBtn">Submit</button>
+                    <button className="expManageBtn" onClick={handleSubmit}>Submit</button>
                   </div>
                 </Col>
               </Row>

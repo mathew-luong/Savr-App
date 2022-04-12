@@ -69,7 +69,7 @@ export const lineDataSavings = {
 };
 
 function SavingsPage() {
-  let [savingsState, setSavingsState] = useState([{ savingsDepost: "" }]);
+  let [savingsState, setSavingsState] = useState([{ savingsDeposit: "" }]);
   let [investmentsState, setInvestmentsState] = useState([
     {
       prevValue: "",

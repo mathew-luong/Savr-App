@@ -4,6 +4,7 @@ import InlineInputs from "./InlineInputs";
 import MobileCardInput from "./MobileCardInput.js";
 import classes from "./ScenarioAnalysisCard.module.css";
 
+
 function ScenarioAnalysisCard() {
   let [analysisState, setAnalysisState] = useState([
     {

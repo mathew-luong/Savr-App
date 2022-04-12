@@ -4,6 +4,7 @@ import Card from '../components/layout/Card.js';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import GeneralContext from '../services/userContext.js';
 
 // https://react-chartjs-2.netlify.app/components/bar
 import { Bar } from 'react-chartjs-2';
@@ -24,6 +25,7 @@ import {
     Tooltip,
     Legend,
 }   from 'chart.js';
+import { useContext } from 'react';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend,  PointElement, LineElement);
 
@@ -72,6 +74,10 @@ export const lineData = {
 function DashboardPage(props){
     // Objects for props used for the small cards on the top of the dashboard page
     // Can be changed to props object later 
+
+    let context = useContext(GeneralContext)
+    console.log(context.userID)
+
     let bal = {
         header: "Balance",
         value: "2.4k",

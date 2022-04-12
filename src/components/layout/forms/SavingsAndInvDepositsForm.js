@@ -1,8 +1,36 @@
 import InlineInputs from "./InlineInputs";
 import MobileCardInput from "./MobileCardInput";
 import classes from "./SavingsAndInvDepositsForm.module.css";
+import GeneralContext from "../../../services/userContext";
+import { useContext } from "react";
+import { postInvestmentsDeposits, postSavingsDeposits } from "../../../services/savingsPage";
 
 export default function SavingsAndInvDepositsForm(props) {
+
+  let generalContext = useContext(GeneralContext)
+  let userID = generalContext.userID;
+  console.log(userID)
+
+  async function handleSubmit(){
+    let stateKeys = Object.keys(props.currentValues[0])
+    let res;
+    if(stateKeys.length === 1){
+      res = await postSavingsDeposits(props.currentValues[0], userID)
+      console.log(res)
+      props.updateCurrentValues([{ savingsDeposit: "" }])
+    }
+    else{
+      res = await postInvestmentsDeposits(props.currentValues[0], userID)
+      console.log(res)
+      props.updateCurrentValues([
+        {
+          prevValue: "",
+          investmentsDeposit: "",
+        },
+      ])
+    }
+  }
+
   console.log(props.currentValues);
   return (
     <div className={classes.baseContainer}>
@@ -34,7 +62,7 @@ export default function SavingsAndInvDepositsForm(props) {
         );
       })}
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <button className={classes.formButton}>Submit</button>
+        <button className={classes.formButton} onClick = {handleSubmit}>Submit</button>
       </div>
     </div>
   );

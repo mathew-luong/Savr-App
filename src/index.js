@@ -1,14 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
 import { BrowserRouter } from "react-router-dom";
+import {GeneralContextProvider} from "./services/userContext";
 
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
-  document.getElementById('root')
+  <GeneralContextProvider>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </GeneralContextProvider>,
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

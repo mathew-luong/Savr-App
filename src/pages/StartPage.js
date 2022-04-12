@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useContext, useState} from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import FormCard from "../components/layout/forms/FormCard";
 import MobileFormCard from "../components/layout/forms/MobileFormCard";
 import SavingsAndInvestmentsForm from "../components/layout/forms/SavingsAndInvestmentsForm";
 import SavingsGoalCard from "../components/layout/forms/SavingsGoalCard";
+import GeneralContext from "../services/userContext"
 
 function StartPage() {
   let titlesIncome = ["Income Amount", "Income Stream Name", "Date"];
@@ -26,14 +27,14 @@ function StartPage() {
     {
       date: "",
       expenseName: "",
-      category: "Enter a category",
+      category: "Enter a new category",
       amount: "",
     },
   ]);
 
   let [expenseTargetState, setExpenseTargetState] = useState([
     {
-      category: "Enter a category",
+      category: "Enter a new category",
       target: "",
     },
   ]);
@@ -57,6 +58,11 @@ function StartPage() {
   console.log(expenseTargetState);
   console.log(savingsTarget)
   console.log(savingsState)
+  let generalContext = useContext(GeneralContext);
+  console.log(generalContext.userID)
+
+
+  
 
   return (
     <div className="startContainer">
@@ -114,7 +120,7 @@ function StartPage() {
                 baseNewObject={{
                   date: "",
                   expenseName: "",
-                  category: "Enter a category",
+                  category: "Enter a new category",
                   amount: "",
                 }}
               />
@@ -129,7 +135,7 @@ function StartPage() {
                 baseNewObject={{
                   date: "",
                   expenseName: "",
-                  category: "Enter a category",
+                  category: "Enter a new category",
                   amount: "",
                 }}
               />
