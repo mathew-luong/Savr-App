@@ -1,5 +1,4 @@
 const dbConfig = require("../config/db.config.js");
-
 const mysql = require("mysql2");
 
 // Open the connection to MySQL server
@@ -9,18 +8,15 @@ const connection = mysql.createConnection({
   password: dbConfig.PASSWORD,
 });
 
-// Run create database statement
+// Run create database statement in case database doesn't exist
 connection.query(
   `CREATE DATABASE IF NOT EXISTS savrDB`,
-  function (err, results) {
-    console.log(results);
-    console.log(err);
-  }
 );
 
 // Close the connection
 connection.end();
 
+// Setting up sequelize library for queries
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
@@ -37,6 +33,7 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
+// Database table models
 db.users = require("./users.model.js")(sequelize, Sequelize);
 db.expenses = require("./expenses.model.js")(sequelize, Sequelize);
 db.expenseTargets = require("./expenseTargets.model.js")(sequelize, Sequelize);
@@ -46,6 +43,8 @@ db.savings = require("./savings.model.js")(sequelize, Sequelize);
 db.savingsGoals = require("./savingsGoals.model.js")(sequelize, Sequelize);
 db.supportInbox = require("./supportInbox.model.js")(sequelize, Sequelize);
 
+
+// Setting database relations and foreign keys
 db.users.hasMany(db.expenses, { as: "expenses" });
 db.expenses.belongsTo(db.users, {
   foreignKey: "userId",

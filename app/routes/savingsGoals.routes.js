@@ -1,3 +1,4 @@
+// Savings goals routes
 module.exports = app => {
     const savingsGoals = require("../controllers/savingsGoals.controller.js");
     var router = require("express").Router();

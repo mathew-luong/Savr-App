@@ -1,3 +1,4 @@
+// Support inbox table model
 module.exports = (sequelize, Sequelize) => {
     const SupportInbox = sequelize.define("supportInbox", {
       toUserId: {

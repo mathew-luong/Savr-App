@@ -1,3 +1,4 @@
+// Users table model
 module.exports = (sequelize, Sequelize) => {
     const User = sequelize.define("user", {
       username: {

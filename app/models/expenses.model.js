@@ -1,3 +1,4 @@
+// Expenses table model
 module.exports = (sequelize, Sequelize) => {
     const Expenses = sequelize.define("expenses", {
       name: {

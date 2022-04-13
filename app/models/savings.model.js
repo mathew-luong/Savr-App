@@ -1,3 +1,4 @@
+// Savings table model
 module.exports = (sequelize, Sequelize) => {
     const Savings = sequelize.define("savings", {
       date: {

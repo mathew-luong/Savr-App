@@ -1,3 +1,4 @@
+// Support inbox routes
 module.exports = app => {
   const supportInbox = require("../controllers/supportInbox.controller.js");
   var router = require("express").Router();
