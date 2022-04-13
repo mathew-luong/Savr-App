@@ -4,7 +4,7 @@
 const db = require("../models");
 const Expenses = db.expenses;
 const Incomes = db.incomes;
-
+const sequelize = db.Sequelize;
 // Operations objects for queries involving logical and mathematical operations
 const Op = db.Sequelize.Op;
 
@@ -316,7 +316,11 @@ exports.expensesBreakdown = (req, res) => {
     const date = new Date();
     const firstDay = new Date(date.getFullYear(), date.getMonth()-1, 1);
     const lastDay = new Date(date.getFullYear(), date.getMonth() , 0);
-    Expenses.sum('amount',{
+    Expenses.findAll({
+        attributes: [
+          "category",
+          [sequelize.fn("SUM", sequelize.col("amount")), "amount"],
+        ],
         where:{
             [Op.and]: {
             userID:userId,
@@ -326,8 +330,8 @@ exports.expensesBreakdown = (req, res) => {
             }
             }
         },
-        
-    },{group: 'category'}).then(data => {
+        group: "category",
+      }).then(data => {
         res.send(data)
     })
 };
