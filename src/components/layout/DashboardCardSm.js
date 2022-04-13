@@ -1,7 +1,7 @@
 import classes from './Cards.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowTrendDown } from '@fortawesome/free-solid-svg-icons';
-import { faArrowTrendUp } from '@fortawesome/free-solid-svg-icons';
+import { faArrowTrendUp, faBars } from '@fortawesome/free-solid-svg-icons';
 
 // Below function is taken from:
 // https://css-tricks.com/snippets/javascript/lighten-darken-color/
@@ -39,10 +39,16 @@ function DBCardSm(props) {
     let iconColor = LightenDarkenColor(props.color,-80);
 
     // If trending up, set color and icons to up and green
-    if(props.trendingUp) {
+    if(props.trendingUp === 1) {
         icon = faArrowTrendUp;
         textColor = "#56D57C";
     }
+
+    else if (props.trendingUp === 2){
+        icon = faBars;
+        textColor = "#949494"
+    }
+
     // If trending down, set color and icons to down and red
     else {
         icon = faArrowTrendDown;
@@ -57,7 +63,7 @@ function DBCardSm(props) {
             <div className={classes.smCardContent}>
                 <p className={classes.contentHeader}>{props.header}</p>
                 <h4 className={classes.statTime}>${props.value}</h4>
-                <p><span style={{color: textColor}} className={classes.statTime}>{props.stat}</span>{props.time}</p>
+                <p><span style={{color: textColor}} className={classes.statTime}>{props.stat} </span>{props.time}</p>
             </div>
         </div>
     );

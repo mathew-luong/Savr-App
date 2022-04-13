@@ -7,18 +7,19 @@ import DashboardPage from "./pages/DashboardPage";
 import SupportPage from "./pages/SupportPage";
 import SignUpPage from "./pages/SignUpPage";
 
+
 function App() {
   return (
     <div>
-      <Routes>
-        <Route path="/" element={<LoginPage/>}/>
-        <Route path="/savings" element={<SavingsPage/>}/>
-        <Route path="/start-up" element={<StartPage/>}/>
-        <Route path="/sign-up" element={<SignUpPage/>}/>
-        <Route path="/expenses" element={<ExpensesPage/>}/>
-        <Route path="/dashboard" element={<DashboardPage/>}/>
-        <Route path="/support" element={<SupportPage/>}/>
-      </Routes>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/savings" element={<SavingsPage />} />
+          <Route path="/start-up" element={<StartPage />} />
+          <Route path="/sign-up" element={<SignUpPage />} />
+          <Route path="/expenses" element={<ExpensesPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/support" element={<SupportPage />} />
+        </Routes>
     </div>
   );
 }

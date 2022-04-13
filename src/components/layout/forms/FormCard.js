@@ -1,10 +1,8 @@
-import { useState } from "react";
+
 import classes from "./FormCard.module.css";
 import FormInputList from "./FormInputList";
 
-
 function FormCard(props) {
-  let [numLines, setLines] = useState(1);
 
   let itemWidth;
   let numItems = props.titles.length;
@@ -12,7 +10,9 @@ function FormCard(props) {
   let widthString = itemWidth + "%";
 
   const formAdder = () => {
-    setLines((numLines += 1));
+    props.updateCurrentValues(previousValues => {
+      return [...previousValues, props.baseNewObject]
+    })
   };
 
   return (
@@ -29,9 +29,11 @@ function FormCard(props) {
       </div>
       <div className={classes.formHolder}>
         <FormInputList
-          lines={numLines}
+          lines={props.currentValues.length}
           numItems={numItems}
           inputTypes={props.inputTypes}
+          currentValues = {props.currentValues}
+          updateCurrentValues = {props.updateCurrentValues}
         />
       </div>
       <button onClick={formAdder} className={classes.newFormButton}>

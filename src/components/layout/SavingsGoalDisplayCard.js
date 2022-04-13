@@ -3,7 +3,14 @@ import classes from "./SavingsGoalDisplayCard.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHandHoldingDollar } from "@fortawesome/free-solid-svg-icons";
 
-function SavingsGoalDisplayCard() {
+
+function SavingsGoalDisplayCard(props) {
+
+  
+  let goalDate = "By: " + (props.goal.savingsGoalDate)
+  let goalAmount = "$" + props.goal.savingsGoalsAmount
+
+
   return (
     <Container className={classes.baseCardContainer} >
       <Row>
@@ -15,8 +22,8 @@ function SavingsGoalDisplayCard() {
         </Col>
         <Col xs={6}>
           <p style={{ fontsize: "14", color: "#ACACAC" }}>Savings Goals:</p>
-          <h4>$400K</h4>
-          <p style={{ fontsize: "14", color: "#ACACAC" }}>By December, 2025</p>
+          <h4>{goalDate}</h4>
+          <p style={{ fontsize: "14", color: "#ACACAC" }}>{goalAmount}</p>
         </Col>
       </Row>
     </Container>

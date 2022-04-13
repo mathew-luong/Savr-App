@@ -1,23 +1,37 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useRef } from 'react';
+import { useContext, useRef } from 'react';
+import {checkUser} from '../services/loginPage'
+import GeneralContext from '../services/userContext';
 
 
 function LoginPage(){
     const usernameInput = useRef();
     const passwordInput = useRef();
     let navigate = useNavigate();
+    let generalContext = useContext(GeneralContext);
 
-    function loginHandler(event) {
+    async function loginHandler(event) {
         event.preventDefault();
 
         const username = usernameInput.current.value;
         const password = passwordInput.current.value;
 
         // Check if username in db and if pwd matches??
-        console.log("This is username: " + username + " Password: " + password);
+        // console.log("This is username: " + username + " Password: " + password);
+        
+        let userData = {
+            username: username,
+            password:password
+        }
 
-        // Login successful, navigate to dashboard page
-        navigate("/dashboard");
+        let response = await checkUser(userData);
+        if(response !== "error"){
+            generalContext.setUserIdentification(response.data.userId)
+            generalContext.setUsername(response.data.username)
+            generalContext.setType(response.data.type)
+            navigate('/dashboard')
+        }
+
     }
 
     return (        

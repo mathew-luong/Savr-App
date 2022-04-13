@@ -7,9 +7,11 @@ import SavingsInsightCard from "../components/layout/SavingsInsightCard.js";
 import ScenarioAnalysisCard from "../components/layout/forms/ScenarioAnalysisCard.js";
 import SavingsAndInvDepositsForm from "../components/layout/forms/SavingsAndInvDepositsForm.js";
 import Card from "../components/layout/Card.js";
-import { Line } from 'react-chartjs-2';
-
+import { Line } from "react-chartjs-2";
+import { useContext, useEffect, useState } from "react";
+import { getInvestmentsTimeSeries, getSavingsStats, getSavingsTimeSeries } from "../services/savingsPage.js";
 import { labels, options } from "../components/Charts.js";
+import GeneralContext from "../services/userContext.js";
 
 // Charts
 import {
@@ -35,41 +37,127 @@ ChartJS.register(
 
 //Labels and LineChartDatas will change and will be direct pulls from the DB
 
-var lineChartData = new Array(12);
-lineChartData = [
-  10000, 140000, 30000, 40000, 50000, 60000, 160000, 80000, 100000, 100000,
-  110000, 100020,
-];
-
-export const lineDataInvestments = {
-  labels,
-  datasets: [
-    {
-      data: lineChartData,
-      backgroundColor: "#E5355F",
-      borderColor: "#E5355F", //#AD35E5
-      borderRadius: 10,
-      hoverBackgroundColor: "#E5355F",
-    },
-  ],
-};
-
-export const lineDataSavings = {
-  labels,
-  datasets: [
-    {
-      data: lineChartData,
-      backgroundColor: "#AD35E5",
-      borderColor: "#AD35E5",
-      borderRadius: 10,
-      hoverBackgroundColor: "#AD35E5",
-    },
-  ],
-};
-
-
 
 function SavingsPage() {
+
+  const lineData = (labels, data, color) => {
+    return {
+      labels,
+      datasets: [
+        {
+          data: data ,
+          backgroundColor: color,
+          borderColor: color, 
+          borderRadius: 10,
+          hoverBackgroundColor: color,
+        },
+      ],
+    }; 
+  }
+
+  let generalContext = useContext(GeneralContext);
+  let userID = generalContext.userID;
+
+  let [savingsState, setSavingsState] = useState([{ savingsDeposit: "" }]);
+  let [investmentsState, setInvestmentsState] = useState([
+    {
+      prevValue: "",
+      investmentsDeposit: "",
+    },
+  ]);
+
+  let [savingsButtonSubmit, setSavingsButtonSubmit] = useState(true);
+  let [investmentsButtonSubmit, setInvestmentsButtonSubmit] = useState(true);
+  let [savingsMonths, setSavingsMonths] = useState();
+  let [savingsTimeSeries, setSavingsSeries] = useState();
+  let [latestTotalFunds, setTotalFunds] = useState();
+  let [averageInvestmentDeposit, setAverageInvestments] = useState();
+  let [averageSavingsDeposit, setAverageSavings] = useState();
+  let [wayThere, setWayThere] = useState();
+  let [savingsGoal, setSavingsGoal] = useState({savingsGoalsAmount:"0", savingsGoalsDate:""});
+
+  let [investmentsMonths, setInvestmentsMonths] = useState()
+  let [investmentsdata, setInvestmentsData] = useState()
+
+  console.log(savingsGoal)
+
+  useEffect(()=> {
+    async function callSavingsTimeSeries(){
+      let res = await getSavingsTimeSeries(userID, 6)
+      console.log(res)
+      return res
+    }
+    let response = callSavingsTimeSeries();
+    response.then(res =>{
+
+      let months = []
+      let dataPoints = []
+
+      res.data.map((obj)=>{
+        months.push(obj['month'])
+        dataPoints.push(obj['amount'])
+      })
+
+      setSavingsMonths(months);
+      setSavingsSeries(dataPoints)
+
+      console.log(res.data)
+    })
+
+  }, [savingsButtonSubmit])
+
+  useEffect(() =>{
+    async function callInvestmentsTimeSeries(){
+      let res = await getInvestmentsTimeSeries(userID, 6)
+      console.log(res)
+      return res
+    }
+    let response = callInvestmentsTimeSeries();
+    response.then(res =>{
+
+      let months = []
+      let dataPoints = []
+
+      res.data.map((obj)=>{
+        months.push(obj['month'])
+        dataPoints.push(obj['amount'])
+      })
+
+      setInvestmentsMonths(months);
+      setInvestmentsData(dataPoints)
+
+      console.log(res.data)
+    })
+
+  }, [investmentsButtonSubmit])
+
+
+
+  useEffect(()=>{
+    async function callSavingsStats(){
+      let res = await getSavingsStats(userID)
+      console.log(res)
+      return res
+    }
+    let response = callSavingsStats();
+    response.then(res => {
+      
+      setAverageInvestments(res.data.averageDepositInvestments)
+      setAverageSavings(res.data.averageDepositSavings)
+      setTotalFunds("$"+(res.data.latestTotalFunds))
+      setSavingsGoal(res.data.savingGoals)
+      
+      if(res.data.savingGoals.savingsGoalsAmount !== null || res.data.savingGoals.savingsGoalsAmount !== 0){
+        setWayThere(((res.data.latestTotalFunds/res.data.savingGoals.savingsGoalsAmount)*100).toFixed(0)+"%")
+      }
+      else{
+        setWayThere(100+"%")
+      }
+    })
+    
+  },[savingsButtonSubmit,investmentsButtonSubmit])
+
+
   return (
     <div className="contentContainer">
       <NavBar />
@@ -79,47 +167,48 @@ function SavingsPage() {
             <h3>Your Savings and Investments</h3>
             <br></br>
             <h4>
-              Last month, you spent 10% less in entertainment than expected.
-              Save it, or invest it!
+              Gotta start saving for that dream trip!
             </h4>
           </Col>
           <Col className="destroyed">
-            <SavingsGoalDisplayCard />
+            <SavingsGoalDisplayCard goal = {savingsGoal}/>
           </Col>
         </Row>
         <Row className="destroyed">
           <Col xl={2}>
             <SavingsInsightCard
               firstLine="Total Funds:"
-              insightFigure="$242K"
+              insightFigure={latestTotalFunds}
             />
           </Col>
           <Col xl={2}>
             <SavingsInsightCard
               firstLine="You are"
-              insightFigure="60.5%"
+              insightFigure={wayThere}
               lastLine="of your way there!"
             />
           </Col>
           <Col xl={4}>
             <SavingsInsightCard
               firstLine="On average, you have deposited"
-              insightFigure="$1000"
+              insightFigure={averageSavingsDeposit}
               lastLine="in your savings account per month"
             />
           </Col>
           <Col xl={4}>
             <SavingsInsightCard
               firstLine="On average, you have deposited"
-              insightFigure="$3000"
+              insightFigure={averageInvestmentDeposit}
               lastLine="in your investments account per month"
             />
           </Col>
         </Row>
         <Row>
-          <Col>
-            <ScenarioAnalysisCard />
-          </Col>
+          {/* <Col>
+            <ScenarioAnalysisCard goalDate = {savingsGoal.savingsGoalDate}
+            goalAmount = {savingsGoal.savingsGoalsAmount}
+            totalFunds = {latestTotalFunds}/>
+          </Col> */}
         </Row>
         <Row>
           <Col>
@@ -128,20 +217,20 @@ function SavingsPage() {
                 <Col>
                   <h4>Investment Fund</h4>
                 </Col>
-                <Col>
+                {/* <Col>
                   <div className="dbGoalTrack">
                     <span>YTD Return:</span>
                     <br />
                     <span className="dbGoalPercent">80%</span>
                   </div>
-                </Col>
+                </Col> */}
               </Row>
               {/* <Row> */}
               <div className="dbBarChartContainer">
                 <Line
                   className="dbBarChart"
                   options={options}
-                  data={lineDataInvestments}
+                  data={lineData(investmentsMonths, investmentsdata,"#E5355F")}
                 />
               </div>
               {/* </Row> */}
@@ -155,20 +244,20 @@ function SavingsPage() {
                 <Col>
                   <h4>Total Savings</h4>
                 </Col>
-                <Col>
+                {/* <Col>
                   <div className="dbGoalTrack">
                     <span>Savings:</span>
                     <br />
                     <span className="dbGoalPercent">$110K</span>
                   </div>
-                </Col>
+                </Col> */}
               </Row>
               {/* <Row> */}
               <div className="dbBarChartContainer">
                 <Line
                   className="dbBarChart"
                   options={options}
-                  data={lineDataSavings}
+                  data={lineData(savingsMonths, savingsTimeSeries, "#AD35E5")}
                 />
               </div>
               {/* </Row> */}
@@ -180,7 +269,11 @@ function SavingsPage() {
             <SavingsAndInvDepositsForm
               title="Savings Deposit"
               labels={["Amount to deposit on savings this month"]}
-              inputTypes = {["number"]}
+              inputTypes={["number"]}
+              currentValues={savingsState}
+              updateCurrentValues={setSavingsState}
+              buttonSubmit = {savingsButtonSubmit}
+              buttonChange = {setSavingsButtonSubmit}
             />
           </Col>
         </Row>
@@ -193,6 +286,10 @@ function SavingsPage() {
                 "Amount to deposit to your investments account right now",
               ]}
               inputTypes = {["number", "number"]}
+              currentValues={investmentsState}
+              updateCurrentValues={setInvestmentsState}
+              buttonSubmit = {investmentsButtonSubmit}
+              buttonChange = {setInvestmentsButtonSubmit}
             />
           </Col>
         </Row>

@@ -66,7 +66,6 @@ function NavBar() {
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu className={classes.dropdownMenu}>
-                            <Dropdown.Item href="#/action-1" className={classes.dropdownMenuItem}>Account Settings</Dropdown.Item>
                             <Dropdown.Item href="/" className={classes.dropdownMenuItem}>Log Out</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
