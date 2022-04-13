@@ -164,7 +164,7 @@ function DashboardPage(props){
     if(expenseDiff !== []){
         expensesObj.value = expenseDiff[1];
         expensesObj.stat = expensePercentDiff.toFixed(0) + '%';
-        expensesObj.color = expensePercentDiff !== 0 ? (expensePercentDiff > 0 ? "#D3FFE7" : "#FFA3CF") : "#706f6f"
+        expensesObj.color = expensePercentDiff !== 0 ? (expensePercentDiff > 0 ? "#FFA3CF" : "#D3FFE7" ) : "#706f6f"
         expensesObj.trendingUp = expensePercentDiff !== 0 ? (expensePercentDiff > 0 ? 1 : 0) : 2
     }
 

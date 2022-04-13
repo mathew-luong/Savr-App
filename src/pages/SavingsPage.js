@@ -9,7 +9,7 @@ import SavingsAndInvDepositsForm from "../components/layout/forms/SavingsAndInvD
 import Card from "../components/layout/Card.js";
 import { Line } from "react-chartjs-2";
 import { useContext, useEffect, useState } from "react";
-import { aggregateSameMonthData, getSavingsTimeSeries } from "../services/savingsPage.js";
+import { aggregateSameMonthData, getSavingsStats, getSavingsTimeSeries } from "../services/savingsPage.js";
 import { labels, options } from "../components/Charts.js";
 import GeneralContext from "../services/userContext.js";
 
@@ -91,7 +91,13 @@ function SavingsPage() {
   let [investmentsButtonSubmit, setInvestmentsButtonSubmit] = useState(true);
   let [savingsMonths, setSavingsMonths] = useState();
   let [savingsTimeSeries, setSavingsSeries] = useState();
+  let [latestTotalFunds, setTotalFunds] = useState();
+  let [averageInvestmentDeposit, setAverageInvestments] = useState();
+  let [averageSavingsDeposit, setAverageSavings] = useState();
+  let [wayThere, setWayThere] = useState();
+  let [savingsGoal, setSavingsGoal] = useState({savingsGoalsAmount:"0", savingsGoalsDate:""});
 
+  console.log(savingsGoal)
 
   useEffect(()=> {
     async function callSavingsTimeSeries(){
@@ -118,6 +124,31 @@ function SavingsPage() {
 
   }, [savingsButtonSubmit])
 
+  useEffect(()=>{
+    async function callSavingsStats(){
+      let res = await getSavingsStats(userID)
+      console.log(res)
+      return res
+    }
+    let response = callSavingsStats();
+    response.then(res => {
+      
+      setAverageInvestments(res.data.averageDepositInvestments)
+      setAverageSavings(res.data.averageDepositSavings)
+      setTotalFunds("$"+(res.data.latestTotalFunds))
+      setSavingsGoal(res.data.savingGoals)
+      
+      if(res.data.savingGoals.savingsGoalsAmount !== null || res.data.savingGoals.savingsGoalsAmount !== 0){
+        setWayThere(((res.data.latestTotalFunds/res.data.savingGoals.savingsGoalsAmount)*100).toFixed(0)+"%")
+      }
+      else{
+        setWayThere(100+"%")
+      }
+    })
+    
+  },[])
+
+
   return (
     <div className="contentContainer">
       <NavBar />
@@ -132,34 +163,34 @@ function SavingsPage() {
             </h4>
           </Col>
           <Col className="destroyed">
-            <SavingsGoalDisplayCard />
+            <SavingsGoalDisplayCard goal = {savingsGoal}/>
           </Col>
         </Row>
         <Row className="destroyed">
           <Col xl={2}>
             <SavingsInsightCard
               firstLine="Total Funds:"
-              insightFigure="$242K"
+              insightFigure={latestTotalFunds}
             />
           </Col>
           <Col xl={2}>
             <SavingsInsightCard
               firstLine="You are"
-              insightFigure="60.5%"
+              insightFigure={wayThere}
               lastLine="of your way there!"
             />
           </Col>
           <Col xl={4}>
             <SavingsInsightCard
               firstLine="On average, you have deposited"
-              insightFigure="$1000"
+              insightFigure={averageSavingsDeposit}
               lastLine="in your savings account per month"
             />
           </Col>
           <Col xl={4}>
             <SavingsInsightCard
               firstLine="On average, you have deposited"
-              insightFigure="$3000"
+              insightFigure={averageInvestmentDeposit}
               lastLine="in your investments account per month"
             />
           </Col>
