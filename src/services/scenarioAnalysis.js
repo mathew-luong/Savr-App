@@ -18,7 +18,7 @@ function determineLikeliness(rate){
 
 
 
-function ScenarioAnalysis(
+export default function ScenarioAnalysis(
   currentTotalFunds,
   averageSavingsDeposits,
   averageInvestmentDeposits,
@@ -32,8 +32,8 @@ function ScenarioAnalysis(
   let currentMonth = today.getMonth() + 1;
 
   let goalDateArray = savingsGoalsDate.split("/");
-  let goalDateMonth = parseInt(goalDateArray[0]);
-  let goalDateYear = parseInt(goalDateArray[2]);
+  let goalDateMonth = parseInt(goalDateArray[1]);
+  let goalDateYear = parseInt(goalDateArray[0]);
 
 
   let totalMonthsCurrent = currentYear * 12 + currentMonth;
@@ -44,7 +44,8 @@ function ScenarioAnalysis(
   console.log(monthDiff)
 
   let amountOnlyWithSavingsDeposits = currentTotalFunds + averageSavingsDeposits*monthDiff
-
+//   console.log(currentTotalFunds)
+  console.log(averageInvestmentDeposits)
 
   if(amountOnlyWithSavingsDeposits >= savingsGoalAmount){
       return `If you deposit ${averageSavingsDeposits} per month until your goal date you do not need to add to your investments in order to reach your goal`

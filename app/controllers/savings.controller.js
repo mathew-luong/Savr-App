@@ -219,7 +219,7 @@ exports.savingsStats = (req, res) => {
                             latestTotalFunds: totalFunds,
                             savingGoals: {
                                 savingsGoalsAmount: savingsGoalAmount,
-                                savingsGoalDate: savingsGoalDate
+                                savingsGoalDate: (savingsGoalDate.getFullYear()+"/"+savingsGoalDate.getMonth()+"/"+savingsGoalDate.getDate())
                             },
                             averageDepositSavings: averageDepositSavings,
                             averageDepositInvestments: averageDepositInvestments

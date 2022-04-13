@@ -3,9 +3,10 @@ import { Row, Col } from "react-bootstrap";
 import InlineInputs from "./InlineInputs";
 import MobileCardInput from "./MobileCardInput.js";
 import classes from "./ScenarioAnalysisCard.module.css";
+import ScenarioAnalysis from "../../../services/scenarioAnalysis"
 
 
-function ScenarioAnalysisCard() {
+function ScenarioAnalysisCard(props) {
   let [analysisState, setAnalysisState] = useState([
     {
       savingsDeposits: "",
@@ -13,7 +14,29 @@ function ScenarioAnalysisCard() {
     },
   ]);
 
-  console.log(analysisState)
+  let [output, setOutput] = useState("")
+
+  function handleSubmission(e){
+    console.log(analysisState)
+    let goalDate = props.goalDate;
+    let totalFunds = props.totalFunds;
+    let goalAmount = props.goalAmount;
+
+    let newTotalFunds = totalFunds.replace('$','')
+    let fundsNum = parseInt(newTotalFunds)
+    console.log(fundsNum)
+
+    let newOutput = ScenarioAnalysis(
+      fundsNum,
+      analysisState.savingsDeposits,
+      analysisState.investmentsDeposits,
+      goalDate,
+      goalAmount
+    )
+
+    setOutput(newOutput)
+
+  } 
 
   return (
     <div className={classes.baseContainer}>
@@ -58,8 +81,7 @@ function ScenarioAnalysisCard() {
               />
             </div>
             <div className={classes.buttonHolder}>
-              <button className={classes.formButton}>Use Averages</button>
-              <button className={classes.formButton}>Calculate Rate</button>
+              <button className={classes.formButton} onClick= {handleSubmission}>Calculate Rate</button>
             </div>
           </div>
         </Col>
@@ -67,8 +89,7 @@ function ScenarioAnalysisCard() {
           <div className={classes.flexWrapper}>
             <div className={classes.infoHolder}>
               <div className={classes.textHolder}>
-                You will require a 5% annual, or 0.41% monthly return to achieve
-                your savings goals. We deem this very likely
+                {output}
               </div>
             </div>
           </div>

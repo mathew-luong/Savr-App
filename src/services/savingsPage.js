@@ -67,6 +67,19 @@ export async function getSavingsTimeSeries(userID, numMonths){
     }
 }
 
+export async function getInvestmentsTimeSeries(userID, numMonths){
+    let res;
+    try{
+        res = await axios.get(`${dbServerUrl}/api/investments/${userID}/${numMonths}`)
+        return res;
+    }
+    catch(err){
+        let errString = err.response.data.message
+        alert(errString)
+        return "error"
+    }
+}
+
 
 export async function getSavingsStats(userID){
     let res;
@@ -80,7 +93,6 @@ export async function getSavingsStats(userID){
         return "error"
     }
 }
-
 
 
 export function aggregateSameMonthData(amountsObjectArray){

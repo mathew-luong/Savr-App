@@ -9,7 +9,7 @@ import SavingsAndInvDepositsForm from "../components/layout/forms/SavingsAndInvD
 import Card from "../components/layout/Card.js";
 import { Line } from "react-chartjs-2";
 import { useContext, useEffect, useState } from "react";
-import { aggregateSameMonthData, getSavingsStats, getSavingsTimeSeries } from "../services/savingsPage.js";
+import { getInvestmentsTimeSeries, getSavingsStats, getSavingsTimeSeries } from "../services/savingsPage.js";
 import { labels, options } from "../components/Charts.js";
 import GeneralContext from "../services/userContext.js";
 
@@ -37,26 +37,6 @@ ChartJS.register(
 
 //Labels and LineChartDatas will change and will be direct pulls from the DB
 
-var lineChartData = new Array(12);
-lineChartData = [
-  10000, 140000, 30000, 40000, 50000, 60000, 160000, 80000, 100000, 100000,
-  110000, 100020,
-];
-
-
-
-export const lineDataSavings = {
-  labels,
-  datasets: [
-    {
-      data: lineChartData,
-      backgroundColor: "#AD35E5", //"#E5355F"
-      borderColor: "#AD35E5",
-      borderRadius: 10,
-      hoverBackgroundColor: "#AD35E5",
-    },
-  ],
-};
 
 function SavingsPage() {
 
@@ -72,8 +52,7 @@ function SavingsPage() {
           hoverBackgroundColor: color,
         },
       ],
-    };
-    
+    }; 
   }
 
   let generalContext = useContext(GeneralContext);
@@ -96,6 +75,9 @@ function SavingsPage() {
   let [averageSavingsDeposit, setAverageSavings] = useState();
   let [wayThere, setWayThere] = useState();
   let [savingsGoal, setSavingsGoal] = useState({savingsGoalsAmount:"0", savingsGoalsDate:""});
+
+  let [investmentsMonths, setInvestmentsMonths] = useState()
+  let [investmentsdata, setInvestmentsData] = useState()
 
   console.log(savingsGoal)
 
@@ -124,6 +106,33 @@ function SavingsPage() {
 
   }, [savingsButtonSubmit])
 
+  useEffect(() =>{
+    async function callInvestmentsTimeSeries(){
+      let res = await getInvestmentsTimeSeries(userID, 6)
+      console.log(res)
+      return res
+    }
+    let response = callInvestmentsTimeSeries();
+    response.then(res =>{
+
+      let months = []
+      let dataPoints = []
+
+      res.data.map((obj)=>{
+        months.push(obj['month'])
+        dataPoints.push(obj['amount'])
+      })
+
+      setInvestmentsMonths(months);
+      setInvestmentsData(dataPoints)
+
+      console.log(res.data)
+    })
+
+  }, [investmentsButtonSubmit])
+
+
+
   useEffect(()=>{
     async function callSavingsStats(){
       let res = await getSavingsStats(userID)
@@ -146,7 +155,7 @@ function SavingsPage() {
       }
     })
     
-  },[])
+  },[savingsButtonSubmit,investmentsButtonSubmit])
 
 
   return (
@@ -158,8 +167,7 @@ function SavingsPage() {
             <h3>Your Savings and Investments</h3>
             <br></br>
             <h4>
-              Last month, you spent 10% less in entertainment than expected.
-              Save it, or invest it!
+              Gotta start saving for that dream trip!
             </h4>
           </Col>
           <Col className="destroyed">
@@ -196,9 +204,11 @@ function SavingsPage() {
           </Col>
         </Row>
         <Row>
-          <Col>
-            <ScenarioAnalysisCard />
-          </Col>
+          {/* <Col>
+            <ScenarioAnalysisCard goalDate = {savingsGoal.savingsGoalDate}
+            goalAmount = {savingsGoal.savingsGoalsAmount}
+            totalFunds = {latestTotalFunds}/>
+          </Col> */}
         </Row>
         <Row>
           <Col>
@@ -220,7 +230,7 @@ function SavingsPage() {
                 <Line
                   className="dbBarChart"
                   options={options}
-                  data={lineDataSavings}
+                  data={lineData(investmentsMonths, investmentsdata,"#E5355F")}
                 />
               </div>
               {/* </Row> */}

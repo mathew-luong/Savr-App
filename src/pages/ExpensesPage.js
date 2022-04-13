@@ -7,6 +7,8 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Card from "../components/layout/Card.js";
 import FormCard from "../components/layout/forms/FormCard";
 import GeneralContext from "../services/userContext.js";
+import { getExpensesTimeSeries, getExpensesBreakdown, getExpensesTargets,getExpensesInsightsChange } from "../services/expensesPage.js";
+
 // import {Modal} from "react-bootstrap";
 import {mapPrecisionExpenses, 
   mapEstimationExpenses, 
@@ -140,12 +142,15 @@ const expTargetData = {
   ],
 };
 
+
+
 function ExpensesPage(props) {
 
   let generalContext = useContext(GeneralContext);
   let currentUserId = generalContext.userID;
   console.log(currentUserId);
   let navigate = useNavigate();
+  
 
   let expenseFormSubtitles = ["Date", "Expense Name", "Category", "Amount"];
   let expenseFormSubtitlesEstimation = [
@@ -159,6 +164,7 @@ function ExpensesPage(props) {
   // Handles precision and estimation mode states
   const [mode, setMode] = useState("precision");
   const [entryView, setEntryView] = useState("Expenses");
+  const [lastMonthExpStuff, updateLastMonthsSuff] = useState(lastMthData);
 
   let [expensesPrecisionState, setExpensesPrecision] = useState([{
     date:"",
@@ -304,34 +310,7 @@ function ExpensesPage(props) {
   };
 
   const [targetData, updateTargetData] = useState(expTargetData);
-
-  useEffect(() => {
-    console.log("STATE CHANGED");
-    updateTargetData({
-      labels: expPieChartLabels,
-      datasets: [
-        {
-          data: expPieTargetData,
-          backgroundColor: [
-            "#E5355F",
-            "#1FFC91",
-            "#7ef4ff",
-            "#363537",
-            "#f988db",
-            "#E635DD",
-            "#8135E6",
-            "#3544E6",
-            "#3590E6",
-            "#6AE635",
-            "#E0E635",
-            "#E69035",
-            "#E65B35",
-            "#7a7a7a",
-          ],
-        },
-      ],
-    });
-  }, []);
+  const [expenseTimeSeries, updateTimeSeries] = useState(barData)
 
   async function handleSubmit(e){
     e.preventDefault();
@@ -373,6 +352,150 @@ function ExpensesPage(props) {
     navigate("/dashboard")
   }
 
+  useEffect(()=> {
+    async function callExpensesTimeSeries(){
+      let res = await getExpensesTimeSeries(currentUserId, 6)
+      console.log(res)
+      return res
+    }
+    let response = callExpensesTimeSeries();
+    response.then(res =>{
+
+      let months = []
+      let dataPoints = []
+
+      res.data.map((obj)=>{
+        months.push(obj['month'])
+        dataPoints.push(obj['amount'])
+      })
+
+      updateTimeSeries({
+        months,
+        datasets: [
+          {
+            data: dataPoints,
+            backgroundColor: "#FEE4FF",
+            borderRadius: 10,
+            hoverBackgroundColor: "#E5355F",
+          },
+        ],
+      })
+
+      console.log(res.data)
+    })
+
+  }, [])
+
+  useEffect(()=> {
+    async function callExpensesBreakdown(){
+      let res = await getExpensesBreakdown(currentUserId)
+      console.log(res)
+      return res
+    }
+    let response = callExpensesBreakdown();
+    response.then(res =>{
+
+      let category = []
+      let amount = []
+
+      res.data.map((obj)=>{
+        category.push(obj['category'])
+        amount.push(obj['amount'])
+      })
+
+      updateLastMonthsSuff({
+        labels: category,
+        datasets: [
+          {
+            data: amount,
+            backgroundColor: [
+              "#E5355F",
+              "#1FFC91",
+              "#7ef4ff",
+              "#363537",
+              "#f988db",
+              "#E635DD",
+              "#8135E6",
+              "#3544E6",
+              "#3590E6",
+              "#6AE635",
+              "#E0E635",
+              "#E69035",
+              "#E65B35",
+              "#7a7a7a",
+            ],
+          },
+        ],
+      })
+
+      //TODO: Total expenses category breakdown
+      console.log(res.data)
+    })
+  }, [])
+
+  useEffect(()=> {
+    async function callExpensesTargets(){
+      let res = await getExpensesTargets(currentUserId)
+      console.log(res)
+      return res
+    }
+    let response = callExpensesTargets();
+    response.then(res =>{
+
+      let category = []
+      let percentage = []
+
+      res.data.map((obj)=>{
+        category.push(obj['category'])
+        percentage.push(obj['percentage'])
+      })
+
+      //TODO: Expense targets
+      updateTargetData({
+      labels: category,
+      datasets: [
+        {
+          data: percentage,
+          backgroundColor: [
+            "#E5355F",
+            "#1FFC91",
+            "#7ef4ff",
+            "#363537",
+            "#f988db",
+            "#E635DD",
+            "#8135E6",
+            "#3544E6",
+            "#3590E6",
+            "#6AE635",
+            "#E0E635",
+            "#E69035",
+            "#E65B35",
+            "#7a7a7a",
+          ],
+        },
+      ],
+    })
+      console.log("expense targets")
+      console.log(res.data)
+    })
+  }, [])
+
+  useEffect(()=> {
+    async function callExpensesInsightsChange(){
+      let res = await getExpensesInsightsChange(currentUserId)
+      console.log(res)
+      return res
+    }
+    let response = callExpensesInsightsChange();
+    response.then(res =>{
+
+      let percentChange = res.data['percentChange']
+
+      //TODO: Expense percent change insight
+      console.log(res.data)
+    })
+  }, [])
+  
   return (
     <div className="contentContainer">
       <NavBar />
@@ -407,9 +530,7 @@ function ExpensesPage(props) {
           </Col>
         </Row>
         <Row className="expSubHeading">
-          {/* REPLACE WITH PROPS TEXT */}
-          <h5>Your monthly expenses have gone up 12%</h5>
-          <h5>You have overspent in entertainment the past 2 months</h5>
+          <h5>Getting skip the dishes again? Better think about it twice!</h5>
         </Row>
         <Row>
           <Col>
@@ -417,7 +538,7 @@ function ExpensesPage(props) {
               <h3>Expense Breakdown</h3>
               <h6 className="cardSubHeader">Monthly Expenses</h6>
               <div className="dbBarChartContainer">
-                <Bar className="dbBarChart" options={options} data={barData} />
+                <Bar className="dbBarChart" options={options} data={expenseTimeSeries} />
               </div>
             </Card>
           </Col>
@@ -430,7 +551,7 @@ function ExpensesPage(props) {
               <div className="expPieChartContainer">
                 <Doughnut
                   className="expPieChart"
-                  data={lastMthData}
+                  data={lastMonthExpStuff}
                   options={pieOptions}
                   redraw={true}
                 />

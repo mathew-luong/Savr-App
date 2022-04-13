@@ -5,8 +5,9 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import GeneralContext from '../services/userContext.js';
-import {getTopDashboardInsights, getIncomes } from "../services/dashboardPage";
+import {getTopDashboardInsights, getIncomes, aggregateFunds } from "../services/dashboardPage";
 import { useState } from 'react';
+import { getInvestmentsTimeSeries, getSavingsTimeSeries } from "../services/savingsPage.js";
 
 // https://react-chartjs-2.netlify.app/components/bar
 import { Bar } from 'react-chartjs-2';
@@ -74,9 +75,40 @@ export const lineData = {
     ],
 };
 
-function DashboardPage(props){
+function DashboardPage(){
     // Objects for props used for the small cards on the top of the dashboard page
     // Can be changed to props object later 
+
+    const lineData = (labels, data) => {
+        return {
+          labels,
+          datasets: [
+            {
+              data: data ,
+              backgroundColor: "#E5355F",
+              borderColor: "#E5355F", 
+              borderRadius: 10,
+              hoverBackgroundColor: "#E5355F",
+            },
+          ],
+        }; 
+      }
+    
+      const barData = (labels, data, color) => {
+        return {
+          labels,
+          datasets: [
+            {
+              data: data ,
+              backgroundColor: color,
+              borderRadius: 10,
+              hoverBackgroundColor: color,
+            },
+          ],
+        }; 
+      }
+
+    
 
     let generalContext = useContext(GeneralContext)
     let currentUserId = generalContext.userID
@@ -85,10 +117,13 @@ function DashboardPage(props){
     let [incomeDiff, setIncomeDiff] = useState([])
     let [expenseDiff, setExpensesDiff] = useState([])
     let [totalFundDiff, setFundsDiff] = useState([])
-
-    // let incomeDiff = []
-    // let expenseDiff = []
-    // let totalFundDiff = []
+    let [incomeMonths, setIncomeMonths] = useState([])
+    let [incomeDataPoints, setIncomeDataPoints] = useState([])
+    let [investmentsData, setInvestmentsData] = useState([])
+    let [savingsData, setSavingsData] = useState([])
+    // let [aggFunds, setAggFunds] = useState([])
+    // let [totalFundMonths, setMonths] = useState([])
+    // let [totalFundData, setData] = useState([])  
 
     useEffect(() => {
         async function callInsights() {
@@ -105,15 +140,58 @@ function DashboardPage(props){
                 }
             }
         )
-        
-    },[currentUserId])
 
-    // useEffect(async() => {
+        async function getIncomeTimeSeries(){
+            let res = await getIncomes(currentUserId, "6")
+            console.log(res)
+            return res;
+        }
         
-    //     let res = await getIncomes(currentUserId, "6")
-    //     console.log(res)
+        let response2 = getIncomeTimeSeries();
+        response2.then(res2=>{
+            let months = []
+            let dataPoints = []
+      
+            res2.data.map((obj)=>{
+              months.push(obj['month'])
+              dataPoints.push(obj['amount'])
+            })
 
-    // },)
+            setIncomeMonths(months);
+            setIncomeDataPoints(dataPoints)
+        })
+
+        async function callInvestmentsTimeSeries(){
+            let res = await getInvestmentsTimeSeries(currentUserId, 6)
+            console.log(res)
+            return res
+          }
+          let response3 = callInvestmentsTimeSeries();
+          response3.then(res =>{
+            setInvestmentsData(res.data)
+            console.log(res.data)
+        })
+
+        async function callSavingsTimeSeries(){
+            let res = await getSavingsTimeSeries(currentUserId, 6)
+            console.log(res)
+            return res
+          }
+          let response4 = callSavingsTimeSeries();
+          response4.then(res =>{
+            setSavingsData(res.data)
+            console.log(res.data)
+          })
+        
+    },[])
+
+    let aggregatedFunds = aggregateFunds(investmentsData, savingsData)
+    console.log(aggregatedFunds)
+    let chartLabels = Object.keys(aggregatedFunds)
+    let dataPoints = chartLabels.map((month)=>{
+        return aggregatedFunds[month]
+    })
+
 
     let percentDiff = (arrHolder) => {
         if(arrHolder[0] !== 0){
@@ -202,7 +280,7 @@ function DashboardPage(props){
                             <h3>Overview</h3>
                             <h6 className="cardSubHeader">Monthly Earning</h6>
                             <div className="dbBarChartContainer">
-                                <Bar className="dbBarChart" options={options} data={barData} />
+                                <Bar className="dbBarChart" options={options} data={barData(incomeMonths,incomeDataPoints,'#FEE4FF')} />
                             </div>
                         </Card>
                     </Col>
@@ -223,7 +301,7 @@ function DashboardPage(props){
                             </Row>
                             {/* <Row> */}
                             <div className="dbBarChartContainer">
-                                <Line className="dbBarChart" options={options} data={lineData} />
+                                <Line className="dbBarChart" options={options} data={lineData(chartLabels, dataPoints)} />
                             </div>
                             {/* </Row> */}
                         </Card>

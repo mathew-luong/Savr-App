@@ -6,7 +6,8 @@ import { faHandHoldingDollar } from "@fortawesome/free-solid-svg-icons";
 
 function SavingsGoalDisplayCard(props) {
 
-  let goalDate = "By: " + (props.goal.savingsGoalDate.split("T")[0])
+  
+  let goalDate = "By: " + (props.goal.savingsGoalDate)
   let goalAmount = "$" + props.goal.savingsGoalsAmount
 
 
@@ -21,8 +22,8 @@ function SavingsGoalDisplayCard(props) {
         </Col>
         <Col xs={6}>
           <p style={{ fontsize: "14", color: "#ACACAC" }}>Savings Goals:</p>
-          <h4>{goalAmount}</h4>
-          <p style={{ fontsize: "14", color: "#ACACAC" }}>{goalDate}</p>
+          <h4>{goalDate}</h4>
+          <p style={{ fontsize: "14", color: "#ACACAC" }}>{goalAmount}</p>
         </Col>
       </Row>
     </Container>
