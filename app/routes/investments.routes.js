@@ -1,3 +1,4 @@
+// Investment routes
 module.exports = app => {
     const investments = require("../controllers/investments.controller.js");
     var router = require("express").Router();

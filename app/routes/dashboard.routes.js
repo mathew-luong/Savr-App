@@ -1,3 +1,4 @@
+// Dashboard routes
 module.exports = app => {
     const topInsights = require("../controllers/topInsights.controller.js");
     const incomes = require("../controllers/incomes.controller.js");

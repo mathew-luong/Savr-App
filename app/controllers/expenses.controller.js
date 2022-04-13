@@ -4,7 +4,8 @@
 const db = require("../models");
 const Expenses = db.expenses;
 const Incomes = db.incomes;
-
+const expenseTargets = db.expenseTargets;
+const sequelize = db.Sequelize;
 // Operations objects for queries involving logical and mathematical operations
 const Op = db.Sequelize.Op;
 
@@ -138,169 +139,25 @@ exports.expensesInsightsChange = (req, res) => {
         }
     }).then(sum => {
         expensePrev = sum
-    })
-
-    // Get current month's total expenses
-    Expenses.sum('amount',{
-        where:{
-            [Op.and]: {
-                userID:userId,
-                date: {
-                    [Op.gte]:firstDayCurr,
-                    [Op.lte]:lastDayCurr,
-                }
-            }
-        }
-    }).then(sum => {
-        expenseCurr = sum
-    })
-
-    // Calculate % change and return result
-    const percentChange = (expenseCurr-expensePrev)/expensePrev
-    res.send({
-        percentChange: percentChange
-    })
-};
-
-// Find overspent category and return length of overspending period
-exports.expenseInsightsOverspent = (req, res) => {
-    // Validate request
-    if (!req.params.userID) {
-        res.status(400).send({
-            message: "Did not receive all required information: userID!"
-        });
-        return;
-    }
-
-    // Required constants and variables for query parameters and results
-    const userId = req.params.userID;
-    const category = None;
-    const months = 0
-    var expenses;
-    const incomes = 0;
-    var targets;
-    const date = new Date();
-    const firstDay = new Date(date.getFullYear(), date.getMonth()-1, 1);
-    const lastDay = new Date(date.getFullYear(), date.getMonth() , 0);
-
-
-    Expenses.sum('amount',{
-        where:{
-            [Op.and]: {
-            userID:userId,
-            date: {
-                [Op.gte]:firstDay,
-                [Op.lte]:lastDay,
-            }
-            }
-        },
-        
-    },{group: 'category'}).then(data => {
-        expenses = data
-    })
-    //get income
-    Incomes.sum('amount',{
-        where:{
-            [Op.and]: {
-            userID:userId,
-            date: {
-                [Op.gte]:firstDay,
-                [Op.lte]:lastDay,
-            }
-            }
-        }
-    }).then(sum => {
-        incomes +=sum
-    })
-    //get expense target
-    expenseTargets.findAll({
-        where: {
-          userId: userId
-        }
-      }).then(data => {
-          if(data){
-            targets = data
-        }else{
-            res.status(400).send({
-                message: "Did not find any expense targets!"
-            });
-            return;
-        }
-      })
-      overspending = 0
-      expenses.forEach(function(expense,index){
-          expense.sum = expense.sum/incomes;
-          targets.forEach(function(target,index){
-            if (target.category == expense.category){
-                if(target.percentage<expense.sum){
-                    overspent = -1*(target.percentage - expense.percentage)/target.percentage
-                    if (overspending<overspent){
-                        underspending = underspent;
-                        category = target.category;
-                        months = 1
-                    }
-                }
-            }
-          })
-      })
-      const count = 0;
-      while(count<12){
-        const date = new Date();
-        const firstDay = new Date(date.getFullYear(), date.getMonth()-1-count, 1);
-        const lastDay = new Date(date.getFullYear(), date.getMonth() -count, 0);
+        // Get current month's total expenses
         Expenses.sum('amount',{
             where:{
                 [Op.and]: {
-                userID:userId,
-                category:category,
-                date: {
-                    [Op.gte]:firstDay,
-                    [Op.lte]:lastDay,
-                }
-                }
-            },
-            
-        },{group: 'category'}).then(data => {
-            expenses = data
-        })
-        //get income
-        Incomes.sum('amount',{
-            where:{
-                [Op.and]: {
-                userID:userId,
-                date: {
-                    [Op.gte]:firstDay,
-                    [Op.lte]:lastDay,
-                }
+                    userID:userId,
+                    date: {
+                        [Op.gte]:firstDayCurr,
+                        [Op.lte]:lastDayCurr,
+                    }
                 }
             }
         }).then(sum => {
-            incomes =sum
-        })
-        overspending = 0
-        expenses.forEach(function(expense,index){
-            expense.sum = expense.sum/incomes;
-            targets.forEach(function(target,index){
-              if (target.category == expense.category){
-                  if(target.percentage<expense.sum){
-                      overspent = -1*(target.percentage - expense.percentage)/target.percentage
-                      if (overspending<overspent){
-                          underspending = underspent;
-                          category = target.category;
-                          months += 1;
-                      }else{
-                          count = 12;
-                      }
-                  }
-              }
+            expenseCurr = sum
+            // Calculate % change and return result
+            const percentChange = (expenseCurr-expensePrev)/expensePrev
+            res.send({
+                percentChange: percentChange
             })
         })
-        count++;
-      }
-
-    res.send({
-        category: category,
-        numberOfMonths: months
     })
 };
 
@@ -312,11 +169,19 @@ exports.expensesBreakdown = (req, res) => {
         });
         return;
     }
+
+    // Required constants for querying
     const userId = req.params.userID;
     const date = new Date();
     const firstDay = new Date(date.getFullYear(), date.getMonth()-1, 1);
     const lastDay = new Date(date.getFullYear(), date.getMonth() , 0);
-    Expenses.sum('amount',{
+
+    // Query expenses database
+    Expenses.findAll({
+        attributes: [
+          "category",
+          [sequelize.fn("SUM", sequelize.col("amount")), "amount"],
+        ],
         where:{
             [Op.and]: {
             userID:userId,
@@ -326,8 +191,8 @@ exports.expensesBreakdown = (req, res) => {
             }
             }
         },
-        
-    },{group: 'category'}).then(data => {
+        group: "category",
+      }).then(data => {
         res.send(data)
     })
 };
@@ -340,29 +205,43 @@ exports.totalExpenses = (req, res) => {
         });
         return;
     }
+
+    // Required constants for querying and results
     const userId = req.params.userID;
     const months = req.params.months;
-    var monthsNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+    const date = new Date();
+    const monthsNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
     const results = []
-    for (let i = 0; i < months; i++) {
-        var firstDay = new Date(date.getFullYear(), date.getMonth()-i, 1);
-        var lastDay = new Date(date.getFullYear(), date.getMonth()+1-i , 0);
-        Expenses.sum('amount',{
-            where:{
-                [Op.and]: {
-                userID:userId,
-                date: {
-                    [Op.gte]:firstDay,
-                    [Op.lte]:lastDay,
-                }
-                }
+    const firstDay = new Date(date.getFullYear(), date.getMonth()-months, 1);
+    const lastDay = new Date(date.getFullYear(), date.getMonth()+1 , 0);
+
+    // Get all expenses and aggregate results
+    Expenses.findAll({
+        where:{
+            [Op.and]: {
+            userId:userId,
+            date: {
+                [Op.gte]:firstDay,
+                [Op.lte]:lastDay,
             }
-        }).then(sum => {
-            results.push({
-                month: monthsNames[date.getMonth()-i],
-                amount: sum
-            })
+            }
+        }
+    }).then(data => {
+        data.forEach(function(entry,index){
+            var month = entry.date.getMonth()
+            if (!results[month]){
+                results[month] = ({
+                    month: monthsNames[month],
+                    amount: entry.amount
+                })
+            }
+            else{
+                results[month].amount+=entry.amount
+            }
         })
-    }
-    res.send(results) 
+        const cleanResults = results.filter(element => {
+            return element !== null;
+          });
+        res.send(cleanResults) 
+    })
 };

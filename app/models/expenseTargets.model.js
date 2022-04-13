@@ -1,3 +1,4 @@
+// Expenses target table model
 module.exports = (sequelize, Sequelize) => {
     const ExpenseTargets = sequelize.define("expenseTargets", {
       category: {
