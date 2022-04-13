@@ -56,7 +56,7 @@ exports.getSavings =  (req, res) => {
     const firstDay = new Date(date.getFullYear(), date.getMonth()-months, 1);
     const lastDay = new Date(date.getFullYear(), date.getMonth()+1 , 0);
 
-    // Get all savings and aggregare results
+    // Get all savings and aggregate results
     Savings.findAll({
         where:{
             [Op.and]: {
@@ -147,7 +147,6 @@ exports.savingsStats = (req, res) => {
                 const firstDay = new Date(date.getFullYear(), date.getMonth()-12, 1);
                 const lastDay = new Date(date.getFullYear(), date.getMonth()+1 , 0);
 
-                // Get all savings and aggregare results
                 Savings.findAll({
                     where:{
                         [Op.and]: {
@@ -183,7 +182,7 @@ exports.savingsStats = (req, res) => {
                     resultsArray = []
                     results = 0
                     monthCount = 0
-                    // Get all savings and aggregare results
+
                     Investments.findAll({
                         where:{
                             [Op.and]: {
@@ -234,90 +233,4 @@ exports.savingsStats = (req, res) => {
         
     })
     
-};
-
-exports.savingsStringStats = (req, res) => {
-    // Validate request
-    if (!req.params.userID) {
-        res.status(400).send({
-            message: "Did not receive all required information: userID!"
-        });
-        return;
-    }
-
-    // Required constants and variables for querying and aggregating results
-    const userId = req.params.userID;
-    const category = None;
-    const underspending = 0
-    var expenses;
-    const incomes = 0;
-    var targets;
-    const date = new Date();
-    const firstDay = new Date(date.getFullYear(), date.getMonth()-1, 1);
-    const lastDay = new Date(date.getFullYear(), date.getMonth() , 0);
-
-    // Query required tables and calculate required values
-    Expenses.sum('amount',{
-        where:{
-            [Op.and]: {
-            userID:userId,
-            date: {
-                [Op.gte]:firstDay,
-                [Op.lte]:lastDay,
-            }
-            }
-        },
-        
-    },{group: 'category'}).then(data => {
-        expenses = data
-    })
-    //get income
-    Incomes.sum('amount',{
-        where:{
-            [Op.and]: {
-            userID:userId,
-            date: {
-                [Op.gte]:firstDay,
-                [Op.lte]:lastDay,
-            }
-            }
-        }
-    }).then(sum => {
-        incomes +=sum
-    })
-    //get expense target
-    ExpenseTargets.findAll({
-        where: {
-          userId: userId
-        }
-      }).then(data => {
-          if(data){
-            targets = data
-        }else{
-            res.status(400).send({
-                message: "Did not find any expense targets!"
-            });
-            return;
-        }
-      })
-      
-      expenses.forEach(function(expense,index){
-          expense.sum = expense.sum/incomes;
-          targets.forEach(function(target,index){
-            if (target.category == expense.category){
-                if(target.percentage>expense.sum){
-                    underspent = (target.percentage - expense.percentage)/target.percentage
-                    if (underspending<underpent){
-                        underspending = underspent;
-                        category = target.category;
-                    }
-                }
-            }
-          })
-      })
-
-    res.send({
-        category: category,
-        underspending: underspending
-    })
 };

@@ -1,3 +1,4 @@
+// Incomes table model
 module.exports = (sequelize, Sequelize) => {
     const Incomes = sequelize.define("incomes", {
       stream: {
