@@ -7,6 +7,8 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Card from "../components/layout/Card.js";
 import FormCard from "../components/layout/forms/FormCard";
 import GeneralContext from "../services/userContext.js";
+import { getExpensesTimeSeries, getExpensesBreakdown, getExpensesTargets,getExpensesInsightsChange } from "../services/expensesPage.js";
+
 // import {Modal} from "react-bootstrap";
 import {mapPrecisionExpenses, 
   mapEstimationExpenses, 
@@ -139,6 +141,8 @@ const expTargetData = {
     },
   ],
 };
+
+
 
 function ExpensesPage(props) {
 
@@ -373,6 +377,114 @@ function ExpensesPage(props) {
     navigate("/dashboard")
   }
 
+  useEffect(()=> {
+    async function callExpensesTimeSeries(){
+      let res = await getExpensesTimeSeries(currentUserId, 6)
+      console.log(res)
+      return res
+    }
+    let response = callExpensesTimeSeries();
+    response.then(res =>{
+
+      let months = []
+      let dataPoints = []
+
+      res.data.map((obj)=>{
+        months.push(obj['month'])
+        dataPoints.push(obj['amount'])
+      })
+
+      //TODO: Total expenses time series
+      console.log(res.data)
+    })
+
+  }, [])
+
+  useEffect(()=> {
+    async function callExpensesBreakdown(){
+      let res = await getExpensesBreakdown(currentUserId)
+      console.log(res)
+      return res
+    }
+    let response = callExpensesBreakdown();
+    response.then(res =>{
+
+      let category = []
+      let amount = []
+
+      res.data.map((obj)=>{
+        category.push(obj['category'])
+        amount.push(obj['amount'])
+      })
+
+      //TODO: Total expenses category breakdown
+      console.log(res.data)
+    })
+  }, [])
+
+  useEffect(()=> {
+    async function callExpensesTargets(){
+      let res = await getExpensesTargets(currentUserId)
+      console.log(res)
+      return res
+    }
+    let response = callExpensesTargets();
+    response.then(res =>{
+
+      let category = []
+      let percentage = []
+
+      res.data.map((obj)=>{
+        category.push(obj['category'])
+        percentage.push(obj['percentage'])
+      })
+
+      //TODO: Expense targets
+      updateTargetData({
+      labels: expPieChartLabels,
+      datasets: [
+        {
+          data: expPieTargetData,
+          backgroundColor: [
+            "#E5355F",
+            "#1FFC91",
+            "#7ef4ff",
+            "#363537",
+            "#f988db",
+            "#E635DD",
+            "#8135E6",
+            "#3544E6",
+            "#3590E6",
+            "#6AE635",
+            "#E0E635",
+            "#E69035",
+            "#E65B35",
+            "#7a7a7a",
+          ],
+        },
+      ],
+    })
+      console.log("expense targets")
+      console.log(res.data)
+    })
+  }, [])
+
+  useEffect(()=> {
+    async function callExpensesInsightsChange(){
+      let res = await getExpensesInsightsChange(currentUserId)
+      console.log(res)
+      return res
+    }
+    let response = callExpensesInsightsChange();
+    response.then(res =>{
+
+      let percentChange = res.data['percentChange']
+
+      //TODO: Expense percent change insight
+      console.log(res.data)
+    })
+  }, [])
+  
   return (
     <div className="contentContainer">
       <NavBar />

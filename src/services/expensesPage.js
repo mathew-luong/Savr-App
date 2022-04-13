@@ -110,3 +110,55 @@ export async function submitIncomeEntries(incomeEntriesObjArray){
         return "error"
     }
 }
+
+export async function getExpensesTimeSeries(userID, numMonths){
+    let res;
+    try{
+        res = await axios.get(`${dbServerUrl}/api/totalExpenses/${userID}/${numMonths}`)
+        return res;
+    }
+    catch(err){
+        let errString = err.response.data.message
+        alert(errString)
+        return "error"
+    }
+}
+
+export async function getExpensesBreakdown(userID){
+    let res;
+    try{
+        res = await axios.get(`${dbServerUrl}/api/expensesBreakdown/${userID}?`)
+        return res;
+    }
+    catch(err){
+        let errString = err.response.data.message
+        alert(errString)
+        return "error"
+    }
+}
+
+export async function getExpensesTargets(userID){
+    let res;
+    try{
+        res = await axios.get(`${dbServerUrl}/api/expenseTargets/${userID}`)
+        return res;
+    }
+    catch(err){
+        let errString = err.response.data.message
+        alert(errString)
+        return "error"
+    }
+}
+
+export async function getExpensesInsightsChange(userID){
+    let res;
+    try{
+        res = await axios.get(`${dbServerUrl}/api/expenses/${userID}/expenseInsightsChange`)
+        return res;
+    }
+    catch(err){
+        let errString = err.response.data.message
+        alert(errString)
+        return "error"
+    }
+}
