@@ -57,7 +57,7 @@ exports.getMonthly = (req, res) => {
     const firstDay = new Date(date.getFullYear(), date.getMonth()-months, 1);
     const lastDay = new Date(date.getFullYear(), date.getMonth()+1 , 0);
 
-    // Get all savings and aggregare results
+    // Get all incomes and aggregate results
     Incomes.findAll({
         where:{
             [Op.and]: {
