@@ -138,28 +138,30 @@ exports.expensesInsightsChange = (req, res) => {
         }
     }).then(sum => {
         expensePrev = sum
-    })
-
-    // Get current month's total expenses
-    Expenses.sum('amount',{
-        where:{
-            [Op.and]: {
-                userID:userId,
-                date: {
-                    [Op.gte]:firstDayCurr,
-                    [Op.lte]:lastDayCurr,
+        // Get current month's total expenses
+        Expenses.sum('amount',{
+            where:{
+                [Op.and]: {
+                    userID:userId,
+                    date: {
+                        [Op.gte]:firstDayCurr,
+                        [Op.lte]:lastDayCurr,
+                    }
                 }
             }
-        }
-    }).then(sum => {
-        expenseCurr = sum
+        }).then(sum => {
+            expenseCurr = sum
+            // Calculate % change and return result
+            const percentChange = (expenseCurr-expensePrev)/expensePrev
+            res.send({
+                percentChange: percentChange
+            })
+    })
     })
 
-    // Calculate % change and return result
-    const percentChange = (expenseCurr-expensePrev)/expensePrev
-    res.send({
-        percentChange: percentChange
-    })
+
+
+
 };
 
 // Find overspent category and return length of overspending period
@@ -312,10 +314,14 @@ exports.expensesBreakdown = (req, res) => {
         });
         return;
     }
+
+    // Required constants for querying
     const userId = req.params.userID;
     const date = new Date();
     const firstDay = new Date(date.getFullYear(), date.getMonth()-1, 1);
     const lastDay = new Date(date.getFullYear(), date.getMonth() , 0);
+
+    // Query expenses database
     Expenses.findAll({
         attributes: [
           "category",
